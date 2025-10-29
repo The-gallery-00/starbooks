@@ -78,7 +78,24 @@ References - XXX, XXX<br>
 - Draw class diagrams.
 - Describe each class in detail (attributes, methods, others) (table type).
 - 12pt, 160%.
-### 3.1
+### 3.1 DB Class diagram
+- User <br>
+(Class Description) 시스템 사용자의 기본 정보를 저장하는 class 
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | userId | String | private | 사용자의 아이디를 나타내는 변수 |
+|            | password | private | |  |
+|            | nickname | | |  |
+|            | email | | |  |
+|            | profileImage | | |  |
+|            | createdAt | | |  |
+|            | isActive | | |  |
+
+### 3.2 Domain Class diagram
+
+### 3.2 Service Layer Class diagram
+
 ## 4. Sequence diagram
 - Draw sequence diagrams for the whole functions of your system.
 - Explain each sequence diagram.
