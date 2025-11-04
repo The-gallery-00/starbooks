@@ -482,7 +482,8 @@ _ **설명**: 시스템 공지사항
 ⦁ **친구 삭제 (Remove Friend)**:
  1. 사용자가 '친구 삭제'를 요청하면, 클라이언트는 DELETE (삭제) 요청을 보낸다.
  2. 서버는 데이터베이스에서 '수락됨(accepted)' 상태인 친구 관계 레코드를 찾아 완전히 삭제한다.
-<img width="569" height="409" alt="image" src="https://github.com/user-attachments/assets/dd0c462a-0c20-439f-ba1f-02a9efb76408" />
+<img width="1015" height="739" alt="스크린샷 2025-11-04 221943" src="https://github.com/user-attachments/assets/93c71965-7758-431d-b7dc-1c29722f52bf" />
+
 
 ### 4.10. 도서 찜하기(토글 방식)
 
