@@ -468,39 +468,21 @@ _ **설명**: 시스템 공지사항
 
 이 장에서는 주요 기능들의 동적 상호작용을 시퀀스 다이어그램으로 표현한다.
 
-### 4.1. 사용자 관리 시퀀스 다이어그램
+### 4.7. 친구 추가/삭제 시퀀스
+이 다이어그램은 하나의 기능(친구 관리)이 두 가지 시나리오(추가/삭제)로 나뉘는 과정을 보여준다.
+⦁ 핵심 로직: alt (Alternative, 대안) 블록을 사용한다.
+⦁ 친구 추가 (Add Friend):
+ 1. 사용자가 '친구 추가'를 요청하면, 클라이언트는 서버에 POST (생성) 요청을 보낸다.
+ 2. 서버(UserService)는 새로운 '친구 관계(Friendship)‘를 만드는데, 이때 상태를 '대기중(pending)'으로  설정한다.
+ 3. 동시에 NotificationService를 호출하여, 요청을 받은 상대방에게 "친구 요청 알림"을 보낸다.
+⦁ 친구 삭제 (Remove Friend):
+ 1. 사용자가 '친구 삭제'를 요청하면, 클라이언트는 DELETE (삭제) 요청을 보낸다.
+ 2. 서버는 데이터베이스에서 '수락됨(accepted)' 상태인 친구 관계 레코드를 찾아 완전히 삭제한다.
+<img width="569" height="409" alt="image" src="https://github.com/user-attachments/assets/dd0c462a-0c20-439f-ba1f-02a9efb76408" />
 
-#### 회원가입 시퀀스
-1. **사용자 → 웹페이지**: 회원가입 버튼 클릭
-2. **웹페이지 → 사용자**: 회원가입 폼 표시
-3. **사용자 → 웹페이지**: 회원 정보 입력 및 제출
-4. **웹페이지 → UserController**: 회원가입 요청 전송
-5. **UserController → UserService**: 회원가입 처리 요청
-6. **UserService → UserRepository**: 사용자 데이터 저장 요청
-7. **UserRepository → Database**: 사용자 정보 저장
-8. **Database → UserRepository**: 저장 완료 응답
-9. **UserRepository → UserService**: 저장 결과 반환
-10. **UserService → UserController**: 회원가입 결과 반환
-11. **UserController → 웹페이지**: 가입 성공 응답
-12. **웹페이지 → 사용자**: 가입 완료 메시지 표시
 
-### 4.2. 독서 관리 시퀀스 다이어그램
 
-#### 독서 기록 작성 시퀀스
-1. **사용자 → 도서 상세 페이지**: 기록하기 버튼 클릭
-2. **도서 상세 페이지 → 사용자**: 독서 기록 작성 폼 표시
-3. **사용자 → 독서 기록 폼**: 별점, 도서평, 구절 입력
-4. **독서 기록 폼 → ReadingController**: 기록 저장 요청
-5. **ReadingController → ReadingService**: 독서 기록 처리 요청
-6. **ReadingService → ReadingRepository**: 기록 데이터 저장
-7. **ReadingRepository → Database**: 독서 기록 저장
-8. **Database → ReadingRepository**: 저장 완료 응답
-9. **ReadingRepository → ReadingService**: 저장 결과 반환
-10. **ReadingService → ReadingController**: 처리 결과 반환
-11. **ReadingController → 독서 기록 폼**: 저장 성공 응답
-12. **독서 기록 폼 → 사용자**: 저장 완료 메시지 표시
-
-### 4.3. 커뮤니티 시퀀스 다이어그램
+### 4.8. 커뮤니티 시퀀스 다이어그램
 
 #### 게시글 작성 시퀀스
 1. **사용자 → 커뮤니티 페이지**: 글쓰기 버튼 클릭
