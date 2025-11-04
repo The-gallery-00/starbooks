@@ -557,8 +557,10 @@ _ **설명**: 시스템 공지사항
 ## 6. 사용자 인터페이스 프로토타입 (User Interface Prototype)
 
 ### 6.1. 메인 화면
-- **헤더**: 로고, 검색바, 사용자 메뉴
+- **헤더**:스타북스의 로고
 - ![Image](https://github.com/user-attachments/assets/f24a0f41-75a1-4943-8d50-77563c4dbd59)
+- 메인 검색바
+- ![Image](https://github.com/user-attachments/assets/e6a51231-81a1-42b2-8a93-42f9aecd7283)
 - **네비게이션**: 내 서재, 도서 정보, 커뮤니티, 챌린지, 랭킹
 - **콘텐츠 영역**: 인기 도서, 추천 도서, 최근 활동
 
