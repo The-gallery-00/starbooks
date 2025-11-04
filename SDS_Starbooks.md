@@ -327,53 +327,141 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 #### 주요 클래스:
 
 **User**
-- **속성**: userId(String), password(String), nickname(String), email(String), profileImage(String), createdAt(DateTime), isActive(Boolean)
+- **속성**: userId:String, password:String, nickname:String, email:String, profileImage:String, createdAt:LocalDateTime, isActive:boolean
 - **설명**: 시스템 사용자의 기본 정보를 저장하는 클래스
 
+**UserProfile**
+- **속성**: userId:String, introduction:String, favoriteAuthors:List<String>, favoriteGenres:List<String>
+- **설명**: 사용자 자기소개 및 선호 정보
+
 **Book**
-- **속성**: bookId(Long), title(String), author(String), publisher(String), isbn(String), publishDate(Date), coverImage(String), description(Text)
+- **속성**: bookId:Long, title:String, author:String, publisher:String, isbn:String, publishDate:LocalDate, coverImage:String, description:String
 - **설명**: 도서 정보를 저장하는 클래스
 
 **ReadingRecord**
-- **속성**: recordId(Long), userId(String), bookId(Long), rating(Integer), review(Text), favoriteQuote(Text), readingStatus(Enum), progressPercent(Integer), startDate(Date), endDate(Date)
+- **속성**: recordId:Long, userId:String, bookId:Long, rating:int, review:String, favoriteQuote:String, readingStatus:Enum, progressPercent:int, startDate:LocalDate, endDate:LocalDate
 - **설명**: 사용자의 독서 기록을 저장하는 클래스
 
+**BookReview**
+- **속성**: reviewId:Long, userId:String, bookId:Long, rating:int, reviewContent:String, createdAt:LocalDateTime
+- **설명**: 리뷰 및 별점 정보 (독립 엔티티)
+
+**BookShelf**
+- **속성**: shelfId:Long, userId:String, shelfType:Enum, books:List<Book>
+- **설명**: 내 서재 탭별 도서 목록 (읽는 중/완독/찜 등)
+
+**BookWishlist**
+- **속성**: wishlistId:Long, userId:String, bookId:Long, addedAt:LocalDateTime
+- **설명**: 사용자의 찜 도서 목록
+
 **Challenge**
-- **속성**: challengeId(Long), title(String), description(Text), targetBooks(Integer), startDate(Date), endDate(Date), creatorId(String)
-- **설명**: 독서 챌린지 정보를 저장하는 클래스
+- **속성**: challengeId:Long, title:String, description:String, targetBooks:int, startDate:LocalDate, endDate:LocalDate, creatorId:String
+- **설명**: 독서 챌린지 기본 정보
+
+**ChallengeParticipation**
+- **속성**: participationId:Long, challengeId:Long, userId:String, progress:int, isCompleted:boolean
+- **설명**: 챌린지 참가자 및 진행률
+
+**Community**
+- **속성**: postId:Long, authorId:String, bookId:Long, postType:Enum, title:String, content:String, createdAt:LocalDateTime
+- **설명**: 커뮤니티 게시글 정보
+
+**Comment**
+- **속성**: commentId:Long, postId:Long, userId:String, content:String, createdAt:LocalDateTime
+- **설명**: 게시글 댓글
+
+**Goal**
+- **속성**: goalId:Long, userId:String, goalType:Enum, targetBooks:int, achievedBooks:int, startDate:LocalDate, endDate:LocalDate
+- **설명**: 독서 목표 관리
+
+**ReadingCalendar**
+- **속성**: calendarId:Long, userId:String, date:LocalDate, pagesRead:int, goalAchieved:boolean
+- **설명**: 독서 캘린더용 데이터
+
+**Friend**
+- **속성**: friendId:Long, requesterId:String, receiverId:String, status:Enum, createdAt:LocalDateTime
+- **설명**: 친구 요청/수락 관계
+
+**Notification**
+- **속성**: notificationId:Long, userId:String, type:Enum, message:String, isRead:boolean, createdAt:LocalDateTime
+- **설명**: 사용자 알림 정보
+
+**Announcement**
+- **속성**: announcementId:Long, title:String, content:String, createdAt:LocalDateTime, authorId:String
+_ **설명**: 시스템 공지사항
+
+**SearchHistory**
+- **속성**: searchId:Long, userId:String, keyword:String, searchedAt:LocalDateTime
+- **설명**: 사용자 검색 기록
+
+**PurchaseLink**
+- **속성**: linkId:Long, bookId:Long, siteName:String, url:String
+- **설명**: 도서 외부 구매 링크
+
+**Ranking**
+- **속성**: rankingId:Long, userId:String, rankPosition:int, rankingType:Enum, value:int
+- **설명**: 독서 통계 기반 사용자 랭킹
+
 
 ### 3.2. 도메인 클래스 다이어그램
 
 비즈니스 도메인의 핵심 개념을 표현하는 클래스들과 그들 간의 관계를 나타낸다.
 
-**UserProfile**
-- **속성**: userId(String), nickname(String), introduction(Text), favoriteAuthors(List<String>), favoriteGenres(List<String>)
-- **연관관계**: User와 1:1 관계
-
 **BookShelf**
-- **속성**: shelfId(Long), userId(String), shelfType(Enum), books(List<Book>)
-- **연관관계**: User와 N:1 관계, Book과 N:M 관계
+- **속성**: books:List<Book>, filterType:Enum, count:int
+- **설명**: 내 서재의 도서 집합을 관리하는 비즈니스 객체
 
-**Community**
-- **속성**: postId(Long), authorId(String), bookId(Long), postType(Enum), title(String), content(Text), createdAt(DateTime)
-- **연관관계**: User와 N:1 관계, Book과 N:1 관계
+**Goal**
+- **속성**: progressRate:double, remainingDays:int
+- **설명**: 독서 목표 달성률 계산 등 비즈니스 로직 포함
+
+**Ranking**
+- **속성**: userRank:int, booksRead:int, totalPages:int, streakDays:int
+- **설명**: 통계·순위 계산용 도메인 모델
+
+**ReadingCalendar**
+- **속성**: dailyStats:Map<LocalDate,Integer>, achievedGoals:Set<LocalDate>
+- **설명**: 독서량/목표 달성 현황을 집계
+
+**UserProfile**
+- **속성**: readingLevel:int, activityScore:int
+- **설명**: 사용자의 활동도, 랭킹, 선호 기반 모델링
 
 ### 3.3. 서비스 레이어 클래스 다이어그램
 
 비즈니스 로직을 처리하는 서비스 클래스들의 구조를 나타낸다.
 
 **UserService**
-- **메소드**: registerUser(), loginUser(), updateProfile(), getUserInfo()
-- **설명**: 사용자 관리 관련 비즈니스 로직 처리
+- **속성**: registerUser(User user), loginUser(String id, String pw), updateProfile(UserProfile profile), getUserInfo(String id)
+- **설명**: 회원가입·로그인·프로필 수정 처리
 
 **BookService**
-- **메소드**: searchBooks(), getBookDetails(), addBookToShelf(), removeBookFromShelf()
-- **설명**: 도서 관리 관련 비즈니스 로직 처리
+- **속성**: searchBooks(String keyword), getBookDetails(Long bookId), addBookToShelf(Long bookId, String userId), removeBookFromShelf()
+- **설명**: 도서 검색 및 상세 보기
 
 **ReadingService**
-- **메소드**: createReadingRecord(), updateReadingProgress(), getReadingStatistics(), calculateReadingGoals()
-- **설명**: 독서 기록 관리 관련 비즈니스 로직 처리
+- **속성**: createReadingRecord(), updateReadingProgress(), getReadingStatistics(), calculateReadingGoals()
+- **설명**: 독서 기록 작성/수정, 통계 계산
 
+**ChallengeService**
+- **속성**: createChallenge(), joinChallenge(), updateProgress()
+- **설명**: 챌린지 생성 및 참여 관리
+
+**CommunityService**
+- **속성**: createPost(), editPost(), getPosts(), addComment()
+- **설명**: 게시글/댓글 작성 및 관리
+
+**FriendService**
+- **속성**: addFriend(), acceptRequest(), removeFriend(), getFriendList()
+- **설명**: 친구 관계 추가/삭제 관리
+
+**GoalService**
+- **속성**: setGoal(), updateGoalProgress(), getGoalStatus()
+- **설명**: 독서 목표 설정 및 달성률 계산
+
+**NotificationService**
+- **속성**: sendNotification(), getNotifications(), markAsRead()
+- **설명**: 알림 생성 및 읽음 처리
 ---
 
 ## 4. 시퀀스 다이어그램 (Sequence Diagram)
