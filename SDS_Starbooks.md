@@ -327,79 +327,196 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 #### 주요 클래스:
 
 **User**
-- **속성**: userId:String, password:String, nickname:String, email:String, profileImage:String, createdAt:LocalDateTime, isActive:boolean
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| password | String | 유저의 로그인에 필요한 password key를 저장하기 위한 속성이다 |
+| nickname | String | 사용자가 설정한 닉네임을 저장하기위한 속성이다 |
+| email | String | 유저 정보중 email정보를 저장하기 위한 속성이다 |
+| profileImage | String | 사용자의 프로필 사진을 저장하기 위한 속성이다 |
+| createdAt | LocalDateTime | 회원가입한 시각을 저장하기 위한 속성이다 |
+| isActive | boolean | 유저의 활동상태를 저장하기 위한 속성이다 |
 - **설명**: 시스템 사용자의 기본 정보를 저장하는 클래스
 
 **UserProfile**
-- **속성**: userId:String, introduction:String, favoriteAuthors:List<String>, favoriteGenres:List<String>
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| introduction | String | 유저가 자기소개란을 작성하기 위한 속성이다 |
+| favoriteAuthors | List<String> | 유저가 좋아하는 저자를 서술하기 위한 속성이다 |
+| favoriteGenres | List<String> | 유저가 좋아하는 장르를 서술하기 위한 속성이다 |
 - **설명**: 사용자 자기소개 및 선호 정보
 
 **Book**
-- **속성**: bookId:Long, title:String, author:String, publisher:String, isbn:String, publishDate:LocalDate, coverImage:String, description:String
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| title | String | 책의 제목을 저장하기 위한 속성이다 |
+| author | String | 책의 저자를 저장하기 위한 속성이다 |
+| publisher | String | 책의 출판사를 저장하기 위한 속성이다 |
+| isbn | String | 책의 13자리 국제 표준 도서 번호를 저장하기 위한 속성이다 |
+| publishDate | LocalDate | 책의 출판일을 표시하기 위한 속성이다 |
+| coverImage | String | 책커버의 이미지를 표시하기 위한 속성이다 |
+| description | String | 책의 세부설명을 제공하기 위한 속성이다 |
 - **설명**: 도서 정보를 저장하는 클래스
 
 **ReadingRecord**
-- **속성**: recordId:Long, userId:String, bookId:Long, rating:int, review:String, favoriteQuote:String, readingStatus:Enum, progressPercent:int, startDate:LocalDate, endDate:LocalDate
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| recordId | Long | 사용자의 독서기록을 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| rating | int | 책의 별점을 표시하기 위한 속성이다 |
+| review | String | 사용자의 개인적인 리뷰를 저장하기 위한 속성이다 |
+| favoriteQuote | String | 독자가 책의 좋아하는 인용구절을 다른사람과 공유하기 위한 속성이다 |
+| readingStatus | Enum | 독자가 현재 기록에 대한 책읽은 상태를 표시하기 위한 속성이다 |
+| progressPercent | int | 독자가 현재 책을 얼만큼 읽었는지를 보여주기위해 사용하는 속성이다 |
+| startDate | LocalDate | 책을 처음 읽은날을 표시하기 위한 속성이다 |
+| endDate | LocalDate | 책을 마지막으로 읽은날을 표시하기 위한 속성이다 |
 - **설명**: 사용자의 독서 기록을 저장하는 클래스
 
 **BookReview**
-- **속성**: reviewId:Long, userId:String, bookId:Long, rating:int, reviewContent:String, createdAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| reviewId | Long | 책리뷰에 대한 기록을 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 | 
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| rating | int | 책의 별점을 표시하기 위한 속성이다 |
+| reviewContent | String | 다른사용자가 볼수있는 책의 리뷰를 저장하기 위한 속성이다 |
+| createdAt | LocalDateTime | 리뷰를 생성한 날자를 저장하기 위한 속성이다 |
 - **설명**: 리뷰 및 별점 정보 (독립 엔티티)
 
 **BookShelf**
-- **속성**: shelfId:Long, userId:String, shelfType:Enum, books:List<Book>
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| shelfId | Long | 사용자의 서재 탭을 구분하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| shelfType | Enum | 서재 탭에서 제공하는 책에 표시에 관한 속성이다 |
+| books | List<Book> | 책을 탭별 List로 사용자에게 제공하기 위한 속성이다 |
 - **설명**: 내 서재 탭별 도서 목록 (읽는 중/완독/찜 등)
 
-**BookWishlist**
-- **속성**: wishlistId:Long, userId:String, bookId:Long, addedAt:LocalDateTime
-- **설명**: 사용자의 찜 도서 목록
-
 **Challenge**
-- **속성**: challengeId:Long, title:String, description:String, targetBooks:int, startDate:LocalDate, endDate:LocalDate, creatorId:String
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| challengeId | Long | 독서 챌린지를 식별하기 위한 속성이다 |
+| title | String | 독서 챌린지의 이름을 저장하기 위한 속성이다 |
+| description | String | 독서 챌린지의 설명을 작성하기 위한 속성이다 |
+| targetBooks | int | 독서 챌린지의 목표 책수를 표시하기 위한 속성이다 |
+| startDate | LocalDate | 독서 챌린지의 시작일을 표시하기 위한 속성이다 |
+| endDate | LocalDate | 독서 챌린지의 마감일을 표시하기 위한 속성이다 |
+| creatorId | String | 독서 챌린지를 생성한 유저의 ID를 표시하기 위한 속성이다 |
 - **설명**: 독서 챌린지 기본 정보
 
 **ChallengeParticipation**
-- **속성**: participationId:Long, challengeId:Long, userId:String, progress:int, isCompleted:boolean
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| participationId | Long | 독서 챌린지 참여자를 식별하기위한 코드이다 |
+| challengeId | Long | 독서 챌린지를 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| progress | int | 독서 챌린지의 진행도를 표시하기 위한 속성이다 |
+| isCompleted | boolean | 독서 챌린지의 성공여부를 표시하기 위한 속성이다 |
 - **설명**: 챌린지 참가자 및 진행률
 
 **Community**
-- **속성**: postId:Long, authorId:String, bookId:Long, postType:Enum, title:String, content:String, createdAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| postId | Long | 커뮤니티의 글을 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| postType | Enum | 게시물의 타입을 구분하기 위한 속성이다 |
+| title | String | 게시물의 제목을 저장하기 위한 속성이다 |
+| content | String | 게시물의 내용을 저장하기 위한 속성이다 |
+| createdAt | LocalDateTime | 게시물의 생성날짜를 저장하기 위한 속성이다 |
 - **설명**: 커뮤니티 게시글 정보
 
 **Comment**
-- **속성**: commentId:Long, postId:Long, userId:String, content:String, createdAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| commentId | Long | 게시물에 대한 댓글을 식별하기 위한 속성이다 |
+| postId | Long | 커뮤니티의 글을 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 코드이다 |
+| content | String | 게시물의 내용을 저장하기 위한 속성이다 | 
+| createdAt | LocalDateTime | 게시물의 생성날짜를 저장하기 위한 속성이다 |
 - **설명**: 게시글 댓글
 
 **Goal**
-- **속성**: goalId:Long, userId:String, goalType:Enum, targetBooks:int, achievedBooks:int, startDate:LocalDate, endDate:LocalDate
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| goalId | Long | 독서목표를 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| goalType | Enum | 독서목표의 형식을 표시하기 위한 속성이다 |
+| targetBooks | int | 독서수 목표를 표시하기 위한 속성이다 |
+| achievedBooks | int | 독서수 목표를 달성한 양을 표시하기 위한 속성이다 |
+| startDate | LocalDate | 목표 시작일을 표시하기 위한 속성이다 |
+| endDate | LocalDate | 목표 마감일을 표시하기 위한 속성이다 |
 - **설명**: 독서 목표 관리
 
 **ReadingCalendar**
-- **속성**: calendarId:Long, userId:String, date:LocalDate, pagesRead:int, goalAchieved:boolean
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| calendarId | Long | 독서 켈린더를 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| date | LocalDate | 켈린더에 날짜별 내용을 작성하기 위한 속성이다 |
+| pagesRead | int | 켈린더에 표시할 읽은 page수를 표시하기 위한 속성이다 |
+| goalAchieved | boolean | 사용자가 설정한 일간 목표의 달성여부를 표시하기 위한 속성이다 | 
 - **설명**: 독서 캘린더용 데이터
 
 **Friend**
-- **속성**: friendId:Long, requesterId:String, receiverId:String, status:Enum, createdAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| requesterId | String | 친구요청을 한 사람을 식별하기 위한 속성이다 |
+| receiverId | String | 친구요청을 받은 사람을 식별하기 위한 속성이다 |
+| status | Enum | 친구신청 상태를 표시하기 위한 속성이다 |
 - **설명**: 친구 요청/수락 관계
 
 **Notification**
-- **속성**: notificationId:Long, userId:String, type:Enum, message:String, isRead:boolean, createdAt:LocalDateTime
-- **설명**: 사용자 알림 정보
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| notificationId | Long | 알림의 고유식별을 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| type | Enum | 알림의 속성을 표시하기 위한 속성이다 |
+| message | String | 알림의 내용을 표시하기 위한 속성이다 |
+| isRead | boolean | 알림의 읽었는지의 여부를 표시하기 위한 속성이다 |
+| createdAt | LocalDateTime | 알림이 수신된 시간을 표시하기 위한 속성이다 |
+- **설명**: 사용자에게 알림을 제공하기 위한 클래스
 
 **Announcement**
-- **속성**: announcementId:Long, title:String, content:String, createdAt:LocalDateTime, authorId:String
-_ **설명**: 시스템 공지사항
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| announcementId | Long | 공지사항을 식별하기 위한 속성이다 |
+| title | String | 공지사항의 제목을 저장하기 위한 속성이다 |
+| content | String | 공지사항의 내용을 저장하기 위한 속성이다 |
+| createdAt | LocalDateTime | 공지사항이 생성된 날짜를 저장하기 위한 속성이다 |
+| authorId | String | 해당 공지사항을 게시한 사람의 id를 확인하기 위한 속성이다 |
+- **설명**: 시스템 공지사항
 
 **SearchHistory**
-- **속성**: searchId:Long, userId:String, keyword:String, searchedAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| searchId | Long | 검색기록을 저장하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| keyword | String | 검색기록을 표시하기 위한 속성이다 |
+| searchedAt | LocalDateTime | 검색기록의 시간을 저장하기 위한 속성이다 |
 - **설명**: 사용자 검색 기록
 
 **PurchaseLink**
-- **속성**: linkId:Long, bookId:Long, siteName:String, url:String
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| linkId | Long | 구매링크를 구분하기 위한 속성이다 |
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| siteName | String | 구매링크의 사이트 명을 저장하기 위한 속성이다 |
+| url | String | 구매링크를 제공하기 위해 url을 저장하기 위한 속성이다 |
 - **설명**: 도서 외부 구매 링크
 
 **Ranking**
-- **속성**: rankingId:Long, userId:String, rankPosition:int, rankingType:Enum, value:int
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| rankingId | Long | 랭킹을 고유식별을 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| rankPosition | int | 랭크 순위를 표시하기 위한 int타입의 속성이다 |
+| rankingType | Enum | 랭킹의 타입을 지정하기 위한 속성이다 |
+| value | int | 순위를 매길때 사용되는 실제 수치값을 저장하기 위한 속성이다 |
 - **설명**: 독서 통계 기반 사용자 랭킹
 
 
@@ -408,59 +525,124 @@ _ **설명**: 시스템 공지사항
 비즈니스 도메인의 핵심 개념을 표현하는 클래스들과 그들 간의 관계를 나타낸다.
 
 **BookShelf**
-- **속성**: books:List<Book>, filterType:Enum, count:int
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| books | List<Book> | 유저의 서재에 책을 저장하기 위한 속성이다 |
+| filterType | Enum | 현재 유저가 서재에 책의 상태를 표시하기 위한 속성이다 |
+| count | int | 유저의 서재의 책의 수를 카운트하기 위한 속성이다 |
 - **설명**: 내 서재의 도서 집합을 관리하는 비즈니스 객체
 
 **Goal**
-- **속성**: progressRate:double, remainingDays:int
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| progressRate | double | 독서 목표 진행률을 확인하기 위한 속성이다 |
+| remainingDays | int | 독서 목표 달성의 남은날을 표시하기 위한 속성이다 |
 - **설명**: 독서 목표 달성률 계산 등 비즈니스 로직 포함
 
 **Ranking**
-- **속성**: userRank:int, booksRead:int, totalPages:int, streakDays:int
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| userRank | int | 유저의 랭킹을 표시하기 위한 속성이다 |
+| booksRead | int | 유저가 읽은 책의 수를 저장하기 위한 속성이다 |
+| totalPages | int | 유저가 총읽은 페이지수를 저장하기 위한 속성이다 |
+| streakDays | int | 유저의 연속목표 달성일을 저장하기 위한 속성이다 |
 - **설명**: 통계·순위 계산용 도메인 모델
 
 **ReadingCalendar**
-- **속성**: dailyStats:Map<LocalDate,Integer>, achievedGoals:Set<LocalDate>
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| calendarId | Long | 독서 켈린더를 식별하기 위한 속성이다 |
+| dailyStats | Map<LocalDate,Integer> | 날짜별 책을 읽은 수를 표시하기 위한 속성이다 |
+| achievedGoals | Set<LocalDate> | 달성일수를 표시하기 위한 속성이다 |
 - **설명**: 독서량/목표 달성 현황을 집계
 
 **UserProfile**
-- **속성**: readingLevel:int, activityScore:int
-- **설명**: 사용자의 활동도, 랭킹, 선호 기반 모델링
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| friends | int | 유저의 친구수를 표시하기 위한 속성이다 |
+| booksRead | int | 유저가 읽은 책의 수를 저장하기 위한 속성이다
+| readingPage | int | 유저가 읽은 책의 페이지수를 저장하기 위한 속성이다 |
+| activityScore | int | 유저의 독서 챌린지 달성수를 표시하기 위한 속성이다 |
+| achievedGoals | Set<LocalDate> | 달성일수를 표시하기 위한 속성이다 |
+| streakDays | int | 유저의 연속목표 달성일을 저장하기 위한 속성이다 |
+- **설명**: 사용자의 활동, 랭킹, 선호 기반 모델링
 
 ### 3.3. 서비스 레이어 클래스 다이어그램
 
 비즈니스 로직을 처리하는 서비스 클래스들의 구조를 나타낸다.
 
 **UserService**
-- **속성**: registerUser(User user), loginUser(String id, String pw), updateProfile(UserProfile profile), getUserInfo(String id)
+| 메서드명 | 설명 |
+|:---|:---|
+| registerUser(User user) | 유저가 회원가입하기 위한 객체를 생성한다 |
+| loginUser(String id, String pw) | 유저가 회원가입하기 위해 입력할 id및 password 객체를 생성한다 |
+| updateProfile(UserProfile profile) | 유저가 프로필을 생성/수정 할때 프로필 객체를 생성한다 |
+| getUserInfo(String id) | 유저 프로필이 정상적으로 생성되면 프로필 id를 생성한다 |
 - **설명**: 회원가입·로그인·프로필 수정 처리
 
 **BookService**
-- **속성**: searchBooks(String keyword), getBookDetails(Long bookId), addBookToShelf(Long bookId, String userId), removeBookFromShelf()
+| 메서드명 | 설명 |
+|:---|:---|
+| searchBooks(String keyword) | 책을 검색할때 키워드를 객체로 받는다 | 
+| getBookDetails(Long bookId) | 검색한 책의 세부사항을 불러온다 |
+| addBookToShelf(Long bookId) | 검색한 책의 서재로 추가하는 기능을 제공한다 |
+| userId(String userId) | 유저의 로그인 상태 및 유저의 정보를 확인한다 | 
+| removeBookFromShelf() | 유저의 서재에서 해당 책을 제거하는 기능을 제공한다 |
 - **설명**: 도서 검색 및 상세 보기
 
 **ReadingService**
-- **속성**: createReadingRecord(), updateReadingProgress(), getReadingStatistics(), calculateReadingGoals()
+| 메서드명 | 설명 |
+|:---|:---|
+| createReadingRecord() | 독서기록을 생성한다 |
+| updateReadingProgress() | 독서 진행사항을 업데이트 한다 |
+| getReadingStatistics() | 독서 상태를 생성한다 (읽기전, 읽은후, 찜목록 등) | 
+| calculateReadingGoals() | 날짜별 독서목록을 기록한다 |
 - **설명**: 독서 기록 작성/수정, 통계 계산
 
 **ChallengeService**
-- **속성**: createChallenge(), joinChallenge(), updateProgress()
+| 메서드명 | 설명 |
+|:---|:---|
+| createChallenge() | 독서 챌린지를 생성한다 |
+| joinChallenge() | 독서 챌린지에 참여한다 |
+| updateProgress() | 독서 챌린지 진행사항을 업데이트한다 |
 - **설명**: 챌린지 생성 및 참여 관리
 
 **CommunityService**
-- **속성**: createPost(), editPost(), getPosts(), addComment()
+| 메서드명 | 설명 |
+|:---|:---|
+| createPost() | 게시글을 생성한다 |
+| editPost() | 게시글을 수정한다 | 
+| getPosts() | 게시글을 등록한다 |
+| addComment() | 게시글에 대한 댓글을 추가한다 |
 - **설명**: 게시글/댓글 작성 및 관리
 
 **FriendService**
-- **속성**: addFriend(), acceptRequest(), removeFriend(), getFriendList()
+| 메서드명 | 설명 |
+|:---|:---|
+| addFriend() | 친구를 추가한다 |
+| acceptRequest() | 친구 요청을 수락한다 |
+| removeFriend() | 친구를 삭제한다 |
+| getFriendList() | 친구 목록을 불러온다 |
 - **설명**: 친구 관계 추가/삭제 관리
 
 **GoalService**
-- **속성**: setGoal(), updateGoalProgress(), getGoalStatus()
+| 메서드명 | 설명 |
+|:---|:---|
+| setGoal() | 독서 목표를 설정한다 |
+| updateGoalProgress() | 독서 목표 진행사항을 업데이트한다 |
+| getGoalStatus() | 독서 목표 달성률을 입력한다 |
 - **설명**: 독서 목표 설정 및 달성률 계산
 
 **NotificationService**
-- **속성**: sendNotification(), getNotifications(), markAsRead()
+| 메서드명 | 설명 |
+|:---|:---|
+| sendNotification() | 유저에게 알람을 발송한다 |
+| getNotifications() | 사용자가 알람을 수신한다 | 
+| markAsRead() | 사용자는 해당 알람을 읽으면 읽음표시를 한다 |
 - **설명**: 알림 생성 및 읽음 처리
 ---
 
