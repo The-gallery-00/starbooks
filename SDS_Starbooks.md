@@ -557,29 +557,61 @@ _ **설명**: 시스템 공지사항
 ## 6. 사용자 인터페이스 프로토타입 (User Interface Prototype)
 
 ### 6.1. 메인 화면
+- **헤더**
 - 스타북스의 로고
   ![Image](https://github.com/user-attachments/assets/f24a0f41-75a1-4943-8d50-77563c4dbd59)
 - 메인 검색바
   ![Image](https://github.com/user-attachments/assets/e6a51231-81a1-42b2-8a93-42f9aecd7283)
-- **네비게이션**: 내 서재, 도서 정보, 커뮤니티, 챌린지, 랭킹
-- **콘텐츠 영역**: 인기 도서, 추천 도서, 최근 활동
+- 사용자 메뉴
+  ![Image](https://github.com/user-attachments/assets/c65c3492-c19e-4b9b-b010-e80bdeb76285)
+- **네비게이션**
+- 내 서재
+  ![Image](https://github.com/user-attachments/assets/9f47cc3f-8199-4c7a-85cb-7b1fa7c21ac8)
+- 커뮤니티
+  ![Image](https://github.com/user-attachments/assets/0d321ade-7f94-4c56-8e05-eeccad9496ea)
+- 랭킹
+  ![Image](https://github.com/user-attachments/assets/b7868003-96af-4e18-a5d9-244ec2e85f20)
+- **콘텐츠 영역**
+- 인기 도서
+  ![Image](https://github.com/user-attachments/assets/a517da47-9189-4eca-9fdf-259b62cd4954)
+- 최근 활동
+  ![Image](https://github.com/user-attachments/assets/4002d48d-b11f-4c43-b6a5-d598e19bddf5)
 
 ### 6.2. 내 서재 화면
-- **독서 목표**: 일일/월간 독서 목표 설정 및 진행률
-- **도서 목록**: 읽고 있는 도서, 읽은 도서, 찜한 도서 탭
-- **독서 캘린더**: 월별 독서 활동 현황
-- **독서 통계**: 독서 권수, 페이지 수, 장르별 분포
-
+- **독서 목표**
+- 일일/월간 독서 목표 설정 및 진행률
+  ![Image](https://github.com/user-attachments/assets/b38a9273-623f-4fbc-8497-0181be547be3)
+- **도서 목록**
+- 읽고 있는 도서
+  ![Image](https://github.com/user-attachments/assets/d938bbb0-b324-4355-988f-867da1e88a6c)
+- 읽은 도서
+  ![Image](https://github.com/user-attachments/assets/b3407938-0aec-4680-bfa2-94ba4a65f44e)
+- 찜한 도서 탭
+  ![Image](https://github.com/user-attachments/assets/bf8bd5e2-31f3-4621-a229-4712454bb794)
+- **독서 캘린더**
+- 월별 독서 활동 현황
+  ![Image](https://github.com/user-attachments/assets/70ee35e8-8297-4d53-87fe-22a5cdb821fa)
+- **독서 통계**
+- 독서 권수와 페이지 수
+  ![Image](https://github.com/user-attachments/assets/f25145e1-b41e-4428-b430-4f90cb80cf34)
+  
 ### 6.3. 도서 상세 화면
-- **도서 정보**: 표지, 제목, 저자, 출판사, 줄거리
-- **평점 및 리뷰**: 평균 별점, 사용자 리뷰 목록
-- **액션 버튼**: 찜하기, 내 서재 추가, 구매 링크
-- **관련 도서**: 같은 저자/장르의 다른 도서
-
+- 도서 정보
+  ![Image](https://github.com/user-attachments/assets/ce69b857-b4c5-4a42-8cc4-67fa04f6f7f4)
+- 평점 및 리뷰
+  ![Image](https://github.com/user-attachments/assets/e41a93b5-f67b-4037-abd3-7c523e339afb)
+- 액션 버튼
+  ![Image](https://github.com/user-attachments/assets/cb9a1582-d014-42f7-9978-6f4cf741fbe7)
 ### 6.4. 커뮤니티 화면
-- **게시글 목록**: 퀴즈, 투표, 토론 게시글
-- **필터링**: 도서별, 장르별, 게시글 유형별
-- **게시글 작성**: 글쓰기 버튼 및 작성 폼
+- **게시글 목록**
+- 퀴즈
+  ![Image](https://github.com/user-attachments/assets/09c451ed-be05-403c-abaf-16edfdee7526)
+- 투표
+  ![Image](https://github.com/user-attachments/assets/95073732-8ab4-41a8-9abe-bf9e75e8a3ec)
+- 토론 게시글
+  ![Image](https://github.com/user-attachments/assets/987867e4-6efc-482e-9897-5699aeaaa8a2)
+- 게시글 작성
+  ![Image](https://github.com/user-attachments/assets/88cd492a-b5f9-4dc8-a5b0-84b34e044c6a)
 
 ---
 
