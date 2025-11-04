@@ -870,8 +870,11 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 - 메인 검색바
   ![Image](https://github.com/user-attachments/assets/e6a51231-81a1-42b2-8a93-42f9aecd7283)
 
+
   
 - 사용자 메뉴
+
+  
   ![Image](https://github.com/user-attachments/assets/c65c3492-c19e-4b9b-b010-e80bdeb76285)
 - 네비게이션
   ![Image](https://github.com/user-attachments/assets/0d321ade-7f94-4c56-8e05-eeccad9496ea)
