@@ -590,6 +590,8 @@ _ **설명**: 시스템 공지사항
 
 ### 5.5. 알림 상태 다이어그램
 
+![notification](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/notification.png)
+
 **상태**:
 - **생성됨** 
 - **미열람** 
