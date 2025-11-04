@@ -599,6 +599,7 @@ _ **설명**: 시스템 공지사항
   ![Image](https://github.com/user-attachments/assets/e41a93b5-f67b-4037-abd3-7c523e339afb)
 - 액션 버튼
   ![Image](https://github.com/user-attachments/assets/cb9a1582-d014-42f7-9978-6f4cf741fbe7)
+
 ### 6.4. 커뮤니티 화면
 - **게시글 목록**
 - 퀴즈
