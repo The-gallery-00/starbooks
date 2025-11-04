@@ -572,6 +572,8 @@ _ **설명**: 시스템 공지사항
 
 ### 5.4. 커뮤니티 게시글 상태 다이어그램
 
+![comunitypost](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/Comunity%20Post.png)
+
 **상태**:
 - **작성중** 
 - **게시됨** 
