@@ -524,7 +524,7 @@ _ **설명**: 시스템 공지사항
 
 ### 5.1. 사용자 상태 다이어그램
 
-! [User] (./state machine diagram/User.png)
+![User](./state machine diagram/User.png)
 
 **상태**:
 - **미가입**
