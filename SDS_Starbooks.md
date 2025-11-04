@@ -556,6 +556,8 @@ _ **설명**: 시스템 공지사항
 
 ### 5.3. 독서 챌린지 상태 다이어그램
 
+![ChallengeParticipation](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/ChallengeParticipation.png)
+
 **상태**:
 - **대기**
 - **참여중**
