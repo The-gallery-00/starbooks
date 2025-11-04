@@ -468,41 +468,36 @@ _ **설명**: 시스템 공지사항
 
 이 장에서는 주요 기능들의 동적 상호작용을 시퀀스 다이어그램으로 표현한다.
 
-### 4.7. 친구 추가/삭제 시퀀스  
+### 4.9. 친구 추가/삭제 시퀀스  
 
 이 다이어그램은 하나의 기능(친구 관리)이 두 가지 시나리오(추가/삭제)로 나뉘는 과정을 보여준다.  
 
-⦁ 핵심 로직: alt (Alternative, 대안) 블록을 사용한다.  
+⦁ **핵심 로직**: alt (Alternative, 대안) 블록을 사용한다.  
 
-⦁ 친구 추가 (Add Friend):
+⦁ **친구 추가 (Add Friend)**:
  1. 사용자가 '친구 추가'를 요청하면, 클라이언트는 서버에 POST (생성) 요청을 보낸다.
  2. 서버(UserService)는 새로운 '친구 관계(Friendship)‘를 만드는데, 이때 상태를 '대기중(pending)'으로  설정한다.
  3. 동시에 NotificationService를 호출하여, 요청을 받은 상대방에게 "친구 요청 알림"을 보낸다.
  
-⦁ 친구 삭제 (Remove Friend):
+⦁ **친구 삭제 (Remove Friend)**:
  1. 사용자가 '친구 삭제'를 요청하면, 클라이언트는 DELETE (삭제) 요청을 보낸다.
  2. 서버는 데이터베이스에서 '수락됨(accepted)' 상태인 친구 관계 레코드를 찾아 완전히 삭제한다.
 <img width="569" height="409" alt="image" src="https://github.com/user-attachments/assets/dd0c462a-0c20-439f-ba1f-02a9efb76408" />
 
 
 
-### 4.8. 커뮤니티 시퀀스 다이어그램
+### 4.10. 도서 찜하기(토글 방식)
 
-#### 게시글 작성 시퀀스
-1. **사용자 → 커뮤니티 페이지**: 글쓰기 버튼 클릭
-2. **커뮤니티 페이지 → ReadingService**: 도서 완독 여부 확인
-3. **ReadingService → 커뮤니티 페이지**: 완독 확인 결과
-4. **커뮤니티 페이지 → 사용자**: 게시글 작성 폼 표시
-5. **사용자 → 게시글 작성 폼**: 제목, 내용, 유형 입력
-6. **게시글 작성 폼 → CommunityController**: 게시글 생성 요청
-7. **CommunityController → CommunityService**: 게시글 처리 요청
-8. **CommunityService → CommunityRepository**: 게시글 저장
-9. **CommunityRepository → Database**: 게시글 데이터 저장
-10. **Database → CommunityRepository**: 저장 완료 응답
-11. **CommunityRepository → CommunityService**: 저장 결과 반환
-12. **CommunityService → CommunityController**: 처리 결과 반환
-13. **CommunityController → 게시글 작성 폼**: 생성 성공 응답
-14. **게시글 작성 폼 → 사용자**: 게시 완료 메시지 표시
+이 다이어그램은 하나의 버튼으로 두 가지 상태(추가/해제)를 번갈아 처리하는 '토글(Toggle)' 로직을 보여준다.  
+
+⦁ **핵심 로직**: 서버가 현재 상태를 먼저 확인하고 그에 따라 반대 행동을 한다.
+ 1. 사용자가 '찜' 아이콘을 누르면, 클라이언트는 서버에 POST 요청을 보낸다.
+ 2. 서버(WishlistService)는 데이터베이스에서 "이 사용자가 이 책을 이미 찜했는지" 먼저 확인(Select)한다.
+ 3. alt (대안) 블록이 여기서 나뉜다.  
+  - 만약 이미 찜한 상태(true)라면: 찜 목록에서 해당 데이터를 삭제(Delete)하고 "removed"라고 응답한다.
+  - 만약 찜하지 않은 상태(false)라면: 찜 목록에 새 데이터를 생성(Create)하고 "added"라고 응답한다.
+ 4. 클라이언트는 서버의 응답("added" 또는 "removed")에 따라 하트 아이콘을 채우거나 비운다.
+
 
 ---
 
