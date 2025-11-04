@@ -542,6 +542,8 @@ _ **설명**: 시스템 공지사항
 
 ### 5.2. 독서 기록 상태 다이어그램
 
+![Record](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/ReadingRecord.png)
+
 **상태**:
 - **계획**
 - **진행중**
