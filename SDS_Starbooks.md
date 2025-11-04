@@ -601,6 +601,8 @@ _ **설명**: 시스템 공지사항
 
 ### 5.6. 독서 목표 상태 다이어그램
 
+![goal](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/Goal.png)
+
 **상태**:
 - **설정됨**
 - **진행중**
