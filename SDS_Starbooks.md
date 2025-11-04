@@ -564,10 +564,7 @@ _ **설명**: 시스템 공지사항
   ![Image](https://github.com/user-attachments/assets/e6a51231-81a1-42b2-8a93-42f9aecd7283)
 - 사용자 메뉴
   ![Image](https://github.com/user-attachments/assets/c65c3492-c19e-4b9b-b010-e80bdeb76285)
-- **네비게이션**
-- 내 서재
-  ![Image](https://github.com/user-attachments/assets/9f47cc3f-8199-4c7a-85cb-7b1fa7c21ac8)
-- 커뮤니티
+- 네비게이션
   ![Image](https://github.com/user-attachments/assets/0d321ade-7f94-4c56-8e05-eeccad9496ea)
 - 랭킹
   ![Image](https://github.com/user-attachments/assets/b7868003-96af-4e18-a5d9-244ec2e85f20)
