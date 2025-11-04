@@ -698,6 +698,8 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 
 ### 4.9. 친구 추가/삭제 시퀀스  
 
+<img width="1015" height="739" alt="스크린샷 2025-11-04 221943" src="https://github.com/user-attachments/assets/fa803937-104f-4b57-b54e-e47ccba75508" />
+
 이 다이어그램은 하나의 기능(친구 관리)이 두 가지 시나리오(추가/삭제)로 나뉘는 과정을 보여준다.  
 
 ⦁ **핵심 로직**: alt (Alternative, 대안) 블록을 사용한다.  
@@ -710,9 +712,10 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 ⦁ **친구 삭제 (Remove Friend)**:
  1. 사용자가 '친구 삭제'를 요청하면, 클라이언트는 DELETE (삭제) 요청을 보낸다.
  2. 서버는 데이터베이스에서 '수락됨(accepted)' 상태인 친구 관계 레코드를 찾아 완전히 삭제한다.
-<img width="569" height="409" alt="image" src="https://github.com/user-attachments/assets/dd0c462a-0c20-439f-ba1f-02a9efb76408" />
 
-### 4.10. 도서 찜하기(토글 방식)
+### 4.10. 도서 찜하기(토글 방식)  
+
+<img width="848" height="603" alt="스크린샷 2025-11-04 201532" src="https://github.com/user-attachments/assets/f2dd2434-6777-4cb4-91ae-834b3e525ac6" />
 
 이 다이어그램은 하나의 버튼으로 두 가지 상태(추가/해제)를 번갈아 처리하는 '토글(Toggle)' 로직을 보여준다.  
 
@@ -723,9 +726,10 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
  \- 만약 이미 찜한 상태(true)라면: 찜 목록에서 해당 데이터를 삭제(Delete)하고 "removed"라고 응답한다.  
  \- 만약 찜하지 않은 상태(false)라면: 찜 목록에 새 데이터를 생성(Create)하고 "added"라고 응답한다.  
  4. 클라이언트는 서버의 응답("added" 또는 "removed")에 따라 하트 아이콘을 채우거나 비운다.
-<img width="848" height="603" alt="스크린샷 2025-11-04 201532" src="https://github.com/user-attachments/assets/0709e2ce-8e21-4ea8-9e23-88718f8ebf7d" />
 
 ### 4.11. 목표 설정
+
+<img width="1039" height="585" alt="스크린샷 2025-11-04 201641" src="https://github.com/user-attachments/assets/03843be7-7bc5-4b82-a9d7-23a7cade9001" />
 
 이 다이어그램은 데이터가 '없으면 새로 만들고, 있으면 수정하는' (Upsert) 로직을 보여준다.
 
@@ -736,9 +740,10 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
  \- 만약 기존 목표가 없다면(false): 새로운 '독서 목표(ReadingGoal)' 데이터를 생성(Create)한다.  
  \- 만약 기존 목표가 있다면(true): 기존 데이터를 수정(Update)한다. (예: 5권을 7권으로 변경)  
  4. 서버는 "저장 완료" 응답을 보내고, 클라이언트는 UI에 "저장됨"을 표시한다.
-<img width="1039" height="585" alt="스크린샷 2025-11-04 201641" src="https://github.com/user-attachments/assets/c78d31b3-d200-4f4e-8427-e9f31b6313b1" />
 
 ### 4.12. 알림/공지 수신  
+
+<img width="1231" height="349" alt="스크린샷 2025-11-04 202227" src="https://github.com/user-attachments/assets/8c3559ac-b188-484c-8d50-719c46c1db02" />
 
 이 다이어그램은 사용자가 아닌 시스템(이벤트)이 시작점이 되는 '푸시(Push)' 방식을 보여준다.  
 
@@ -747,7 +752,6 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
  2. 기록 (Persistence): NotificationService는 이 알림을 먼저 데이터베이스에 저장(Create)한다. (사용자가 오프라인일 때 나중에 볼 수 있도록)  
  3. 실시간 전송 (Push): 동시에 WebSocketServer (실시간 통신 서버)를 통해 현재 접속 중인 사용자에게 "새 알림이 왔다"고 즉시 푸시한다.  
  4. 수신: 사용자의 클라이언트(웹)는 푸시를 받아 UI에 '빨간 점' 같은 알림을 띄운다.
-<img width="1231" height="349" alt="스크린샷 2025-11-04 202227" src="https://github.com/user-attachments/assets/17f2def3-1e5c-44c5-8f2c-d1faaa60d7d2" />
 
 ---
 
