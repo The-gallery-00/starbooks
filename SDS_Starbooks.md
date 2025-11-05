@@ -331,6 +331,8 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 
 ### 3.1. 데이터베이스 클래스 다이어그램
 
+![Database](https://github.com/The-gallery-00/starbooks/blob/main/class/DatabaseClass.png)
+
 데이터베이스의 구조를 나타내는 클래스 다이어그램으로, 주요 엔티티와 관계를 표현한다.
 
 #### 주요 클래스:
