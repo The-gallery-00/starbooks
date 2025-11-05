@@ -535,6 +535,8 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 
 비즈니스 도메인의 핵심 개념을 표현하는 클래스들과 그들 간의 관계를 나타낸다.
 
+![domain](https://github.com/The-gallery-00/starbooks/blob/main/class/Domain.png)
+
 **BookShelf**
 | 속성명 | 속성타입 | 속성설명 |
 |:---|:---|:---|
