@@ -72,6 +72,8 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 
 ### 2.2. 주요 유스케이스
 
+![usecase](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/usecase.png)
+
 #### 유스케이스 #1: 회원가입
 - **설명**: 사용자가 웹 서비스를 본격적으로 이용하기 위해 계정을 생성하는 절차
 - **전제조건**: 없음
