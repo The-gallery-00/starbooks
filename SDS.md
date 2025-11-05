@@ -1,13 +1,23 @@
 # StarBooks 시스템 설계 명세서 (SDS)
 ## System Design Specification
-
+### Team members
+|student ID|Name|
+|:---|:---|
+|22110825|최범수|
+|22012167|김건희|
+|22112057|박지훈|
+|22210731|오세은|
+|22112039|조영채|
+|21622137|최재영|
 ---
 
 ### 개정 이력 (Revision History)
-| 개정일 | 버전 | 설명 | 작성자 |
-|:---|:---|:---|:---|
-| 2025-10-28 | 1.0 | 최초 작성 | 22012167 김건희 |
-| 2025-10-29 | 1.1 | 내용 및 다이어그램 추가 | 프로젝트 팀 |
+| 개정일 | 버전 | 설명 |
+|:---|:---|:---|
+| 2025-10-28 | 1.0 | 최초 작성 |
+| 2025-10-29 | 1.1 | 내용 및 유스케이스 분석 추가 |
+| 2025-11-04 | 1.2 | 시퀀스,상태기계 다이어그램 및 사용자 인터페이스 프로토타입 추가 |
+| 2025-11-05 | 1.3 | 클래스 다이어그램 추가 |
 
 ---
 
@@ -62,6 +72,8 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 
 ### 2.2. 주요 유스케이스
 
+![usecase](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/usecase.png)
+
 #### 유스케이스 #1: 회원가입
 - **설명**: 사용자가 웹 서비스를 본격적으로 이용하기 위해 계정을 생성하는 절차
 - **전제조건**: 없음
@@ -114,10 +126,10 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 - **전제조건**: 관리자 로그인 필요
 - **트리거**: 관리자가 독서 챌린지를 생성할때
 - **성공 후 조건**: 관리자가 목표 설정을 하여 챌린지를 생성하여 다른 사용자간의 경쟁 및 목표 제공
-- **주요 흐름**:
-   1.관리자 권한으로 로그인
-   2.독서 챌린지로 이동
-   3.독서 챌린지 생성에서 목표를 설정후 생성
+- **주요 흐름**:  
+   1. 관리자 권한으로 로그인  
+   2. 독서 챌린지로 이동
+   3. 독서 챌린지 생성에서 목표를 설정후 생성
      
 #### 유스케이스 #4-1: 독서 챌린지 참여
 - **설명**: 사용자가 개인 또는 그룹 독서 챌린지에 참여하여 목표 달성
@@ -136,7 +148,7 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 - **전제조건**: 사용자 로그인 상태, 해당 도서 100% 완독
 - **트리거**: 게시글 작성 버튼 클릭
 - **성공 후 조건**: 게시글이 커뮤니티에 게시
-- **주요 흐름**:
+- **주요 흐름**:  
   1. 사용자가 커뮤니티 섹션에서 글쓰기 버튼 클릭
   2. 시스템이 글 종류 선택 옵션 표시 (퀴즈/투표/토론)
   3. 사용자가 글 종류 선택 및 내용 작성
@@ -319,84 +331,203 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 
 ### 3.1. 데이터베이스 클래스 다이어그램
 
+![Database](https://github.com/The-gallery-00/starbooks/blob/main/class/DatabaseClass.png)
+
 데이터베이스의 구조를 나타내는 클래스 다이어그램으로, 주요 엔티티와 관계를 표현한다.
 
 #### 주요 클래스:
 
 **User**
-- **속성**: userId:String, password:String, nickname:String, email:String, profileImage:String, createdAt:LocalDateTime, isActive:boolean
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| password | String | 유저의 로그인에 필요한 password key를 저장하기 위한 속성이다 |
+| nickname | String | 사용자가 설정한 닉네임을 저장하기위한 속성이다 |
+| email | String | 유저 정보중 email정보를 저장하기 위한 속성이다 |
+| profileImage | String | 사용자의 프로필 사진을 저장하기 위한 속성이다 |
+| createdAt | LocalDateTime | 회원가입한 시각을 저장하기 위한 속성이다 |
+| isActive | boolean | 유저의 활동상태를 저장하기 위한 속성이다 |
 - **설명**: 시스템 사용자의 기본 정보를 저장하는 클래스
 
 **UserProfile**
-- **속성**: userId:String, introduction:String, favoriteAuthors:List<String>, favoriteGenres:List<String>
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| introduction | String | 유저가 자기소개란을 작성하기 위한 속성이다 |
+| favoriteAuthors | List<String> | 유저가 좋아하는 저자를 서술하기 위한 속성이다 |
+| favoriteGenres | List<String> | 유저가 좋아하는 장르를 서술하기 위한 속성이다 |
 - **설명**: 사용자 자기소개 및 선호 정보
 
 **Book**
-- **속성**: bookId:Long, title:String, author:String, publisher:String, isbn:String, publishDate:LocalDate, coverImage:String, description:String
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| title | String | 책의 제목을 저장하기 위한 속성이다 |
+| author | String | 책의 저자를 저장하기 위한 속성이다 |
+| publisher | String | 책의 출판사를 저장하기 위한 속성이다 |
+| isbn | String | 책의 13자리 국제 표준 도서 번호를 저장하기 위한 속성이다 |
+| publishDate | LocalDate | 책의 출판일을 표시하기 위한 속성이다 |
+| coverImage | String | 책커버의 이미지를 표시하기 위한 속성이다 |
+| description | String | 책의 세부설명을 제공하기 위한 속성이다 |
 - **설명**: 도서 정보를 저장하는 클래스
 
 **ReadingRecord**
-- **속성**: recordId:Long, userId:String, bookId:Long, rating:int, review:String, favoriteQuote:String, readingStatus:Enum, progressPercent:int, startDate:LocalDate, endDate:LocalDate
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| recordId | Long | 사용자의 독서기록을 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| rating | int | 책의 별점을 표시하기 위한 속성이다 |
+| review | String | 사용자의 개인적인 리뷰를 저장하기 위한 속성이다 |
+| favoriteQuote | String | 독자가 책의 좋아하는 인용구절을 다른사람과 공유하기 위한 속성이다 |
+| readingStatus | Enum | 독자가 현재 기록에 대한 책읽은 상태를 표시하기 위한 속성이다 |
+| progressPercent | int | 독자가 현재 책을 얼만큼 읽었는지를 보여주기위해 사용하는 속성이다 |
+| startDate | LocalDate | 책을 처음 읽은날을 표시하기 위한 속성이다 |
+| endDate | LocalDate | 책을 마지막으로 읽은날을 표시하기 위한 속성이다 |
 - **설명**: 사용자의 독서 기록을 저장하는 클래스
 
 **BookReview**
-- **속성**: reviewId:Long, userId:String, bookId:Long, rating:int, reviewContent:String, createdAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| reviewId | Long | 책리뷰에 대한 기록을 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 | 
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| rating | int | 책의 별점을 표시하기 위한 속성이다 |
+| reviewContent | String | 다른사용자가 볼수있는 책의 리뷰를 저장하기 위한 속성이다 |
+| createdAt | LocalDateTime | 리뷰를 생성한 날자를 저장하기 위한 속성이다 |
 - **설명**: 리뷰 및 별점 정보 (독립 엔티티)
 
 **BookShelf**
-- **속성**: shelfId:Long, userId:String, shelfType:Enum, books:List<Book>
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| shelfId | Long | 사용자의 서재 탭을 구분하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| shelfType | Enum | 서재 탭에서 제공하는 책에 표시에 관한 속성이다 |
+| books | List<Book> | 책을 탭별 List로 사용자에게 제공하기 위한 속성이다 |
 - **설명**: 내 서재 탭별 도서 목록 (읽는 중/완독/찜 등)
 
-**BookWishlist**
-- **속성**: wishlistId:Long, userId:String, bookId:Long, addedAt:LocalDateTime
-- **설명**: 사용자의 찜 도서 목록
-
 **Challenge**
-- **속성**: challengeId:Long, title:String, description:String, targetBooks:int, startDate:LocalDate, endDate:LocalDate, creatorId:String
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| challengeId | Long | 독서 챌린지를 식별하기 위한 속성이다 |
+| title | String | 독서 챌린지의 이름을 저장하기 위한 속성이다 |
+| description | String | 독서 챌린지의 설명을 작성하기 위한 속성이다 |
+| targetBooks | int | 독서 챌린지의 목표 책수를 표시하기 위한 속성이다 |
+| startDate | LocalDate | 독서 챌린지의 시작일을 표시하기 위한 속성이다 |
+| endDate | LocalDate | 독서 챌린지의 마감일을 표시하기 위한 속성이다 |
+| creatorId | String | 독서 챌린지를 생성한 유저의 ID를 표시하기 위한 속성이다 |
 - **설명**: 독서 챌린지 기본 정보
 
 **ChallengeParticipation**
-- **속성**: participationId:Long, challengeId:Long, userId:String, progress:int, isCompleted:boolean
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| participationId | Long | 독서 챌린지 참여자를 식별하기위한 코드이다 |
+| challengeId | Long | 독서 챌린지를 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| progress | int | 독서 챌린지의 진행도를 표시하기 위한 속성이다 |
+| isCompleted | boolean | 독서 챌린지의 성공여부를 표시하기 위한 속성이다 |
 - **설명**: 챌린지 참가자 및 진행률
 
 **Community**
-- **속성**: postId:Long, authorId:String, bookId:Long, postType:Enum, title:String, content:String, createdAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| postId | Long | 커뮤니티의 글을 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| postType | Enum | 게시물의 타입을 구분하기 위한 속성이다 |
+| title | String | 게시물의 제목을 저장하기 위한 속성이다 |
+| content | String | 게시물의 내용을 저장하기 위한 속성이다 |
+| createdAt | LocalDateTime | 게시물의 생성날짜를 저장하기 위한 속성이다 |
 - **설명**: 커뮤니티 게시글 정보
 
 **Comment**
-- **속성**: commentId:Long, postId:Long, userId:String, content:String, createdAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| commentId | Long | 게시물에 대한 댓글을 식별하기 위한 속성이다 |
+| postId | Long | 커뮤니티의 글을 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 코드이다 |
+| content | String | 게시물의 내용을 저장하기 위한 속성이다 | 
+| createdAt | LocalDateTime | 게시물의 생성날짜를 저장하기 위한 속성이다 |
 - **설명**: 게시글 댓글
 
 **Goal**
-- **속성**: goalId:Long, userId:String, goalType:Enum, targetBooks:int, achievedBooks:int, startDate:LocalDate, endDate:LocalDate
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| goalId | Long | 독서목표를 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| goalType | Enum | 독서목표의 형식을 표시하기 위한 속성이다 |
+| targetBooks | int | 독서수 목표를 표시하기 위한 속성이다 |
+| achievedBooks | int | 독서수 목표를 달성한 양을 표시하기 위한 속성이다 |
+| startDate | LocalDate | 목표 시작일을 표시하기 위한 속성이다 |
+| endDate | LocalDate | 목표 마감일을 표시하기 위한 속성이다 |
 - **설명**: 독서 목표 관리
 
 **ReadingCalendar**
-- **속성**: calendarId:Long, userId:String, date:LocalDate, pagesRead:int, goalAchieved:boolean
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| calendarId | Long | 독서 켈린더를 식별하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| date | LocalDate | 켈린더에 날짜별 내용을 작성하기 위한 속성이다 |
+| pagesRead | int | 켈린더에 표시할 읽은 page수를 표시하기 위한 속성이다 |
+| goalAchieved | boolean | 사용자가 설정한 일간 목표의 달성여부를 표시하기 위한 속성이다 | 
 - **설명**: 독서 캘린더용 데이터
 
 **Friend**
-- **속성**: friendId:Long, requesterId:String, receiverId:String, status:Enum, createdAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| requesterId | String | 친구요청을 한 사람을 식별하기 위한 속성이다 |
+| receiverId | String | 친구요청을 받은 사람을 식별하기 위한 속성이다 |
+| status | Enum | 친구신청 상태를 표시하기 위한 속성이다 |
 - **설명**: 친구 요청/수락 관계
 
 **Notification**
-- **속성**: notificationId:Long, userId:String, type:Enum, message:String, isRead:boolean, createdAt:LocalDateTime
-- **설명**: 사용자 알림 정보
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| notificationId | Long | 알림의 고유식별을 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| type | Enum | 알림의 속성을 표시하기 위한 속성이다 |
+| message | String | 알림의 내용을 표시하기 위한 속성이다 |
+| isRead | boolean | 알림의 읽었는지의 여부를 표시하기 위한 속성이다 |
+| createdAt | LocalDateTime | 알림이 수신된 시간을 표시하기 위한 속성이다 |
+- **설명**: 사용자에게 알림을 제공하기 위한 클래스
 
 **Announcement**
-- **속성**: announcementId:Long, title:String, content:String, createdAt:LocalDateTime, authorId:String
-_ **설명**: 시스템 공지사항
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| announcementId | Long | 공지사항을 식별하기 위한 속성이다 |
+| title | String | 공지사항의 제목을 저장하기 위한 속성이다 |
+| content | String | 공지사항의 내용을 저장하기 위한 속성이다 |
+| createdAt | LocalDateTime | 공지사항이 생성된 날짜를 저장하기 위한 속성이다 |
+| authorId | String | 해당 공지사항을 게시한 사람의 id를 확인하기 위한 속성이다 |
+- **설명**: 시스템 공지사항
 
 **SearchHistory**
-- **속성**: searchId:Long, userId:String, keyword:String, searchedAt:LocalDateTime
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| searchId | Long | 검색기록을 저장하기 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| keyword | String | 검색기록을 표시하기 위한 속성이다 |
+| searchedAt | LocalDateTime | 검색기록의 시간을 저장하기 위한 속성이다 |
 - **설명**: 사용자 검색 기록
 
 **PurchaseLink**
-- **속성**: linkId:Long, bookId:Long, siteName:String, url:String
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| linkId | Long | 구매링크를 구분하기 위한 속성이다 |
+| bookId | Long | 책의 고유식별을 위한 속성이다 |
+| siteName | String | 구매링크의 사이트 명을 저장하기 위한 속성이다 |
+| url | String | 구매링크를 제공하기 위해 url을 저장하기 위한 속성이다 |
 - **설명**: 도서 외부 구매 링크
 
 **Ranking**
-- **속성**: rankingId:Long, userId:String, rankPosition:int, rankingType:Enum, value:int
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| rankingId | Long | 랭킹을 고유식별을 위한 속성이다 |
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| rankPosition | int | 랭크 순위를 표시하기 위한 int타입의 속성이다 |
+| rankingType | Enum | 랭킹의 타입을 지정하기 위한 속성이다 |
+| value | int | 순위를 매길때 사용되는 실제 수치값을 저장하기 위한 속성이다 |
 - **설명**: 독서 통계 기반 사용자 랭킹
 
 
@@ -404,60 +535,129 @@ _ **설명**: 시스템 공지사항
 
 비즈니스 도메인의 핵심 개념을 표현하는 클래스들과 그들 간의 관계를 나타낸다.
 
+![domain](https://github.com/The-gallery-00/starbooks/blob/main/class/Domain.png)
+
 **BookShelf**
-- **속성**: books:List<Book>, filterType:Enum, count:int
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| books | List<Book> | 유저의 서재에 책을 저장하기 위한 속성이다 |
+| filterType | Enum | 현재 유저가 서재에 책의 상태를 표시하기 위한 속성이다 |
+| count | int | 유저의 서재의 책의 수를 카운트하기 위한 속성이다 |
 - **설명**: 내 서재의 도서 집합을 관리하는 비즈니스 객체
 
 **Goal**
-- **속성**: progressRate:double, remainingDays:int
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| progressRate | double | 독서 목표 진행률을 확인하기 위한 속성이다 |
+| remainingDays | int | 독서 목표 달성의 남은날을 표시하기 위한 속성이다 |
 - **설명**: 독서 목표 달성률 계산 등 비즈니스 로직 포함
 
 **Ranking**
-- **속성**: userRank:int, booksRead:int, totalPages:int, streakDays:int
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| userRank | int | 유저의 랭킹을 표시하기 위한 속성이다 |
+| booksRead | int | 유저가 읽은 책의 수를 저장하기 위한 속성이다 |
+| totalPages | int | 유저가 총읽은 페이지수를 저장하기 위한 속성이다 |
+| streakDays | int | 유저의 연속목표 달성일을 저장하기 위한 속성이다 |
 - **설명**: 통계·순위 계산용 도메인 모델
 
 **ReadingCalendar**
-- **속성**: dailyStats:Map<LocalDate,Integer>, achievedGoals:Set<LocalDate>
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| calendarId | Long | 독서 켈린더를 식별하기 위한 속성이다 |
+| dailyStats | Map<LocalDate,Integer> | 날짜별 책을 읽은 수를 표시하기 위한 속성이다 |
+| achievedGoals | Set<LocalDate> | 달성일수를 표시하기 위한 속성이다 |
 - **설명**: 독서량/목표 달성 현황을 집계
 
 **UserProfile**
-- **속성**: readingLevel:int, activityScore:int
-- **설명**: 사용자의 활동도, 랭킹, 선호 기반 모델링
+| 속성명 | 속성타입 | 속성설명 |
+|:---|:---|:---|
+| userId | String | 유저의 고유식별을 위한 속성이다 |
+| friends | int | 유저의 친구수를 표시하기 위한 속성이다 |
+| booksRead | int | 유저가 읽은 책의 수를 저장하기 위한 속성이다
+| readingPage | int | 유저가 읽은 책의 페이지수를 저장하기 위한 속성이다 |
+| activityScore | int | 유저의 독서 챌린지 달성수를 표시하기 위한 속성이다 |
+| achievedGoals | Set<LocalDate> | 달성일수를 표시하기 위한 속성이다 |
+| streakDays | int | 유저의 연속목표 달성일을 저장하기 위한 속성이다 |
+- **설명**: 사용자의 활동, 랭킹, 선호 기반 모델링
 
 ### 3.3. 서비스 레이어 클래스 다이어그램
 
 비즈니스 로직을 처리하는 서비스 클래스들의 구조를 나타낸다.
 
+![Service](https://github.com/The-gallery-00/starbooks/blob/main/class/Service.png)
+
 **UserService**
-- **속성**: registerUser(User user), loginUser(String id, String pw), updateProfile(UserProfile profile), getUserInfo(String id)
+| 메서드명 | 설명 |
+|:---|:---|
+| registerUser(User user) | 유저가 회원가입하기 위한 객체를 생성한다 |
+| loginUser(String id, String pw) | 유저가 회원가입하기 위해 입력할 id및 password 객체를 생성한다 |
+| updateProfile(UserProfile profile) | 유저가 프로필을 생성/수정 할때 프로필 객체를 생성한다 |
+| getUserInfo(String id) | 유저 프로필이 정상적으로 생성되면 프로필 id를 생성한다 |
 - **설명**: 회원가입·로그인·프로필 수정 처리
 
 **BookService**
-- **속성**: searchBooks(String keyword), getBookDetails(Long bookId), addBookToShelf(Long bookId, String userId), removeBookFromShelf()
+| 메서드명 | 설명 |
+|:---|:---|
+| searchBooks(String keyword) | 책을 검색할때 키워드를 객체로 받는다 | 
+| getBookDetails(Long bookId) | 검색한 책의 세부사항을 불러온다 |
+| addBookToShelf(Long bookId) | 검색한 책의 서재로 추가하는 기능을 제공한다 |
+| userId(String userId) | 유저의 로그인 상태 및 유저의 정보를 확인한다 | 
+| removeBookFromShelf() | 유저의 서재에서 해당 책을 제거하는 기능을 제공한다 |
 - **설명**: 도서 검색 및 상세 보기
 
 **ReadingService**
-- **속성**: createReadingRecord(), updateReadingProgress(), getReadingStatistics(), calculateReadingGoals()
+| 메서드명 | 설명 |
+|:---|:---|
+| createReadingRecord() | 독서기록을 생성한다 |
+| updateReadingProgress() | 독서 진행사항을 업데이트 한다 |
+| getReadingStatistics() | 독서 상태를 생성한다 (읽기전, 읽은후, 찜목록 등) | 
+| calculateReadingGoals() | 날짜별 독서목록을 기록한다 |
 - **설명**: 독서 기록 작성/수정, 통계 계산
 
 **ChallengeService**
-- **속성**: createChallenge(), joinChallenge(), updateProgress()
+| 메서드명 | 설명 |
+|:---|:---|
+| createChallenge() | 독서 챌린지를 생성한다 |
+| joinChallenge() | 독서 챌린지에 참여한다 |
+| updateProgress() | 독서 챌린지 진행사항을 업데이트한다 |
 - **설명**: 챌린지 생성 및 참여 관리
 
 **CommunityService**
-- **속성**: createPost(), editPost(), getPosts(), addComment()
+| 메서드명 | 설명 |
+|:---|:---|
+| createPost() | 게시글을 생성한다 |
+| editPost() | 게시글을 수정한다 | 
+| getPosts() | 게시글을 등록한다 |
+| addComment() | 게시글에 대한 댓글을 추가한다 |
 - **설명**: 게시글/댓글 작성 및 관리
 
 **FriendService**
-- **속성**: addFriend(), acceptRequest(), removeFriend(), getFriendList()
+| 메서드명 | 설명 |
+|:---|:---|
+| addFriend() | 친구를 추가한다 |
+| acceptRequest() | 친구 요청을 수락한다 |
+| removeFriend() | 친구를 삭제한다 |
+| getFriendList() | 친구 목록을 불러온다 |
 - **설명**: 친구 관계 추가/삭제 관리
 
 **GoalService**
-- **속성**: setGoal(), updateGoalProgress(), getGoalStatus()
+| 메서드명 | 설명 |
+|:---|:---|
+| setGoal() | 독서 목표를 설정한다 |
+| updateGoalProgress() | 독서 목표 진행사항을 업데이트한다 |
+| getGoalStatus() | 독서 목표 달성률을 입력한다 |
 - **설명**: 독서 목표 설정 및 달성률 계산
 
 **NotificationService**
-- **속성**: sendNotification(), getNotifications(), markAsRead()
+| 메서드명 | 설명 |
+|:---|:---|
+| sendNotification() | 유저에게 알람을 발송한다 |
+| getNotifications() | 사용자가 알람을 수신한다 | 
+| markAsRead() | 사용자는 해당 알람을 읽으면 읽음표시를 한다 |
 - **설명**: 알림 생성 및 읽음 처리
 ---
 
@@ -465,25 +665,106 @@ _ **설명**: 시스템 공지사항
 
 이 장에서는 주요 기능들의 동적 상호작용을 시퀀스 다이어그램으로 표현한다.
 
-### 4.5. 챌린지 생성
+### 4.1. 회원가입 시퀀스 다이어그램
+![회원가입 시퀀스 다이어그램](./SequenceDiagram/Register.png)
+
+사용자가 회원가입을 진행하는 과정을 나타내는 시퀀스 다이어그램이다.
+사용자가 웹 페이지에서 회원가입 버튼을 클릭하면, 시스템은 회원가입을 위한 폼을 요청하고 화면에 표시한다. 사용자는 아이디, 비밀번호, 닉네임, 이메일 등의 필수 정보를 입력하고, 웹 페이지는 입력된 정보를 백엔드 시스템으로 전달한다. 백엔드 시스템은 전달받은 정보를 바탕으로 사용자 정보의 유효성을 검증하고, 검증이 완료되면 데이터베이스에 새로운 사용자 정보를 저장한다. 이후 데이터베이스가 반환한 저장 결과를 확인하여 회원가입이 정상적으로 처리되었는지를 검증한 뒤, 시스템은 회원가입 완료 응답을 웹 페이지로 전송한다. 마지막으로 웹 페이지는 사용자에게 회원가입이 완료되었음을 알리고, 로그인을 진행할 수 있도록 안내 메시지를 표시하면서 회원가입 과정이 종료된다.
+
+### 4.2. 로그인/로그아웃 시퀀스 다이어그램
+![로그인/로그아웃 시퀀스 다이어그램](./SequenceDiagram/Login.png)
+
+사용자가 로그인과 로그아웃 기능을 이용하는 과정을 나타내는 시퀀스 다이어그램이다.
+사용자가 웹 페이지에서 로그인 버튼을 클릭하고 아이디와 비밀번호를 입력하면, 웹 페이지는 해당 정보를 백엔드 시스템으로 전달한다. 시스템은 데이터베이스를 조회하여 입력된 정보가 유효한지 검증하고, 검증이 완료되면 로그인 성공 응답과 함께 사용자 세션 또는 인증 토큰을 생성하여 웹 페이지로 전송한다.
+웹 페이지는 사용자에게 로그인 성공 메시지를 표시하고, 사용자 전용 화면으로 이동시킴으로써 로그인 과정이 완료된다. 로그아웃 과정에서는, 로그인 상태의 사용자가 로그아웃 버튼을 클릭하면 웹 페이지가 로그아웃 요청을 백엔드 시스템으로 전달한다. 시스템은 해당 사용자의 세션이나 인증 토큰을 무효화하여 접근 권한을 해제하고, 로그아웃 완료 응답을 웹 페이지로 전송한다. 웹 페이지는 사용자에게 로그아웃이 완료되었음을 알리고, 초기 화면 또는 로그인 페이지로 이동시키면서 로그아웃 과정이 종료된다.
+
+### 4.3. 독서 기록 작성 시퀀스 다이어그램
+![독서 기록 작성 시퀀스 다이어그램](./SequenceDiagram/CreateReadingRecord.png)
+
+사용자가 독서 기록을 작성하는 과정을 나타내는 시퀀스 다이어그램이다. 사용자가 웹 페이지에서 독서 기록 작성 버튼을 클릭하면, 웹 페이지는 기록 입력 폼을 사용자에게 표시한다. 사용자는 읽은 책의 제목, 저자, 읽은 날짜, 감상 등의 내용을 입력하고 저장을 요청한다. 웹 페이지는 입력된 데이터를 백엔드 시스템으로 전달하고, 시스템은 해당 정보를 데이터베이스에 저장한다. 데이터베이스가 저장 결과를 반환하면 시스템은 이를 확인하여 독서 기록이 정상적으로 등록되었는지 검증한다. 이후 시스템은 저장 성공 메시지를 웹 페이지로 전송하고, 웹 페이지는 사용자에게 “독서 기록이 성공적으로 작성되었습니다.”라는 안내 메시지를 표시하면서 독서 기록 작성 과정이 완료된다.
+
+
+### 4.4. 도서 상세 조회 다이어그램
+![도서 상세 조회 시퀀스 다이어그램](./SequenceDiagram/ViewBookDetails.png)
+
+사용자가 도서 상세 조회하는 과정을 나타낸 sequence diagram이다. 사용자가 도서를 클릭하면 도서 상세 페이지가 표시된다. 로그인 상태일 경우, 사용자의 도서 상태를 조회하여 사용자에게 상태 표시 데이터를 전달한다. 데이터베이스에서 관련 정보를 조회한 뒤 사용자에게 해당 상태 데이터를 전달한다. 웹 페이지는 전달받은 정보를 바탕으로 사용자의 상태를 시각적으로 표시하며, 도서에 대한 제목, 저자, 카테고리, 별점, 독자 리뷰 등의 세부 정보를 함께 보여준다. 또한 사용자는 이 화면에서 찜하기, 독서 기록 작성, 구매 사이트 이동 등 도서 관련 기능을 직접 수행할 수 있다. 시스템은 사용자의 추가 요청이 발생할 경우, 해당 동작을 처리하고 결과를 즉시 반영함으로써 도서 상세 조회 과정을 완성한다.
+
+### 4.5. 챌린지 생성 시퀀스 다이어그램
 ![챌린지 생성 시퀀스 다이어그램](./SequenceDiagram/CreateChallenge.png)
 
 사용자가 챌린지 생성을 하는 과정을 나타내는 sequence diagram이다. 사용자가 챌린지 생성 버튼으로 새로운 챌린지에 대한 내용을 작성한 후 챌린지 만들기를 하면, 시스템은 먼저 전달받은 정보를 바탕으로 새로운 챌린지를 등록하기 위한 내부 처리를 수행한 뒤, 데이터베이스에 챌린지 정보를 저장한다. 시스템은 데이터베이스가 반환하는 정보를 확인하여 챌린지가 정상적으로 등록되었는지 검증한다. 이후 시스템은 챌린지가 성공적으로 생성되었다는 사실을 사용자에게 알려주기 위해 알림 데이터를 저장하고, 사용자에게 챌린지 성공 메시지를 화면에 표시하도록 하여 챌린지 생성 과정이 종료된다.
 
-### 4.6. 챌린지 참여
+### 4.6. 챌린지 참여 시퀀스 다이어그램
 ![챌린지 참여 시퀀스 다이어그램](./SequenceDiagram/JoinChallenge.png)
 
 사용자가 독서 챌린지에 참여하는 과정을 나타내는 sequence diagram이다. 사용자는 화면에 표시된 챌린지 목록 중에서 참여 희망 챌린지를 선택하면, 시스템은 챌린지 상세 내용을 조회하고, 데이터베이스에서 세부 정보를 불러와 사용자게에 보여준다. 이후 사용자가 참여하기 버튼을 클릭하면, 시스템은 먼저 사용자가 이번 달에 이미 참여중인 챌린지가 있는지 확인하고, 이를 위해 데이터베이스에서 사용자의 이번 달 챌린지 참여 기록을 조회한다. 만약 이번 달 참여 기록이 없는 경우, 시스템은 사용자를 새로운 챌린지 참여자로 등록하고, 이때 데이터베이스에 사용자 id와 챌린지 id를 함께 저장하여 참여 이력이 기록되며, 등록이 완료되면 사용자에게 성공 메시지를 표시한다. 만약, 이미 이번 달에 다른 챌린지에 참여 중인 경우, 시스템은 중복 참여가 불가능하다는 판단을 내리고 사용자에게 이미 다른 챌린지에 참여 중임을 표시한다. 
 
-### 4.7. 게시글 작성
+### 4.7. 게시글 작성 시퀀스 다이어그램
 ![게시글 작성 시퀀스 다이어그램](./SequenceDiagram/CommunityCreatePost.png)
 
 사용자가 커뮤니티 게시글을 작성하는 과정을 나타내는 sequence diagram이다. 사용자가 커뮤니티 페이지에서 글쓰기 버튼을 클릭하면, 시스템은 게시글 종류(퀴즈, 투표, 토론)와 내용을 입력할 수 있는 폼을 나타내낸다. 이후 사용자가 입력 완료 버튼을 누르면, 시스템은 해당 게시글을 등록하기 전에 도서 완독 여부를 먼저 확인한다. 시스템은 사용자가 선택한 책에 대한 독서 기록을 조회하여 해당 도서의 독서 진행률을 확인한다. 만약 사용자가 해당 도서를 100% 완독한 상태라면, 시스템은 게시글 정보를 데이터베이스에 저장하고, 저장에 성공하였다는 메시지를 사용자에게 표시한다. 만약, 사용자가 해당 도서를 아직 완독하지 않은 경우, 시스템은 게시글 작성이 불가능하다는 판단을 내리고 사용자에게 완독하여야 게시글을 작성할 수 있는 안내 메시지를 표시하고 저장하지 않는다.
 
-### 4.8. 프로필 설정
+### 4.8. 프로필 설정 시퀀스 다이어그램
 ![프로필 설정 시퀀스 다이어그램](./SequenceDiagram/UserProfileSetting.png)
 
 사용자가 커뮤니티 게시글을 작성하는 과정을 나타내는 sequence diagram이다. 사용자가 커뮤니티 페이지에서 글쓰기 버튼을 클릭하면, 시스템은 게시글 종류(퀴즈, 투표, 토론)와 내용을 입력할 수 있는 폼을 나타내낸다. 이후 사용자가 입력 완료 버튼을 누르면, 시스템은 해당 게시글을 등록하기 전에 도서 완독 여부를 먼저 확인한다. 시스템은 사용자가 선택한 책에 대한 독서 기록을 조회하여 해당 도서의 독서 진행률을 확인한다. 만약 사용자가 해당 도서를 100% 완독한 상태라면, 시스템은 게시글 정보를 데이터베이스에 저장하고, 저장에 성공하였다는 메시지를 사용자에게 표시한다. 만약, 사용자가 해당 도서를 아직 완독하지 않은 경우, 시스템은 게시글 작성이 불가능하다는 판단을 내리고 사용자에게 완독하여야 게시글을 작성할 수 있는 안내 메시지를 표시하고 저장하지 않는다.
+
+### 4.9. 친구 추가/삭제 시퀀스 다이어그램
+
+<img width="1015" height="739" alt="스크린샷 2025-11-04 221943" src="https://github.com/user-attachments/assets/fa803937-104f-4b57-b54e-e47ccba75508" />
+
+이 다이어그램은 하나의 기능(친구 관리)이 두 가지 시나리오(추가/삭제)로 나뉘는 과정을 보여준다.  
+
+⦁ **핵심 로직**: alt (Alternative, 대안) 블록을 사용한다.  
+
+⦁ **친구 추가 (Add Friend)**:
+ 1. 사용자가 친구 추가를 요청하면, 클라이언트는 서버에 POST (생성) 요청을 보낸다.
+ 2. 서버(UserService)는 새로운 '친구 관계(Friendship)'를 만드는데, 이때 상태를 '대기중(pending)'으로  설정한다.
+ 3. 동시에 NotificationService를 호출하여, 요청을 받은 상대방에게 "친구 요청 알림"을 보낸다.
+ 
+⦁ **친구 삭제 (Remove Friend)**:
+ 1. 사용자가 '친구 삭제'를 요청하면, 클라이언트는 DELETE (삭제) 요청을 보낸다.
+ 2. 서버는 데이터베이스에서 '수락됨(accepted)' 상태인 친구 관계 레코드를 찾아 완전히 삭제한다.
+
+### 4.10. 도서 찜하기(토글 방식) 시퀀스 다이어그램
+
+<img width="848" height="603" alt="스크린샷 2025-11-04 201532" src="https://github.com/user-attachments/assets/f2dd2434-6777-4cb4-91ae-834b3e525ac6" />
+
+이 다이어그램은 하나의 버튼으로 두 가지 상태(추가/해제)를 번갈아 처리하는 토글 로직을 보여준다.  
+
+⦁ **핵심 로직**: 서버가 현재 상태를 먼저 확인하고 그에 따라 반대 행동을 한다.
+ 1. 사용자가 '찜' 아이콘을 누르면, 클라이언트는 서버에 POST 요청을 보낸다.
+ 2. 서버(WishlistService)는 데이터베이스에서 이 사용자가 이 책을 이미 찜했는지 먼저 확인(Select)한다.
+ 3. alt (대안) 블록이 여기서 나뉜다.  
+ \- 만약 이미 찜한 상태(true)라면: 찜 목록에서 해당 데이터를 삭제(Delete)하고 "removed"라고 응답한다.  
+ \- 만약 찜하지 않은 상태(false)라면: 찜 목록에 새 데이터를 생성(Create)하고 "added"라고 응답한다.  
+ 4. 클라이언트는 서버의 응답("added" 또는 "removed")에 따라 하트 아이콘을 채우거나 비운다.
+
+### 4.11. 목표 설정 시퀀스 다이어그램
+
+<img width="1039" height="585" alt="스크린샷 2025-11-04 201641" src="https://github.com/user-attachments/assets/03843be7-7bc5-4b82-a9d7-23a7cade9001" />
+
+이 다이어그램은 데이터가 없으면 새로 만들고, 있으면 수정하는 'Upsert' 로직을 보여준다.
+
+⦁ **핵심 로직**: 서버가 기존 데이터 유무를 확인하여 생성(Create)할지 수정(Update)할지 결정한다.  
+ 1. 사용자가 "월 5권 읽기" 같은 목표를 설정하고 저장한다.  
+ 2. 서버(GoalService)는 데이터베이스에서 이 사용자의 이달(goalType) 목표가 이미 존재하는지 먼저 확인(Select)한다.  
+ 3. alt (대안) 블록이 나뉜다.  
+ \- 만약 기존 목표가 없다면(false): 새로운 독서 목표(ReadingGoal) 데이터를 생성(Create)한다.  
+ \- 만약 기존 목표가 있다면(true): 기존 데이터를 수정(Update)한다. (예: 5권을 7권으로 변경)  
+ 4. 서버는 "저장 완료" 응답을 보내고, 클라이언트는 UI에 "저장됨"을 표시한다.
+
+### 4.12. 알림/공지 수신 시퀀스 다이어그램
+
+<img width="1231" height="349" alt="스크린샷 2025-11-04 202227" src="https://github.com/user-attachments/assets/8c3559ac-b188-484c-8d50-719c46c1db02" />
+
+이 다이어그램은 사용자가 아닌 시스템(이벤트)이 시작점이 되는 'Push' 방식을 보여준다.  
+
+⦁ **핵심 로직**: 알림은 DB에 기록되고, 실시간으로 전송되는 두 가지 경로로 처리된다.  
+ 1. 시작: 친구 서비스 같은 외부에서 알림 보낼 일이 생긴다. (예: UserB가 친구 요청을 보냄)  
+ 2. 기록 (Persistence): NotificationService는 이 알림을 먼저 데이터베이스에 저장(Create)한다. (사용자가 오프라인일 때 나중에 볼 수 있도록)  
+ 3. 실시간 전송 (Push): 동시에 WebSocketServer(실시간 통신 서버)를 통해 현재 접속 중인 사용자에게 "새 알림이 왔다"고 즉시 푸시한다.  
+ 4. 수신: 사용자의 클라이언트(웹)는 푸시를 받아 UI에 '빨간 점' 같은 알림을 띄운다.
 
 ---
 
@@ -491,7 +772,7 @@ _ **설명**: 시스템 공지사항
 
 ### 5.1. 사용자 상태 다이어그램
 
-![User](./state machine diagram/User.png)
+![User](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/User.png)
 
 **상태**:
 - **미가입**
@@ -509,6 +790,8 @@ _ **설명**: 시스템 공지사항
 
 ### 5.2. 독서 기록 상태 다이어그램
 
+![Record](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/ReadingRecord.png)
+
 **상태**:
 - **계획**
 - **진행중**
@@ -522,6 +805,8 @@ _ **설명**: 시스템 공지사항
 - 중단 → 진행중: 독서 재개
 
 ### 5.3. 독서 챌린지 상태 다이어그램
+
+![ChallengeParticipation](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/ChallengeParticipation.png)
 
 **상태**:
 - **대기**
@@ -537,6 +822,8 @@ _ **설명**: 시스템 공지사항
 
 ### 5.4. 커뮤니티 게시글 상태 다이어그램
 
+![comunitypost](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/Comunity%20Post.png)
+
 **상태**:
 - **작성중** 
 - **게시됨** 
@@ -551,6 +838,8 @@ _ **설명**: 시스템 공지사항
 
 ### 5.5. 알림 상태 다이어그램
 
+![notification](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/notification.png)
+
 **상태**:
 - **생성됨** 
 - **미열람** 
@@ -563,6 +852,8 @@ _ **설명**: 시스템 공지사항
 - 열람됨 → 삭제됨: 사용자가 알림 삭제
 
 ### 5.6. 독서 목표 상태 다이어그램
+
+![goal](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/Goal.png)
 
 **상태**:
 - **설정됨**
@@ -580,28 +871,67 @@ _ **설명**: 시스템 공지사항
 ---
 
 ## 6. 사용자 인터페이스 프로토타입 (User Interface Prototype)
+이 장은 예상 UI와 UI 안의 각 구성요소를 설명한다. 실제 개발에 따라서 UI 디자인 및 일부 구성은 달라질 수 있지만 내용 및 기능은 동일하다.
+- **헤더**
+- 스타북스의 로고
+  ![Image](https://github.com/user-attachments/assets/f24a0f41-75a1-4943-8d50-77563c4dbd59)
+- 메인 검색바
+  ![Image](https://github.com/user-attachments/assets/e6a51231-81a1-42b2-8a93-42f9aecd7283)
 
-### 6.1. 메인 화면
-- **헤더**: 로고, 검색바, 사용자 메뉴
-- **네비게이션**: 내 서재, 도서 정보, 커뮤니티, 챌린지, 랭킹
-- **콘텐츠 영역**: 인기 도서, 추천 도서, 최근 활동
+
+  
+- 사용자 메뉴
+
+  
+  ![Image](https://github.com/user-attachments/assets/c65c3492-c19e-4b9b-b010-e80bdeb76285)
+- 네비게이션
+  ![Image](https://github.com/user-attachments/assets/0d321ade-7f94-4c56-8e05-eeccad9496ea)
+- 랭킹
+  ![Image](https://github.com/user-attachments/assets/b7868003-96af-4e18-a5d9-244ec2e85f20)
+- **콘텐츠 영역**
+- 인기 도서
+  ![Image](https://github.com/user-attachments/assets/a517da47-9189-4eca-9fdf-259b62cd4954)
+- 최근 활동
+  ![Image](https://github.com/user-attachments/assets/4002d48d-b11f-4c43-b6a5-d598e19bddf5)
 
 ### 6.2. 내 서재 화면
-- **독서 목표**: 일일/월간 독서 목표 설정 및 진행률
-- **도서 목록**: 읽고 있는 도서, 읽은 도서, 찜한 도서 탭
-- **독서 캘린더**: 월별 독서 활동 현황
-- **독서 통계**: 독서 권수, 페이지 수, 장르별 분포
-
+- **독서 목표**
+- 일일/월간 독서 목표 설정 및 진행률
+  ![Image](https://github.com/user-attachments/assets/b38a9273-623f-4fbc-8497-0181be547be3)
+- **도서 목록**
+- 읽고 있는 도서
+  ![Image](https://github.com/user-attachments/assets/d938bbb0-b324-4355-988f-867da1e88a6c)
+- 읽은 도서
+  ![Image](https://github.com/user-attachments/assets/b3407938-0aec-4680-bfa2-94ba4a65f44e)
+- 찜한 도서 탭
+  ![Image](https://github.com/user-attachments/assets/bf8bd5e2-31f3-4621-a229-4712454bb794)
+- **독서 캘린더**
+- 월별 독서 활동 현황
+  ![Image](https://github.com/user-attachments/assets/70ee35e8-8297-4d53-87fe-22a5cdb821fa)
+- **독서 통계**
+- 독서 권수와 페이지 수
+  ![Image](https://github.com/user-attachments/assets/f25145e1-b41e-4428-b430-4f90cb80cf34)
+  
 ### 6.3. 도서 상세 화면
-- **도서 정보**: 표지, 제목, 저자, 출판사, 줄거리
-- **평점 및 리뷰**: 평균 별점, 사용자 리뷰 목록
-- **액션 버튼**: 찜하기, 내 서재 추가, 구매 링크
-- **관련 도서**: 같은 저자/장르의 다른 도서
+- 도서 정보
+  ![Image](https://github.com/user-attachments/assets/ce69b857-b4c5-4a42-8cc4-67fa04f6f7f4)
+- 평점 및 리뷰
+  ![Image](https://github.com/user-attachments/assets/e41a93b5-f67b-4037-abd3-7c523e339afb)
+  
+  
+- 액션 버튼
+  ![Image](https://github.com/user-attachments/assets/cb9a1582-d014-42f7-9978-6f4cf741fbe7)
 
 ### 6.4. 커뮤니티 화면
-- **게시글 목록**: 퀴즈, 투표, 토론 게시글
-- **필터링**: 도서별, 장르별, 게시글 유형별
-- **게시글 작성**: 글쓰기 버튼 및 작성 폼
+- **게시글 목록**
+- 퀴즈
+  ![Image](https://github.com/user-attachments/assets/09c451ed-be05-403c-abaf-16edfdee7526)
+- 투표
+  ![Image](https://github.com/user-attachments/assets/95073732-8ab4-41a8-9abe-bf9e75e8a3ec)
+- 토론 게시글
+  ![Image](https://github.com/user-attachments/assets/987867e4-6efc-482e-9897-5699aeaaa8a2)
+- 게시글 작성
+  ![Image](https://github.com/user-attachments/assets/88cd492a-b5f9-4dc8-a5b0-84b34e044c6a)
 
 ---
 
