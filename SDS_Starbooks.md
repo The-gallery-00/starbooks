@@ -588,6 +588,8 @@ StarBooks는 웹 기반 3-tier 아키텍처를 채택하며, 다음과 같은 �
 
 비즈니스 로직을 처리하는 서비스 클래스들의 구조를 나타낸다.
 
+![Service](https://github.com/The-gallery-00/starbooks/blob/main/class/Service.png)
+
 **UserService**
 | 메서드명 | 설명 |
 |:---|:---|
