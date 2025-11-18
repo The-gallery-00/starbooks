@@ -10,19 +10,16 @@ CREATE TABLE IF NOT EXISTS users (
     nickname        VARCHAR(50) NOT NULL UNIQUE,
     role            ENUM('USER','ADMIN') DEFAULT 'USER',
     profile_image   VARCHAR(255),
-    intro           VARCHAR(255),
+    intro           VARCHAR(255), -- 자기소개
     is_active       TINYINT(1) DEFAULT 1,
     created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_profiles (
-    profile_id      BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id         BIGINT NOT NULL,
+    user_id         BIGINT NOT NULL PRIMARY KEY,
     favorite_authors JSON,
     favorite_genres  JSON,
-    activity_score   INT DEFAULT 0,
-    streak_days      INT DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
@@ -85,7 +82,7 @@ CREATE TABLE IF NOT EXISTS reading_records (
     record_id        BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id          BIGINT NOT NULL,
     book_id          BIGINT NOT NULL,
-    rating           TINYINT,
+    rating           TINYINT, -- 사용자의 별점
     review           TEXT,
     favorite_quote   TEXT,
     reading_status   ENUM('PLANNING','READING','FINISHED','PAUSED') NOT NULL DEFAULT 'PLANNING',
@@ -246,4 +243,5 @@ CREATE INDEX idx_records_user ON reading_records (user_id);
 CREATE INDEX idx_records_book ON reading_records (book_id);
 CREATE INDEX idx_posts_type ON community_posts (post_type);
 CREATE INDEX idx_notifications_user ON notifications (user_id, is_read);
+
 
