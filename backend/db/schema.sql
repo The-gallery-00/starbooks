@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS book_reviews (
 CREATE TABLE IF NOT EXISTS goals (
     goal_id        BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id        BIGINT NOT NULL,
-    goal_type      ENUM('DAILY','WEEKLY','MONTHLY') NOT NULL,
+    goal_type      ENUM('DAILY') NOT NULL,
     target_books   INT DEFAULT 0,
     target_pages   INT DEFAULT 0,
     achieved_books INT DEFAULT 0,
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS reading_calendar (
 CREATE TABLE IF NOT EXISTS rankings (
     ranking_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id      BIGINT NOT NULL,
-    ranking_type ENUM('BOOK_COUNT','PAGE_COUNT','GOAL_STREAK','CHALLENGE_WINS') NOT NULL,
+    ranking_type ENUM('BOOK_COUNT','GOAL_STREAK','CHALLENGE_WINS') NOT NULL,
     rank_position INT NOT NULL,
     value         INT NOT NULL,
     calculated_at DATETIME NOT NULL,
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS friends (
     friendship_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     requester_id  BIGINT NOT NULL,
     receiver_id   BIGINT NOT NULL,
-    status        ENUM('PENDING','ACCEPTED','REJECTED','BLOCKED') DEFAULT 'PENDING',
+    status        ENUM('PENDING','ACCEPTED','REJECTED','BLOCKED') DEFAULT 'PENDING', -- 차단 넣을건지?
     created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uq_friend_pair (requester_id, receiver_id),
     FOREIGN KEY (requester_id) REFERENCES users(user_id) ON DELETE CASCADE,
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS search_history (
     user_id     BIGINT,
     keyword     VARCHAR(120) NOT NULL,
     searched_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL -- 로그인하지 않은 상태에서도 검색기록 수집가
 ) ENGINE=InnoDB;
 
 -- 필수 인덱스
@@ -243,5 +243,6 @@ CREATE INDEX idx_records_user ON reading_records (user_id);
 CREATE INDEX idx_records_book ON reading_records (book_id);
 CREATE INDEX idx_posts_type ON community_posts (post_type);
 CREATE INDEX idx_notifications_user ON notifications (user_id, is_read);
+
 
 
