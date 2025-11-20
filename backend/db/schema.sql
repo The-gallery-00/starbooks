@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS users (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_profiles (
-    user_id         BIGINT NOT NULL PRIMARY KEY,
-    favorite_authors JSON,
-    favorite_genres  JSON,
+    user_id          BIGINT NOT NULL PRIMARY KEY,
+    favorite_authors TEXT,
+    favorite_genres  TEXT,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
@@ -243,6 +243,7 @@ CREATE INDEX idx_records_user ON reading_records (user_id);
 CREATE INDEX idx_records_book ON reading_records (book_id);
 CREATE INDEX idx_posts_type ON community_posts (post_type);
 CREATE INDEX idx_notifications_user ON notifications (user_id, is_read);
+
 
 
 
