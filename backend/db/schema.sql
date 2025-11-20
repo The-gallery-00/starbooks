@@ -1,4 +1,7 @@
-CREATE DATABASE IF NOT EXISTS starbooks CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS starbooks
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
 USE starbooks;
 
 -- 1. 사용자 및 프로필
@@ -10,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     nickname        VARCHAR(50) NOT NULL UNIQUE,
     role            ENUM('USER','ADMIN') DEFAULT 'USER',
     profile_image   VARCHAR(255),
-    intro           VARCHAR(255), -- 자기소개
+    intro           VARCHAR(255),
     is_active       TINYINT(1) DEFAULT 1,
     created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -23,7 +26,7 @@ CREATE TABLE IF NOT EXISTS user_profiles (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 2. 도서 및 외부 연동
+-- 2. 도서
 CREATE TABLE IF NOT EXISTS books (
     book_id      BIGINT AUTO_INCREMENT PRIMARY KEY,
     title        VARCHAR(200) NOT NULL,
@@ -48,7 +51,7 @@ CREATE TABLE IF NOT EXISTS purchase_links (
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 3. 내 서재 & 찜
+-- 3. 내 서재 (WISHLIST 포함)
 CREATE TABLE IF NOT EXISTS bookshelves (
     shelf_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id    BIGINT NOT NULL,
@@ -67,22 +70,14 @@ CREATE TABLE IF NOT EXISTS bookshelf_books (
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS wishlist_items (
-    wishlist_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id     BIGINT NOT NULL,
-    book_id     BIGINT NOT NULL,
-    created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY uq_user_book (user_id, book_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
-) ENGINE=InnoDB;
+-- wishlist_items 제거 (중복 기능 제거)
 
--- 4. 독서 기록 및 리뷰
+-- 4. 독서 기록 & 리뷰
 CREATE TABLE IF NOT EXISTS reading_records (
     record_id        BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id          BIGINT NOT NULL,
     book_id          BIGINT NOT NULL,
-    rating           TINYINT, -- 사용자의 별점
+    rating           TINYINT,
     review           TEXT,
     favorite_quote   TEXT,
     reading_status   ENUM('PLANNING','READING','FINISHED','PAUSED') NOT NULL DEFAULT 'PLANNING',
@@ -108,7 +103,7 @@ CREATE TABLE IF NOT EXISTS book_reviews (
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 5. 목표 & 캘린더 & 랭킹
+-- 5. 목표 & 캘린더
 CREATE TABLE IF NOT EXISTS goals (
     goal_id        BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id        BIGINT NOT NULL,
@@ -196,18 +191,22 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 8. 친구 관계 & 알림
+-- 8. 친구 관계 (대칭성 보완)
 CREATE TABLE IF NOT EXISTS friends (
     friendship_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     requester_id  BIGINT NOT NULL,
     receiver_id   BIGINT NOT NULL,
-    status        ENUM('PENDING','ACCEPTED','REJECTED','BLOCKED') DEFAULT 'PENDING', -- 차단 넣을건지?
+    status        ENUM('PENDING','ACCEPTED','REJECTED','BLOCKED') DEFAULT 'PENDING',
     created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY uq_friend_pair (requester_id, receiver_id),
+    CONSTRAINT uq_friend_pair UNIQUE (
+        LEAST(requester_id, receiver_id),
+        GREATEST(requester_id, receiver_id)
+    ),
     FOREIGN KEY (requester_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (receiver_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+-- 9. 알림 & 공지
 CREATE TABLE IF NOT EXISTS notifications (
     notification_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id         BIGINT NOT NULL,
@@ -227,22 +226,23 @@ CREATE TABLE IF NOT EXISTS announcements (
     FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 9. 검색 기록
+-- 10. 검색 기록
 CREATE TABLE IF NOT EXISTS search_history (
     search_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id     BIGINT,
     keyword     VARCHAR(120) NOT NULL,
     searched_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL -- 로그인하지 않은 상태에서도 검색기록 수집가
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
--- 필수 인덱스
+-- Indexes
 CREATE INDEX idx_books_title ON books (title);
 CREATE INDEX idx_books_category ON books (category);
 CREATE INDEX idx_records_user ON reading_records (user_id);
 CREATE INDEX idx_records_book ON reading_records (book_id);
 CREATE INDEX idx_posts_type ON community_posts (post_type);
 CREATE INDEX idx_notifications_user ON notifications (user_id, is_read);
+
 
 
 
