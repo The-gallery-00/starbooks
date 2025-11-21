@@ -1,11 +1,13 @@
 package com.starbooks.domain.announcement;
 
-import com.starbooks.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import com.starbooks.domain.user.User;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "announcements")
+@Table(name="announcements")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,9 +24,9 @@ public class Announcement {
     @Lob
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
-    private User author;  // 작성자 (ADMIN 등)
+    @ManyToOne
+    @JoinColumn(name="author_id")
+    private User author;
 
-    private String createdAt;
+    private LocalDateTime createdAt;
 }
