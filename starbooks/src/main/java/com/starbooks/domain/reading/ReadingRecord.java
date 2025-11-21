@@ -2,16 +2,14 @@ package com.starbooks.domain.reading;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.starbooks.domain.user.User;
+import com.starbooks.domain.book.Book;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reading_records",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uq_user_book_record", columnNames = {"user_id", "book_id"})
-        }
-)
+@Table(name = "reading_records")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,11 +21,13 @@ public class ReadingRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recordId;
 
-    @Column(nullable = false)
-    private Long userId;   // FK (연관관계 대신 Long)
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
-    @Column(nullable = false)
-    private Long bookId;   // FK
+    @ManyToOne
+    @JoinColumn(name="book_id")
+    private Book book;
 
     private Integer rating;
 
@@ -38,17 +38,13 @@ public class ReadingRecord {
     private String favoriteQuote;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private ReadingStatus readingStatus;
 
     private Integer progressPercent;
 
     private LocalDate startDate;
-
     private LocalDate endDate;
 
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
 }
-
