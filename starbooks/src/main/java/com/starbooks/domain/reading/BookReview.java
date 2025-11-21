@@ -2,6 +2,8 @@ package com.starbooks.domain.reading;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.starbooks.domain.user.User;
+import com.starbooks.domain.book.Book;
 
 import java.time.LocalDateTime;
 
@@ -18,20 +20,19 @@ public class BookReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-    @Column(nullable = false)
-    private Long userId;   // FK
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
-    @Column(nullable = false)
-    private Long bookId;   // FK
+    @ManyToOne
+    @JoinColumn(name="book_id")
+    private Book book;
 
-    @Column(nullable = false)
     private Integer rating;
 
     @Lob
-    @Column(nullable = false)
     private String content;
 
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
 }
