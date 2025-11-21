@@ -1,7 +1,5 @@
 package com.starbooks.domain.goal;
 
 public enum RankingType {
-    MONTHLY_READING,
-    WEEKLY_READING,
-    TOTAL_READING
+    BOOK_COUNT, GOAL_STREAK, CHALLENGE_WINS
 }

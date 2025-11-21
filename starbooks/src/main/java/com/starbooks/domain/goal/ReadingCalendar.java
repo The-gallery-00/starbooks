@@ -1,13 +1,14 @@
 package com.starbooks.domain.goal;
 
-import com.starbooks.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import com.starbooks.domain.user.User;
+
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "reading_calendar")
+@Table(name="reading_calendar")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,11 +20,16 @@ public class ReadingCalendar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long calendarId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 
-    private LocalDate readDate;
+    private LocalDate readingDate;
 
-    private Integer readingTime; // 분 단위
+    private Integer pagesRead;
+
+    private Boolean goalAchieved;
+
+    private String progressNote;
 }
+

@@ -1,13 +1,15 @@
 package com.starbooks.domain.goal;
 
-import com.starbooks.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import com.starbooks.domain.user.User;
+
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "goals")
+@Table(name="goals")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,18 +21,20 @@ public class Goal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long goalId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 
     @Enumerated(EnumType.STRING)
     private GoalType goalType;
 
-    private Integer targetCount;  // 목표: 책 몇 권 / 몇 페이지 등
-    private Integer currentCount; // 진행상황
+    private Integer targetBooks;
+    private Integer targetPages;
+    private Integer achievedBooks;
 
     private LocalDate startDate;
     private LocalDate endDate;
 
-    private Boolean isCompleted;
+    private LocalDateTime lastUpdated;
 }
+
