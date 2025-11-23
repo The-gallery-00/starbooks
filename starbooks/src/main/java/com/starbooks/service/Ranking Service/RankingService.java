@@ -1,19 +1,8 @@
-package com.starbooks.service;
-
-import com.starbooks.entity.Ranking;
-import com.starbooks.repository.RankingRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+package com.starbooks.service.ranking;
 
 import java.util.List;
+import com.starbooks.domain.user.User;
 
-@Service
-@RequiredArgsConstructor
-public class RankingService {
-
-    private final RankingRepository rankingRepository;
-
-    public List<Ranking> findAll() {
-        return rankingRepository.findAll();
-    }
+public interface RankingService {
+    List<User> getTopReaders(int limit);
 }
