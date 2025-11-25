@@ -1,0 +1,25 @@
+.dashboard-container {
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 20px;
+}
+
+.stats-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  gap: 20px;
+  align-items: stretch;
+  margin-bottom: 40px;
+}
+
+.goal-section, .ranking-section, .calendar-section {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  margin: 0 0 20px 0;
+}

@@ -1,0 +1,174 @@
+/*
+  Notification.css
+  이미지 레이아웃을 반영하여 알림 목록을 스타일링합니다.
+*/
+
+.notification-container {
+    max-width: 1200px; /* 최대 폭 설정 */
+    margin: 50px auto; /* 중앙 정렬 */
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #eee;
+    margin-bottom: 3px;
+}
+
+.alert-title {
+    margin-top: 50px;
+    border-bottom: 3px solid #eee;
+}
+
+/* ===========================================
+   알림 항목 공통 스타일
+   =========================================== */
+.notification-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee; /* 하단 구분선 */
+    transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+    background-color: #fafafa;
+}
+
+/* ===========================================
+   아이콘 스타일
+   =========================================== */
+
+/* 공지사항 (notice) 아이콘 스타일 */
+.notice-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px; /* 이모지 크기 */
+    margin-right: 15px;
+}
+
+/* 일반 알림 (alert) 아이콘 스타일 */
+.alert-icon {
+    width: 30px; /* 알림 유형 아이콘 크기 통일 */
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px; 
+    margin-right: 15px;
+    border-radius: 50%;
+    /* 배경색은 유형별로 다르게 설정할 수 있으나, 일단 투명으로 처리 */
+}
+
+
+/* ===========================================
+   메시지 및 날짜
+   =========================================== */
+
+.notification-message {
+    flex-grow: 1; /* 남은 공간 모두 차지 */
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    font-size: 14px;
+    color: #555;
+}
+
+.message-text {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+}
+
+/* 알림 유형 텍스트 (친구 신청, 커뮤니티 등) */
+.notification-type {
+    font-weight: bold;
+    color: #333;
+    margin-right: 8px;
+    min-width: 70px; /* 유형 텍스트 너비 고정 */
+    text-align: left;
+}
+
+
+.notification-date {
+    flex-shrink: 0; /* 날짜는 고정 너비 */
+    font-size: 13px;
+    color: #999;
+    margin-left: 20px;
+}
+
+
+/* 공지사항의 경우, 메시지 전체가 내용이므로 스타일 조정 */
+.notice-list .notification-message {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+
+/* ===========================================
+   스크롤 버튼
+   =========================================== */
+.scroll-to-top {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    width: 45px;
+    height: 45px;
+    background-color: #f5f5f5;
+    color: #777;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 45px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.scroll-to-top:hover {
+    background-color: #ddd;
+    transform: translateY(-2px);
+}
+
+/* 모바일 반응형 */
+@media (max-width: 600px) {
+    .notification-container {
+        padding: 10px;
+    }
+    
+    .notification-item {
+        flex-wrap: wrap;
+        padding: 10px 0;
+    }
+
+    .notification-icon-wrapper {
+        align-self: flex-start;
+    }
+
+    .notification-message {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .notification-type {
+        margin-bottom: 3px;
+    }
+
+    .notification-date {
+        flex-basis: 100%; /* 날짜를 새 줄로 이동 */
+        text-align: right;
+        margin-top: 5px;
+        margin-left: 0;
+        padding-right: 5px;
+    }
+}
