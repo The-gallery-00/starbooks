@@ -26,7 +26,7 @@ public class BookReview {
 
     @ManyToOne
     @JoinColumn(name="book_id")
-    private Book book;
+    private Long bookId;
 
     private Integer rating;
 

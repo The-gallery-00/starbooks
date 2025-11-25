@@ -4,7 +4,8 @@ import com.starbooks.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "challenges")
@@ -24,15 +25,27 @@ public class Challenge {
     @Lob
     private String description;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    @Column(name = "start_date")
+    private Date startDate;   // ← DB DATE와 일치
+
+    @Column(name = "end_date")
+    private Date endDate;     // ← DB DATE와 일치
 
     @Enumerated(EnumType.STRING)
     private ChallengeStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
-    private User creator;    // 챌린지 만든 사람
+    private User creator;
 
-    private Integer goalCount; // 예: "한 달 동안 책 5권"의 5
+    @Column(name = "target_books")
+    private Integer targetBooks;
+
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;   // ← DB DATETIME과 일치
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+    }
 }

@@ -3,10 +3,9 @@ package com.starbooks.domain.reading;
 import jakarta.persistence.*;
 import lombok.*;
 import com.starbooks.domain.user.User;
-import com.starbooks.domain.book.Book;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "reading_records")
@@ -25,9 +24,8 @@ public class ReadingRecord {
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name="book_id")
-    private Book book;
+    @Column(name="book_id")
+    private Long bookId;
 
     private Integer rating;
 
@@ -42,9 +40,15 @@ public class ReadingRecord {
 
     private Integer progressPercent;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    @Column(name="start_date")
+    private Date startDate;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @Column(name="end_date")
+    private Date endDate;
+
+    @Column(name="created_at")
+    private Timestamp createdAt;   // LocalDateTime → Timestamp
+
+    @Column(name="updated_at")
+    private Timestamp updatedAt;   // LocalDateTime → Timestamp
 }
