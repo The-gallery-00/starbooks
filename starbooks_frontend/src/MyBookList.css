@@ -1,0 +1,150 @@
+.library-section {
+  margin-bottom: 30px;
+  /* border: 1px solid #ddd; 제거 */
+  /* padding: 20px; 제거 */
+  border-radius: 8px;
+}
+
+.tabs {
+    /* 탭 버튼 컨테이너 */
+    margin-bottom: -1px; /* 탭 내용의 상단 경계와 붙이기 */
+}
+
+.tabs button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-bottom: none; /* 활성화되지 않은 탭의 하단 경계 제거 */
+  background-color: #eee;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+  transition: background-color 0.3s;
+}
+
+.tabs button.active {
+  background-color: white; /* 탭 내용은 흰색 배경 */
+  color: #3f51b5; /* 활성화된 탭 글자색 */
+  font-weight: bold;
+  border-color: #ddd;
+  border-bottom: 1px solid white; /* 탭 내용과 경계선 분리 */
+}
+
+.tab-content {
+  border: 1px solid #ddd;
+  padding: 20px;
+  min-height: 200px; /* 도서 카드를 위한 충분한 높이 */
+  border-radius: 0 4px 4px 4px;
+  background-color: white; /* 탭 내용 배경 */
+}
+.tab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    justify-content: flex-end;
+    /* justify-content: space-between; 좌: 제목, 우: 버튼 */
+}
+
+.tab-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.edit-button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.mbl-book-list-container-tab {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 한 줄에 6개 */
+  column-gap: 15px;
+  row-gap: 35px;
+  padding: 10px;
+
+  max-height: 580px;       /* 최대 500px까지만 스크롤 */
+  height: auto;             /* 컨텐츠에 맞게 높이 조절 */
+  min-height: 250px;        /* 최소 1줄 높이 확보 */
+  overflow-y: auto;         /* 필요할 때만 스크롤 */
+}
+
+
+.mbl-book-card-link {
+    /* 개별 카드 링크 스타일: 가로 폭을 제한하여 3~4개의 카드가 보일 수 있도록 함 */
+    flex: 0 0 150px; /* 축소하지 않고, 150px 폭 유지 */
+    text-decoration: none;
+    color: inherit;
+}
+/* 도서 카드 스타일 */
+.mbl-book-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mbl-book-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #F4F4F4;
+    transition: box-shadow 0.2s;
+    height: 100%;
+}
+
+.mbl-book-cover {
+    width: 100px; /* 크기 조정 */
+    height: 140px; 
+    object-fit: cover;
+    margin-bottom: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mbl-book-info {
+    width: 100%;
+    text-align: center;
+}
+
+.mbl-book-title {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin: 2px 0;
+    white-space: normal;
+}
+
+.mbl-book-author {
+  font-size: 0.8em;
+  color: #666;
+  margin: 0 0 5px 0;
+}
+
+.mbl-progress-bar-container {
+  width: 100%;
+  background-color: #eee;
+  border-radius: 2px;
+  height: 5px;
+  margin-bottom: 5px;
+}
+
+.mbl-progress-bar {
+  height: 100%;
+  background-color: #1D546C;
+  border-radius: 2px;
+}
+
+.mbl-progress-text {
+  font-size: 0.8em;
+  color: #1D546C;
+  font-weight: bold;
+  margin: 0;
+}
+

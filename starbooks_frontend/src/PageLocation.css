@@ -1,0 +1,20 @@
+.breadcrumb-wrapper {
+  max-width: 1150px; /* 화면 최대 폭 */
+  margin: 0 auto; 
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.breadcrumb a {
+  color: #555;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  white-space: nowrap;
+}
