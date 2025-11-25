@@ -1,0 +1,1295 @@
+openapi: 3.0.3
+info:
+  title: StarBooks Backend API
+  version: 1.0.0
+  description: |
+    StarBooks 독서 커뮤니티 백엔드 REST API 명세.
+    - 인증: JWT (Access + Refresh)
+    - 요청/응답 예시는 SDS, SRS, 클래스 다이어그램 요구사항을 반영함
+servers:
+  - url: https://api.starbooks.com
+    description: Production
+  - url: https://staging-api.starbooks.com
+    description: Staging
+tags:
+  - name: Auth
+  - name: Users
+  - name: Books
+  - name: Library
+  - name: Challenges
+  - name: Community
+  - name: Friends
+  - name: Notifications
+  - name: Search
+  - name: Rankings
+paths:
+  /api/v1/auth/register:
+    post:
+      tags: [Auth]
+      summary: 회원가입
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: 회원 생성
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '409':
+          description: 중복 아이디/닉네임
+  /api/v1/auth/login:
+    post:
+      tags: [Auth]
+      summary: 로그인
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: 토큰 발급
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: 인증 실패
+  /api/v1/auth/logout:
+    post:
+      tags: [Auth]
+      security:
+        - bearerAuth: []
+      summary: 로그아웃
+      responses:
+        '204':
+          description: 성공
+  /api/v1/auth/refresh:
+    post:
+      tags: [Auth]
+      summary: 토큰 갱신
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: 새 토큰
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+  /api/v1/users/{userId}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      summary: 사용자 기본 정보
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSummary'
+        '404':
+          description: 없음
+    patch:
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      summary: 닉네임/상태 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        '200':
+          description: 수정됨
+  /api/v1/users/{userId}/profile:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      summary: 공개 프로필 조회
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+    patch:
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      summary: 프로필 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdateRequest'
+      responses:
+        '200':
+          description: 수정됨
+  /api/v1/books:
+    get:
+      tags: [Books]
+      summary: 도서 검색
+      parameters:
+        - name: keyword
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookSummary'
+    post:
+      tags: [Books]
+      security:
+        - bearerAuth: []
+      summary: 도서 등록 (관리자)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreateRequest'
+      responses:
+        '201':
+          description: 생성
+  /api/v1/books/{bookId}:
+    parameters:
+      - $ref: '#/components/parameters/BookId'
+    get:
+      tags: [Books]
+      summary: 도서 상세
+      responses:
+        '200':
+          description: 상세
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDetail'
+        '404':
+          description: 없음
+    patch:
+      tags: [Books]
+      security:
+        - bearerAuth: []
+      summary: 도서 정보 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookUpdateRequest'
+      responses:
+        '200':
+          description: 수정됨
+    delete:
+      tags: [Books]
+      security:
+        - bearerAuth: []
+      summary: 도서 삭제
+      responses:
+        '204':
+          description: 삭제
+  /api/v1/books/{bookId}/wishlist:
+    parameters:
+      - $ref: '#/components/parameters/BookId'
+    post:
+      tags: [Books]
+      security:
+        - bearerAuth: []
+      summary: 찜 추가
+      responses:
+        '200':
+          description: 추가됨
+    delete:
+      tags: [Books]
+      security:
+        - bearerAuth: []
+      summary: 찜 해제
+      responses:
+        '204':
+          description: 삭제
+  /api/v1/books/{bookId}/reviews:
+    parameters:
+      - $ref: '#/components/parameters/BookId'
+    get:
+      tags: [Books]
+      summary: 리뷰 목록
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+    post:
+      tags: [Books]
+      security:
+        - bearerAuth: []
+      summary: 리뷰 작성
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewCreateRequest'
+      responses:
+        '201':
+          description: 작성됨
+  /api/v1/books/{bookId}/reviews/{reviewId}:
+    parameters:
+      - $ref: '#/components/parameters/BookId'
+      - $ref: '#/components/parameters/ReviewId'
+    patch:
+      tags: [Books]
+      security:
+        - bearerAuth: []
+      summary: 리뷰 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewUpdateRequest'
+      responses:
+        '200':
+          description: 수정됨
+    delete:
+      tags: [Books]
+      security:
+        - bearerAuth: []
+      summary: 리뷰 삭제
+      responses:
+        '204':
+          description: 삭제
+  /api/v1/users/{userId}/reading-records:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      tags: [Library]
+      security:
+        - bearerAuth: []
+      summary: 독서 기록 목록
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReadingRecord'
+    post:
+      tags: [Library]
+      security:
+        - bearerAuth: []
+      summary: 독서 기록 생성
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadingRecordCreateRequest'
+      responses:
+        '201':
+          description: 생성
+  /api/v1/users/{userId}/reading-records/{recordId}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+      - $ref: '#/components/parameters/RecordId'
+    patch:
+      tags: [Library]
+      security:
+        - bearerAuth: []
+      summary: 기록 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadingRecordUpdateRequest'
+      responses:
+        '200':
+          description: 수정
+    delete:
+      tags: [Library]
+      security:
+        - bearerAuth: []
+      summary: 기록 삭제
+      responses:
+        '204':
+          description: 삭제
+  /api/v1/library/goals:
+    get:
+      tags: [Library]
+      security:
+        - bearerAuth: []
+      summary: 독서 목표 조회
+      responses:
+        '200':
+          description: 목표
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+    put:
+      tags: [Library]
+      security:
+        - bearerAuth: []
+      summary: 목표 설정/업데이트
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoalUpsertRequest'
+      responses:
+        '200':
+          description: 저장
+  /api/v1/library/calendar:
+    get:
+      tags: [Library]
+      security:
+        - bearerAuth: []
+      summary: 독서 캘린더
+      parameters:
+        - name: month
+          in: query
+          schema:
+            type: string
+            example: '2025-11'
+      responses:
+        '200':
+          description: 데이터
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CalendarEntry'
+  /api/v1/challenges:
+    get:
+      tags: [Challenges]
+      summary: 챌린지 목록
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeSummary'
+    post:
+      tags: [Challenges]
+      security:
+        - bearerAuth: []
+      summary: 챌린지 생성 (관리자)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeCreateRequest'
+      responses:
+        '201':
+          description: 생성
+  /api/v1/challenges/{challengeId}:
+    parameters:
+      - $ref: '#/components/parameters/ChallengeId'
+    get:
+      tags: [Challenges]
+      summary: 챌린지 상세
+      responses:
+        '200':
+          description: 상세
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeDetail'
+    patch:
+      tags: [Challenges]
+      security:
+        - bearerAuth: []
+      summary: 챌린지 상태 변경
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeUpdateRequest'
+      responses:
+        '200':
+          description: 수정
+  /api/v1/challenges/{challengeId}/participants:
+    parameters:
+      - $ref: '#/components/parameters/ChallengeId'
+    get:
+      tags: [Challenges]
+      security:
+        - bearerAuth: []
+      summary: 참여자 조회
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeParticipant'
+    post:
+      tags: [Challenges]
+      security:
+        - bearerAuth: []
+      summary: 챌린지 참여
+      responses:
+        '201':
+          description: 등록
+  /api/v1/community/posts:
+    get:
+      tags: [Community]
+      summary: 게시글 목록
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [QUIZ, POLL, DISCUSSION]
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostSummary'
+    post:
+      tags: [Community]
+      security:
+        - bearerAuth: []
+      summary: 게시글 작성
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCreateRequest'
+      responses:
+        '201':
+          description: 생성
+  /api/v1/community/posts/{postId}:
+    parameters:
+      - $ref: '#/components/parameters/PostId'
+    get:
+      tags: [Community]
+      summary: 게시글 상세
+      responses:
+        '200':
+          description: 상세
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostDetail'
+    patch:
+      tags: [Community]
+      security:
+        - bearerAuth: []
+      summary: 게시글 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostUpdateRequest'
+      responses:
+        '200':
+          description: 수정
+    delete:
+      tags: [Community]
+      security:
+        - bearerAuth: []
+      summary: 게시글 삭제
+      responses:
+        '204':
+          description: 삭제
+  /api/v1/community/posts/{postId}/comments:
+    parameters:
+      - $ref: '#/components/parameters/PostId'
+    get:
+      tags: [Community]
+      summary: 댓글 목록
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+    post:
+      tags: [Community]
+      security:
+        - bearerAuth: []
+      summary: 댓글 작성
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreateRequest'
+      responses:
+        '201':
+          description: 생성
+  /api/v1/community/posts/{postId}/comments/{commentId}:
+    parameters:
+      - $ref: '#/components/parameters/PostId'
+      - $ref: '#/components/parameters/CommentId'
+    patch:
+      tags: [Community]
+      security:
+        - bearerAuth: []
+      summary: 댓글 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdateRequest'
+      responses:
+        '200':
+          description: 수정
+    delete:
+      tags: [Community]
+      security:
+        - bearerAuth: []
+      summary: 댓글 삭제
+      responses:
+        '204':
+          description: 삭제
+  /api/v1/friends/requests:
+    get:
+      tags: [Friends]
+      security:
+        - bearerAuth: []
+      summary: 친구 요청 목록
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendRequest'
+    post:
+      tags: [Friends]
+      security:
+        - bearerAuth: []
+      summary: 친구 요청 전송
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequestCreate'
+      responses:
+        '201':
+          description: 전송
+  /api/v1/friends/{friendshipId}:
+    parameters:
+      - $ref: '#/components/parameters/FriendshipId'
+    patch:
+      tags: [Friends]
+      security:
+        - bearerAuth: []
+      summary: 친구 요청 수락/거절
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequestUpdate'
+      responses:
+        '200':
+          description: 처리
+    delete:
+      tags: [Friends]
+      security:
+        - bearerAuth: []
+      summary: 친구 삭제
+      responses:
+        '204':
+          description: 삭제
+  /api/v1/notifications:
+    get:
+      tags: [Notifications]
+      security:
+        - bearerAuth: []
+      summary: 알림 목록
+      parameters:
+        - name: unreadOnly
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: 목록
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+    patch:
+      tags: [Notifications]
+      security:
+        - bearerAuth: []
+      summary: 알림 읽음 처리
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationReadRequest'
+      responses:
+        '200':
+          description: 처리
+  /api/v1/search:
+    get:
+      tags: [Search]
+      summary: 통합 검색
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 검색 결과
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+  /api/v1/rankings:
+    get:
+      tags: [Rankings]
+      summary: 랭킹 조회
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [BOOK_COUNT, PAGE_COUNT, GOAL_STREAK, CHALLENGE_WINS]
+      responses:
+        '200':
+          description: 랭킹 리스트
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RankingEntry'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: string
+    BookId:
+      name: bookId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    ReviewId:
+      name: reviewId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    RecordId:
+      name: recordId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    ChallengeId:
+      name: challengeId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    PostId:
+      name: postId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    CommentId:
+      name: commentId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    FriendshipId:
+      name: friendshipId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [username, password, email, nickname]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+        email:
+          type: string
+          format: email
+        nickname:
+          type: string
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    RefreshRequest:
+      type: object
+      required: [refreshToken]
+      properties:
+        refreshToken:
+          type: string
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserSummary'
+    UserSummary:
+      type: object
+      properties:
+        userId:
+          type: string
+        nickname:
+          type: string
+        role:
+          type: string
+        profileImage:
+          type: string
+    UserUpdateRequest:
+      type: object
+      properties:
+        nickname:
+          type: string
+        intro:
+          type: string
+        isActive:
+          type: boolean
+    UserProfile:
+      type: object
+      properties:
+        userId:
+          type: string
+        nickname:
+          type: string
+        intro:
+          type: string
+        favoriteAuthors:
+          type: array
+          items:
+            type: string
+        favoriteGenres:
+          type: array
+          items:
+            type: string
+        stats:
+          type: object
+          properties:
+            booksRead:
+              type: integer
+            pagesRead:
+              type: integer
+            friends:
+              type: integer
+            challengeWins:
+              type: integer
+    ProfileUpdateRequest:
+      type: object
+      properties:
+        intro:
+          type: string
+        favoriteAuthors:
+          type: array
+          items:
+            type: string
+        favoriteGenres:
+          type: array
+          items:
+            type: string
+    BookSummary:
+      type: object
+      properties:
+        bookId:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        category:
+          type: string
+        avgRating:
+          type: number
+          format: float
+    BookDetail:
+      allOf:
+        - $ref: '#/components/schemas/BookSummary'
+        - type: object
+          properties:
+            description:
+              type: string
+            publisher:
+              type: string
+            isbn:
+              type: string
+            reviews:
+              type: array
+              items:
+                $ref: '#/components/schemas/Review'
+            wishlist:
+              type: boolean
+    BookCreateRequest:
+      type: object
+      required: [title, author]
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        publisher:
+          type: string
+        isbn:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+    BookUpdateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        isPopular:
+          type: boolean
+    Review:
+      type: object
+      properties:
+        reviewId:
+          type: integer
+        userId:
+          type: string
+        nickname:
+          type: string
+        rating:
+          type: integer
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    ReviewCreateRequest:
+      type: object
+      required: [rating, content]
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        content:
+          type: string
+        favoriteQuote:
+          type: string
+    ReviewUpdateRequest:
+      type: object
+      properties:
+        rating:
+          type: integer
+        content:
+          type: string
+        favoriteQuote:
+          type: string
+    ReadingRecord:
+      type: object
+      properties:
+        recordId:
+          type: integer
+        bookId:
+          type: integer
+        readingStatus:
+          type: string
+          enum: [PLANNING, READING, FINISHED, PAUSED]
+        progressPercent:
+          type: integer
+        rating:
+          type: integer
+        review:
+          type: string
+        favoriteQuote:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    ReadingRecordCreateRequest:
+      type: object
+      required: [bookId, readingStatus]
+      properties:
+        bookId:
+          type: integer
+        readingStatus:
+          type: string
+          enum: [PLANNING, READING, FINISHED, PAUSED]
+        progressPercent:
+          type: integer
+        rating:
+          type: integer
+        review:
+          type: string
+        favoriteQuote:
+          type: string
+    ReadingRecordUpdateRequest:
+      type: object
+      properties:
+        readingStatus:
+          type: string
+        progressPercent:
+          type: integer
+        rating:
+          type: integer
+        review:
+          type: string
+        favoriteQuote:
+          type: string
+    Goal:
+      type: object
+      properties:
+        goalId:
+          type: integer
+        goalType:
+          type: string
+          enum: [DAILY, WEEKLY, MONTHLY]
+        targetBooks:
+          type: integer
+        targetPages:
+          type: integer
+        achievedBooks:
+          type: integer
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        progressRate:
+          type: number
+          format: float
+    GoalUpsertRequest:
+      type: object
+      required: [goalType, startDate, endDate]
+      properties:
+        goalType:
+          type: string
+          enum: [DAILY, WEEKLY, MONTHLY]
+        targetBooks:
+          type: integer
+        targetPages:
+          type: integer
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    CalendarEntry:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        pagesRead:
+          type: integer
+        goalAchieved:
+          type: boolean
+        color:
+          type: string
+    ChallengeSummary:
+      type: object
+      properties:
+        challengeId:
+          type: integer
+        title:
+          type: string
+        targetBooks:
+          type: integer
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        status:
+          type: string
+    ChallengeDetail:
+      allOf:
+        - $ref: '#/components/schemas/ChallengeSummary'
+        - type: object
+          properties:
+            description:
+              type: string
+            participants:
+              type: array
+              items:
+                $ref: '#/components/schemas/ChallengeParticipant'
+    ChallengeParticipant:
+      type: object
+      properties:
+        userId:
+          type: string
+        nickname:
+          type: string
+        progress:
+          type: integer
+        isCompleted:
+          type: boolean
+    ChallengeCreateRequest:
+      type: object
+      required: [title, targetBooks, startDate, endDate]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        targetBooks:
+          type: integer
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    ChallengeUpdateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [SCHEDULED, ACTIVE, COMPLETED, CANCELLED]
+    PostSummary:
+      type: object
+      properties:
+        postId:
+          type: integer
+        postType:
+          type: string
+          enum: [QUIZ, POLL, DISCUSSION]
+        title:
+          type: string
+        authorNickname:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    PostDetail:
+      allOf:
+        - $ref: '#/components/schemas/PostSummary'
+        - type: object
+          properties:
+            content:
+              type: string
+            book:
+              $ref: '#/components/schemas/BookSummary'
+            comments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Comment'
+    PostCreateRequest:
+      type: object
+      required: [postType, title, content]
+      properties:
+        postType:
+          type: string
+          enum: [QUIZ, POLL, DISCUSSION]
+        title:
+          type: string
+        content:
+          type: string
+        bookId:
+          type: integer
+    PostUpdateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        isPublished:
+          type: boolean
+    Comment:
+      type: object
+      properties:
+        commentId:
+          type: integer
+        userId:
+          type: string
+        nickname:
+          type: string
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    CommentCreateRequest:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+    CommentUpdateRequest:
+      type: object
+      properties:
+        content:
+          type: string
+    FriendRequest:
+      type: object
+      properties:
+        friendshipId:
+          type: integer
+        requesterId:
+          type: string
+        receiverId:
+          type: string
+        status:
+          type: string
+          enum: [PENDING, ACCEPTED, REJECTED, BLOCKED]
+        createdAt:
+          type: string
+          format: date-time
+    FriendRequestCreate:
+      type: object
+      required: [receiverId]
+      properties:
+        receiverId:
+          type: string
+    FriendRequestUpdate:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [ACCEPTED, REJECTED]
+    Notification:
+      type: object
+      properties:
+        notificationId:
+          type: integer
+        category:
+          type: string
+          enum: [SYSTEM, FRIEND, CHALLENGE, COMMUNITY]
+        message:
+          type: string
+        isRead:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    NotificationReadRequest:
+      type: object
+      required: [notificationIds]
+      properties:
+        notificationIds:
+          type: array
+          items:
+            type: integer
+    SearchResponse:
+      type: object
+      properties:
+        keyword:
+          type: string
+        books:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookSummary'
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostSummary'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSummary'
+    RankingEntry:
+      type: object
+      properties:
+        userId:
+          type: string
+        nickname:
+          type: string
+        rankingType:
+          type: string
+        position:
+          type: integer
+        value:
+          type: integer
+
