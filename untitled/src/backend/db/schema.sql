@@ -70,8 +70,6 @@ CREATE TABLE IF NOT EXISTS bookshelf_books (
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- wishlist_items 제거 (중복 기능 제거)
-
 -- 4. 독서 기록 & 리뷰
 CREATE TABLE IF NOT EXISTS reading_records (
     record_id        BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -119,10 +117,10 @@ CREATE TABLE IF NOT EXISTS goals (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS reading_calendar (
-    calendar_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id     BIGINT NOT NULL,
-    reading_date DATE NOT NULL,
-    pages_read   INT DEFAULT 0,
+    calendar_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id       BIGINT NOT NULL,
+    reading_date  DATE NOT NULL,
+    pages_read    INT DEFAULT 0,
     goal_achieved TINYINT(1) DEFAULT 0,
     progress_note VARCHAR(255),
     UNIQUE KEY uq_user_date (user_id, reading_date),
@@ -130,9 +128,9 @@ CREATE TABLE IF NOT EXISTS reading_calendar (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS rankings (
-    ranking_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id      BIGINT NOT NULL,
-    ranking_type ENUM('BOOK_COUNT','GOAL_STREAK','CHALLENGE_WINS') NOT NULL,
+    ranking_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id       BIGINT NOT NULL,
+    ranking_type  ENUM('BOOK_COUNT','GOAL_STREAK','CHALLENGE_WINS') NOT NULL,
     rank_position INT NOT NULL,
     value         INT NOT NULL,
     calculated_at DATETIME NOT NULL,
@@ -167,17 +165,40 @@ CREATE TABLE IF NOT EXISTS challenge_participants (
 
 -- 7. 커뮤니티
 CREATE TABLE IF NOT EXISTS community_posts (
-    post_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id    BIGINT NOT NULL,
-    book_id    BIGINT,
-    post_type  ENUM('QUIZ','POLL','DISCUSSION') NOT NULL,
-    title      VARCHAR(150) NOT NULL,
-    content    TEXT NOT NULL,
+    post_id      BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id      BIGINT NOT NULL,
+    book_id      BIGINT,
+    post_type    ENUM('QUIZ','POLL','DISCUSSION') NOT NULL,
+    title        VARCHAR(150) NOT NULL,
+    content      TEXT NOT NULL,
     is_published TINYINT(1) DEFAULT 1,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at   DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- 7-1. 퀴즈 / 투표 객관식 선택지
+CREATE TABLE IF NOT EXISTS post_options (
+    option_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
+    post_id      BIGINT NOT NULL,
+    option_text  VARCHAR(255) NOT NULL,
+    is_correct   TINYINT(1) DEFAULT 0,   -- QUIZ 정답 여부 (POLL은 사용 안 해도 됨)
+    option_order INT DEFAULT 0,
+    FOREIGN KEY (post_id) REFERENCES community_posts(post_id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- 7-2. 퀴즈 / 투표 응답
+CREATE TABLE IF NOT EXISTS post_answers (
+    answer_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
+    post_id     BIGINT NOT NULL,
+    user_id     BIGINT NOT NULL,
+    option_id   BIGINT NOT NULL,
+    answered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_post_user (post_id, user_id), -- 한 게시글당 한 번만 응답 (단일 선택 기준)
+    FOREIGN KEY (post_id)   REFERENCES community_posts(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id)   REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (option_id) REFERENCES post_options(option_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS comments (
@@ -191,7 +212,7 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 8. 친구 관계 (대칭성 보완)
+-- 8. 친구 관계 (대칭성)
 CREATE TABLE IF NOT EXISTS friends (
     friendship_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     requester_id  BIGINT NOT NULL,
@@ -208,13 +229,15 @@ CREATE TABLE IF NOT EXISTS friends (
 
 -- 9. 알림 & 공지
 CREATE TABLE IF NOT EXISTS notifications (
-    notification_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id         BIGINT NOT NULL,
-    category        ENUM('SYSTEM','FRIEND','CHALLENGE','COMMUNITY') NOT NULL,
-    message         VARCHAR(255) NOT NULL,
-    is_read         TINYINT(1) DEFAULT 0,
-    created_at      DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    notification_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id            BIGINT NOT NULL,           -- 알림 받는 사람
+    ref_friendship_id  BIGINT NULL,               -- 친구 요청 알림일 때만 사용
+    category           ENUM('SYSTEM','FRIEND','CHALLENGE','COMMUNITY') NOT NULL,
+    message            VARCHAR(255) NOT NULL,
+    is_read            TINYINT(1) DEFAULT 0,
+    created_at         DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (ref_friendship_id) REFERENCES friends(friendship_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS announcements (
@@ -236,14 +259,13 @@ CREATE TABLE IF NOT EXISTS search_history (
 ) ENGINE=InnoDB;
 
 -- Indexes
-CREATE INDEX idx_books_title ON books (title);
-CREATE INDEX idx_books_category ON books (category);
-CREATE INDEX idx_records_user ON reading_records (user_id);
-CREATE INDEX idx_records_book ON reading_records (book_id);
-CREATE INDEX idx_posts_type ON community_posts (post_type);
+CREATE INDEX idx_books_title        ON books (title);
+CREATE INDEX idx_books_category     ON books (category);
+CREATE INDEX idx_records_user       ON reading_records (user_id);
+CREATE INDEX idx_records_book       ON reading_records (book_id);
+CREATE INDEX idx_posts_type         ON community_posts (post_type);
 CREATE INDEX idx_notifications_user ON notifications (user_id, is_read);
 
-
-
-
-
+-- 퀴즈/투표 관련 인덱스
+CREATE INDEX idx_post_options_post_id   ON post_options (post_id);
+CREATE INDEX idx_post_answers_post_user ON post_answers (post_id, user_id);
