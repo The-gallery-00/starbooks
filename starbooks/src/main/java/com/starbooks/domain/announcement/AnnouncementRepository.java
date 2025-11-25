@@ -1,0 +1,7 @@
+// com.starbooks.domain.announcement.AnnouncementRepository
+package com.starbooks.domain.announcement;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
+}
