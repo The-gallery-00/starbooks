@@ -1,6 +1,0 @@
-package java.starbooks.src.main.java.com.starbooks.domain.notification;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface NotificationRepository extends JpaRepository<Notification, Long> {
-}
