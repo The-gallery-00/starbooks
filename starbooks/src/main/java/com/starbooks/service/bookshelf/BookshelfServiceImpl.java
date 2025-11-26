@@ -1,10 +1,11 @@
-// com.starbooks.service.bookshelf.BookshelfServiceImpl.java
 package com.starbooks.service.bookshelf;
 
 import com.starbooks.domain.book.Book;
+import com.starbooks.domain.book.BookRepository;
 import com.starbooks.domain.bookshelf.Bookshelf;
 import com.starbooks.domain.bookshelf.BookshelfBook;
 import com.starbooks.domain.bookshelf.BookshelfBookId;
+import com.starbooks.domain.bookshelf.BookshelfBookRepository;
 import com.starbooks.domain.bookshelf.BookshelfRepository;
 import com.starbooks.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import java.time.LocalDateTime;
 public class BookshelfServiceImpl implements BookshelfService {
 
     private final BookshelfRepository repository;
+    private final BookRepository bookRepository;                      // ★ 추가
+    private final BookshelfBookRepository bookshelfBookRepository;    // ★ 추가
 
     @Override
     public Bookshelf create(Bookshelf shelf) {
@@ -51,5 +54,4 @@ public class BookshelfServiceImpl implements BookshelfService {
 
         return bookshelfBookRepository.save(bookshelfBook);
     }
-
 }
