@@ -41,12 +41,19 @@ public class BookshelfController {
     }
 
     @PostMapping("/add-book")
-    public ResponseEntity<?> addBook(@RequestBody BookshelfBookRequestDto dto) {
+    public ResponseEntity<BookshelfBookResponseDto> addBook(@RequestBody BookshelfBookRequestDto dto) {
 
         BookshelfBook saved = service.addBook(dto.getShelfId(), dto.getBookId());
 
-        return ResponseEntity.ok("Book added to shelf successfully!");
+        return ResponseEntity.ok(
+                BookshelfBookResponseDto.builder()
+                        .shelfId(saved.getBookshelf().getShelfId())
+                        .bookId(saved.getBook().getBookId())
+                        .addedAt(saved.getAddedAt())
+                        .build()
+        );
     }
+
 
 
     @GetMapping("/{id}")
