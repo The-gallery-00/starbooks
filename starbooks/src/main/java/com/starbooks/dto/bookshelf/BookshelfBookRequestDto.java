@@ -1,15 +1,12 @@
-// src/main/java/com/starbooks/dto/bookshelf/BookshelfBookRequestDto.java
 package com.starbooks.dto.bookshelf;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class BookshelfBookRequestDto {
 
-    private Long shelfId;
-    private Long bookId;
+    private Long shelfId;   // 어떤 서재인지
+    private Long bookId;    // 어떤 책인지
 }
