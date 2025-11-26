@@ -1,10 +1,16 @@
 // com.starbooks.service.bookshelf.BookshelfServiceImpl.java
 package com.starbooks.service.bookshelf;
 
+import com.starbooks.domain.book.Book;
 import com.starbooks.domain.bookshelf.Bookshelf;
+import com.starbooks.domain.bookshelf.BookshelfBook;
+import com.starbooks.domain.bookshelf.BookshelfBookId;
 import com.starbooks.domain.bookshelf.BookshelfRepository;
+import com.starbooks.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
