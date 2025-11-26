@@ -26,4 +26,24 @@ public class BookshelfServiceImpl implements BookshelfService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public BookshelfBook addBook(Long shelfId, Long bookId) {
+
+        Bookshelf shelf = repository.findById(shelfId)
+                .orElseThrow(() -> new NotFoundException("Bookshelf not found"));
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException("Book not found"));
+
+        BookshelfBook bookshelfBook = BookshelfBook.builder()
+                .id(new BookshelfBookId(shelfId, bookId))
+                .bookshelf(shelf)
+                .book(book)
+                .addedAt(LocalDateTime.now())
+                .build();
+
+        return bookshelfBookRepository.save(bookshelfBook);
+    }
+
 }
