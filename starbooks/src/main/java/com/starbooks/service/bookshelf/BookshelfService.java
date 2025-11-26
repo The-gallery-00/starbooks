@@ -2,6 +2,7 @@
 package com.starbooks.service.bookshelf;
 
 import com.starbooks.domain.bookshelf.Bookshelf;
+import com.starbooks.domain.bookshelf.BookshelfBook;
 
 public interface BookshelfService {
     Bookshelf create(Bookshelf shelf);
