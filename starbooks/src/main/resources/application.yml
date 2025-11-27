@@ -47,7 +47,7 @@ springdoc:
 jwt:
   issuer: starbooks-app
   secret: "THIS_IS_TEMP_JWT_SECRET_KEY_CHANGE_IT_PRODUCTION_!!!"   # ⭐👉 꼭! 나중에 더 길고 복잡하게 변경할 것
-  expiration: 3600000     # 1시간 (ms)
+  expiration-ms: 3600000     # 1시간 (ms)
 
 # Spring Security 기본 설정
 security:

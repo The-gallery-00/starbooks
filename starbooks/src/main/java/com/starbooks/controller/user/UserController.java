@@ -21,6 +21,7 @@ public class UserController {
                 .email(dto.getEmail())
                 .passwordHash(dto.getPassword()) // 실무에선 Bcrypt 필수
                 .nickname(dto.getNickname())
+                .role(User.Role.USER)
                 .build();
 
         User saved = userService.create(user);
