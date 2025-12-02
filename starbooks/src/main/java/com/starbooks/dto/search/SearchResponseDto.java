@@ -12,6 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class SearchResponseDto {
     private List<Book> books;
-    private List<User> users;
     private List<CommunityPost> posts;
 }

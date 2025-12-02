@@ -17,14 +17,12 @@ import java.util.List;
 public class SearchService {
 
     private final BookRepository bookRepository;
-    private final UserRepository userRepository;
     private final CommunityPostRepository communityPostRepository;
 
     public SearchResponseDto searchAll(String keyword) {
         List<Book> books = bookRepository.findByTitleContaining(keyword);
-        List<User> users = userRepository.findByNicknameContaining(keyword);
         List<CommunityPost> posts = communityPostRepository.findByTitleContaining(keyword);
 
-        return new SearchResponseDto(books, users, posts);
+        return new SearchResponseDto(books, posts);
     }
 }
