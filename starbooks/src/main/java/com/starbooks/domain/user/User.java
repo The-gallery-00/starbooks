@@ -3,6 +3,8 @@ package com.starbooks.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -45,11 +47,14 @@ public class User {
     @Column(name = "is_active", columnDefinition = "TINYINT(1)")
     private Boolean isActive;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
 
     public enum Role {
         USER,
