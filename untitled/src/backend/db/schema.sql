@@ -258,6 +258,18 @@ CREATE TABLE IF NOT EXISTS search_history (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
+-- 11. 도서 찜하기
+CREATE TABLE favorites (
+    favorite_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    book_id BIGINT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, book_id), -- 중복 찜 방지
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
+);
+
+
 -- Indexes
 CREATE INDEX idx_books_title        ON books (title);
 CREATE INDEX idx_books_category     ON books (category);
