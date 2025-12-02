@@ -23,6 +23,8 @@ public class CommunityPostServiceImpl implements CommunityPostService {
 
     @Override
     public void delete(Long id) {
-        repo.deleteById(id);
+        CommunityPost post = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("게시글 없음"));
+        repo.delete(post);
     }
 }
