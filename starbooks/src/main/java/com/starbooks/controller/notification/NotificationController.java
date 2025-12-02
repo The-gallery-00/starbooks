@@ -1,11 +1,16 @@
+// com.starbooks.controller.notification.NotificationController
 package com.starbooks.controller.notification;
 
-import com.starbooks.domain.notification.*;
-import com.starbooks.dto.notification.*;
+import com.starbooks.domain.notification.Notification;
+import com.starbooks.domain.user.User;
+import com.starbooks.dto.notification.NotificationResponseDto;
 import com.starbooks.service.notification.NotificationService;
+import com.starbooks.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/notifications")
@@ -13,24 +18,29 @@ import org.springframework.web.bind.annotation.*;
 public class NotificationController {
 
     private final NotificationService service;
+    private final UserRepository userRepository;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<NotificationResponseDto> get(@PathVariable Long id) {
+    // 특정 유저의 알림 목록 조회
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<NotificationResponseDto>> getUserNotifications(
+            @PathVariable Long userId
+    ) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Notification n = service.save(
-                service.save(null) // dummy to satisfy compiler (skip)
-        );
+        List<Notification> notifications = service.getUserNotifications(user);
 
-        return ResponseEntity.ok(
-                NotificationResponseDto.builder()
-                        .notificationId(n.getNotificationId())
-                        .userId(n.getUser().getUserId())
-                        .refFriendshipId(n.getRefFriendship() != null ? n.getRefFriendship().getFriendshipId() : null)
-                        .category(n.getCategory())
-                        .message(n.getMessage())
-                        .isRead(n.getIsRead())
-                        .createdAt(n.getCreatedAt())
-                        .build()
-        );
+        List<NotificationResponseDto> dtoList = notifications.stream()
+                .map(NotificationResponseDto::from)
+                .toList();
+
+        return ResponseEntity.ok(dtoList);
+    }
+
+    // 알림 읽음 처리
+    @PatchMapping("/{id}/read")
+    public ResponseEntity<Void> markRead(@PathVariable Long id) {
+        service.markRead(id);
+        return ResponseEntity.ok().build();
     }
 }
