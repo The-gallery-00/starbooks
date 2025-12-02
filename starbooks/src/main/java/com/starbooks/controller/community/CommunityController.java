@@ -67,4 +67,12 @@ public class CommunityController {
                         .build()
         );
     }
+
+    // community 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
