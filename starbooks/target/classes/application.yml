@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/starbooks?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root            # 👉 여기 본인 MySQL 아이디로 수정 (보통 root)
-    password:    # ⭐👉 반드시 본인의 MySQL 비밀번호로 변경
+    password: REMOVE_MYSQL_PASSWORD # ⭐👉 반드시 본인의 MySQL 비밀번호로 변경
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -47,7 +47,7 @@ springdoc:
 jwt:
   issuer: starbooks-app
   secret: "THIS_IS_TEMP_JWT_SECRET_KEY_CHANGE_IT_PRODUCTION_!!!"   # ⭐👉 꼭! 나중에 더 길고 복잡하게 변경할 것
-  expiration: 3600000     # 1시간 (ms)
+  expiration-ms: 3600000     # 1시간 (ms)
 
 # Spring Security 기본 설정
 security:
