@@ -1,0 +1,55 @@
+.aerm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aerm-modal-box {
+  background: white;
+  width: 420px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.aerm-modal-box h2 {
+  margin-bottom: 20px;
+}
+
+.aerm-modal-box label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.aerm-modal-box input,
+.aerm-modal-box textarea,
+.aerm-modal-box select {
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.aerm-modal-buttons {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.aerm-cancel-btn,
+.aerm-submit-btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-left: 10px;
+}
+
+.aerm-submit-btn {
+  background: #4a7dff;
+  color: white;
+}

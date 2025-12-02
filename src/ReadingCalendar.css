@@ -1,0 +1,57 @@
+.calendar-section {
+  background: #fff;
+  padding: 20px 22px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-top: 20px;
+}
+
+.calendar-section h3 {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-bottom: 23px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.calendar-display {
+  padding-top: 20px; /* 캘린더와 헤더 간격 */
+}
+
+.react-calendar {
+  width: 100%;
+  border: none;
+  font-family: inherit;
+}
+
+/* 하이라이트된 날짜 */
+.react-calendar .highlight {
+  background-color: #8FABD4;
+  color: white;
+  border-radius: 50%;
+}
+
+/* 오늘 날짜 */
+.react-calendar .today {
+  background-color: #FFE08F;
+  color: black;
+}
+
+/* 요일 글자 크기 및 정렬 */
+.react-calendar__month-view__weekdays__weekday abbr {
+  font-weight: 600;
+  color: #333;
+}
+
+/* 캘린더 기본 스타일 조정 */
+.react-calendar {
+  width: 100%;
+  border: none;
+  font-family: inherit;
+}
+
+.calendar-display {
+  padding-top: 20px;
+}
+

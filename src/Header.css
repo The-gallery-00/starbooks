@@ -1,0 +1,146 @@
+.h-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e8ddd0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  width: 100%;
+}
+
+.h-top-bar {
+  background-color: #f5f1eb;
+  border-bottom: 1px solid #e8ddd0;
+}
+
+.h-top-bar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.h-top-bar-menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.25rem;
+  padding: 0.45rem 0;
+}
+
+.h-top-bar-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  color: #6d4c41;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 0.25s ease;
+}
+
+.h-top-bar-btn:hover {
+  color: #3e2723;
+}
+
+.h-auth-link {
+  text-decoration: none; 
+  color: #6d4c41;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.h-auth-link:hover {
+  text-decoration: underline;
+}
+
+.h-search {
+  display: flex;
+  align-items: center;
+}
+
+.h-search input {
+  width: 0;
+  padding: 0;
+  border: 1px solid #e8ddd0;
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  margin-right: 5px;
+  background-color: #ffffff;
+  color: #3e2723;
+}
+
+.h-search input:not(.open) {
+  display: none;
+}
+.h-search input.open {
+  width: 150px;
+  padding: 5px 10px;
+}
+
+.h-search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6d4c41;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.h-search-icon {
+  font-size: 1.2rem;
+}
+
+.h-divider {
+  color: #6d4c41;
+  font-size: 0.9rem;
+}
+
+.main-header {
+  background-color: #ffffff;
+}
+
+.main-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.25rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  width: 105px;
+  height: 90px;
+}
+
+.h-nav {
+  display: flex;
+  gap: 130px;
+  align-items: center;
+  margin-left: auto; 
+}
+
+.h-nav a {
+  display: flex;            
+  align-items: center;        
+  justify-content: center;     
+  padding: 8px 16px;          
+  text-decoration: none;
+  font-size: large;
+  font-weight: 500;
+  color: #3e2723;
+  border-radius: 6px;         
+  transition: all 0.2s ease;
+}
+
+.h-nav a:hover {
+  background-color: #f5f1eb;   
+  color: #a67c52;           
+}

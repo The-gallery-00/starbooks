@@ -1,0 +1,358 @@
+/* 컨테이너 */
+.mbd-book-detail-info-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 도서 카드 */
+.mbd-book-card {
+  display: flex;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+/* 도서 표지 */
+.mbd-book-cover {
+  width: 180px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 6px;
+  /* background-color: #8FABD4; */
+}
+
+/* 도서 정보 */
+.mbd-book-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 제목 + 구매 버튼 */
+.mbd-title-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mbd-title-line h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* 구매 버튼 */
+.mbd-buy-btn {
+  width: 100px;
+  height: 36px;
+  background-color: #57433D;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mbd-buy-btn:hover {
+  opacity: 0.7;
+}
+
+/* 저자, 출판사 */
+.mbd-author,
+.mbd-publisher {
+  font-size: 16px;
+  color: #555;
+  margin: 4px 0;
+}
+
+/* 줄거리 */
+.mbd-description {
+  max-height: 4.5em;
+  overflow: hidden;
+  line-height: 1.5em;
+  transition: max-height 0.3s ease;
+}
+
+.mbd-description.open {
+  max-height: 100em;
+}
+
+.mbd-toggle-more {
+  display: block;
+  text-align: right;
+  color: #57433D;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mbd-toggle-more:hover {
+  text-decoration: underline;
+}
+
+
+/* 버튼 그룹 */
+.mbd-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mbd-buttons button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mbd-buttons button.reading {
+  background-color: #A98A6A;
+  color: white;
+  border-color: #A98A6A;
+}
+
+.mbd-buttons button.wished {
+  background-color: #A98A6A;
+  color: white;
+  border-color: #A98A6A;
+}
+
+.mbd-buttons button:hover {
+  opacity: 0.8;
+}
+
+/* 진행률 및 기록 섹션 */
+/* 진행률 및 기록 섹션 */
+.mbd-progress-record-section {
+  margin-bottom: 30px;
+}
+
+.mbd-progress-record-section h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+/* 전체 진행률 바 컨테이너 */
+.mbd-progress-bar {
+  width: 100%;
+  height: 16px; /* 높이 증가 */
+  background-color: #e0e0e0; /* 연한 회색 배경 */
+  border-radius: 12px; /* 둥근 모서리 */
+  overflow: hidden;
+  margin-bottom: 8px;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); /* 안쪽 그림자 */
+}
+
+/* 실제 진행률 */
+.mbd-progress {
+  height: 100%;
+  width: 0%; /* JS에서 width 적용 */
+  background: linear-gradient(90deg, #A98A6A, #57433D); /* 그라데이션 */
+  border-radius: 12px;
+  transition: width 0.5s ease;
+}
+
+/* 퍼센트 표시 */
+.mbd-progress-bar::after {
+  content: attr(data-progress) "%";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: bold;
+  color: #A98A6A;
+}
+
+
+.mbd-record-input {
+  margin-top: 10px;
+}
+
+.mbd-record-input textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: none;
+  margin-bottom: 6px;
+}
+
+.mbd-record-input button {
+  margin-right: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #57433D;
+  color: #fff;
+}
+
+.mbd-my-records {
+  margin-top: 12px;
+}
+
+.mbd-record-item {
+  background-color: #f9f9f9;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #333;
+}
+
+/* 사용자 도서평 */
+.mbd-user-reviews h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.mbd-review {
+  display: flex;
+  gap: 10px;
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.mbd-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 4px; 
+}
+
+.mbd-review-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0px;
+}
+
+.mbd-review-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mbd-username {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mbd-rating {
+  color: #f5a623;
+  font-size: 14px;
+}
+
+.mbd-text {
+  font-size: 14px;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.mbd-date {
+  font-size: 12px;
+  color: #999;
+  margin: 5px 0 0 0;
+}
+
+/* 페이지네이션 */
+.mbd-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.mbd-page-btn,
+.mbd-page-number {
+  padding: 6px 12px;
+  border: 1px solid #A98A6A;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.mbd-page-number.active {
+  background-color: #57433D;
+  color: #fff;
+  border-color: #57433D;
+}
+
+.mbd-page-btn:hover,
+.mbd-page-number:hover {
+  background: #A98A6A;
+}
+
+/* 모달 */
+.mbd-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.mbd-modal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+
+.mbd-modal button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #f5f5f5;
+}
+
+.mbd-modal .mbd-close-btn {
+  background: #57433D;
+  color: white
+}
+
+.mbd-modal button:hover, .mbd-close-btn:hover {
+    opacity: 0.7;
+}
+
+.store-modal button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.store-modal h4 {
+  margin-bottom: 15px;
+  text-align: center;
+}

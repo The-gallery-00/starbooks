@@ -1,0 +1,140 @@
+/* GlobalSearch.css */
+
+.search-result-page {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.search-summary-text {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.result-count {
+  font-weight: bold;
+  color: #2a7ae2;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 10px 0 20px;
+}
+
+.category-section {
+  margin-bottom: 30px;
+}
+
+.category-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.no-results-message {
+  color: #888;
+  font-style: italic;
+}
+
+/* ===== 도서 카드 ===== */
+.book-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.book-card {
+  width: 120px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  text-align: center;
+  padding: 10px;
+  transition: transform 0.2s;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+}
+
+.book-cover {
+  width: 80px;
+  height: 120px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.book-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.book-author {
+  font-size: 12px;
+  color: #555;
+}
+
+/* ===== 챌린지 카드 ===== */
+.challenge-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.challenge-card {
+  flex: 1 1 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.challenge-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.challenge-desc {
+  font-size: 12px;
+  color: #555;
+}
+
+/* ===== 커뮤니티 카드 ===== */
+.community-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.community-card {
+  flex: 1 1 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.community-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.community-desc {
+  font-size: 12px;
+  color: #555;
+}
+
+/* ===== 로딩 / 검색어 없음 ===== */
+.loading-text,
+.no-query-text {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 50px;
+}
