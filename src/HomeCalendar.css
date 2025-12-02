@@ -1,0 +1,104 @@
+/* 전체 섹션 */
+.hcl-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e8ddd0;
+}
+
+/* 헤더 */
+.hcl-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.hcl-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3e2723;
+}
+
+/* 월 선택 버튼 */
+.hcl-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hcl-btn {
+  background: #f5f1eb;
+  border: 1px solid #d4a574;
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #8d6e63;
+  transition: all 0.2s ease;
+}
+
+.hcl-btn:hover {
+  background: #d4a574;
+  color: #fff;
+}
+
+.hcl-month {
+  font-weight: 500;
+  color: #3e2723;
+}
+
+/* 요일 표시 */
+.hcl-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.hcl-weekday {
+  font-size: 0.75rem;
+  color: #6d4c41;
+}
+
+/* 달력 그리드 */
+.hcl-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.3rem;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.hcl-day {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background-color: #faf5f0;
+  font-size: 0.9rem;
+  color: #3e2723;
+  transition: background 0.2s;
+}
+
+.hcl-empty {
+  background: transparent;
+}
+
+.hcl-today {
+  border: 2px solid #d4a574; 
+}
+
+.hcl-day-number {
+  z-index: 1;
+}
+
+.hcl-achieved {
+  background-color: #d4a574; 
+  color: white;
+}
+
+

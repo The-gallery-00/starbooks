@@ -1,0 +1,95 @@
+/* 전체 앱 배경 */
+.home-app {
+  min-height: 100vh;
+  background-color: #faf8f5; /* 기존 var(--color-bg-primary) */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  color: #3e2723; /* var(--color-text-primary) */
+}
+
+/* Hero Section */
+.home-hero-section {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.home-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-hero-content {
+  text-align: center;
+  color: white;
+  padding: 0 1rem;
+}
+
+.home-hero-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.home-hero-subtitle {
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+/* Main Content */
+.home-main-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.home-content-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+/* Columns */
+.home-left-column,
+.home-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* 반응형 */
+@media (min-width: 1024px) {
+  .home-content-container {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero-section {
+    height: 200px;
+  }
+
+  .home-main-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .home-content-container {
+    gap: 1.5rem;
+  }
+
+  .home-left-column,
+  .home-right-column {
+    gap: 1.5rem;
+  }
+}

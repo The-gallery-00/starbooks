@@ -1,0 +1,39 @@
+/* Hero처럼 Breadcrumb wrapper */
+.breadcrumb-wrapper {
+  position: relative;
+  height:70px; /* Hero보다 살짝 작게 */
+  background-image: url('./BookShelfImage.png'); /* 배경 이미지 */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center; /* 수직 중앙 */
+  padding: 0 1rem;
+}
+
+.breadcrumb-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6)); /* 오버레이 */
+  z-index: 1;
+}
+
+.breadcrumb {
+  position: relative;
+  z-index: 2; /* 오버레이 위 */
+  color: white;
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.breadcrumb a {
+  color: white;
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  color: #ffd700; /* 마지막 항목 강조 색 */
+}

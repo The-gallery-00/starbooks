@@ -1,0 +1,168 @@
+.add-post-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Noto Sans KR', sans-serif;
+  
+}
+
+.add-post-container h2 {
+  text-align:left;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* 탭 스타일 */
+.ap-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.ap-tabs button {
+  flex: 1;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s, border-bottom 0.2s;
+  color: #555;
+  border-bottom: 2px solid transparent;
+}
+
+.ap-tabs button.active {
+  color: #57433D;
+  border-bottom: 2px solid #57433D;
+  font-weight: 500;
+}
+
+.ap-tabs button:hover {
+  color: #57433D;
+}
+
+/* 폼 스타일 */
+.ap-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #444;
+  margin-top: 15px;
+}
+
+.ap-form input,
+.ap-form textarea {
+  width: 95%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: none;
+  transition: border 0.2s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.ap-content-textarea {
+  height: 180px;
+  width: 95%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: none;
+  transition: border 0.2s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.ap-form input:focus,
+.ap-form textarea:focus {
+  border-color: #A98A6A;
+  outline: none;
+}
+
+/* 선택지 추가 버튼 */
+.ap-add-choice-btn {
+  margin-top: 5px;
+  padding: 6px 12px;
+  font-size: 13px;
+  background-color: #57433D;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.ap-add-choice-btn:hover {
+  background-color: #A98A6A;
+}
+
+/* 퀴즈 정답 입력 */
+.ap-quiz-answer-select {
+  width: 95%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 버튼 스타일 */
+.ap-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.ap-form-buttons button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.ap-form-buttons button:first-child {
+  background-color: #F4F4F4;
+  color: #555;
+}
+
+.ap-form-buttons button:first-child:hover {
+  background-color: #e2e2e2;
+}
+
+.ap-form-buttons button:last-child {
+  background-color: #57433D;
+  color: #fff;
+}
+
+.ap-form-buttons button:last-child:hover {
+  background-color: #A98A6A;
+}
+
+/* 반응형 */
+@media (max-width: 640px) {
+  .ap-add-post-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .ap-tabs button {
+    font-size: 14px;
+  }
+
+  .ap-form-buttons {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+}
