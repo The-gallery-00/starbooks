@@ -101,4 +101,29 @@ public class UserController {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // 일일 목표 페이지 설정/수정
+    @PatchMapping("/{id}/daily-goal")
+    public ResponseEntity<UserResponseDto> updateDailyGoal(
+            @PathVariable Long id,
+            @RequestParam Integer goalPages
+    ) {
+        User updated = userService.updateDailyPageGoal(id, goalPages);
+
+        return ResponseEntity.ok(
+                UserResponseDto.builder()
+                        .userId(updated.getUserId())
+                        .username(updated.getUsername())
+                        .email(updated.getEmail())
+                        .nickname(updated.getNickname())
+                        .role(updated.getRole())
+                        .profileImage(updated.getProfileImage())
+                        .intro(updated.getIntro())
+                        .isActive(updated.getIsActive())
+                        .createdAt(updated.getCreatedAt())
+                        .dailyPageGoal(updated.getDailyPageGoal())
+                        .build()
+        );
+    }
+
 }

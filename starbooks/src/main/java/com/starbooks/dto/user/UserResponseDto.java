@@ -22,4 +22,5 @@ public class UserResponseDto {
     private String intro;
     private Boolean isActive;
     private LocalDateTime createdAt;
+    private Integer dailyPageGoal;
 }
