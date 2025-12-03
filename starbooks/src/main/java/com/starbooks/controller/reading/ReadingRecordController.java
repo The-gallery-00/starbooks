@@ -4,6 +4,7 @@ import com.starbooks.domain.book.Book;
 import com.starbooks.domain.user.User;
 import com.starbooks.domain.reading.*;
 import com.starbooks.dto.reading.*;
+import com.starbooks.service.reading.ReadingCalendarService;
 import com.starbooks.service.reading.ReadingRecordService;
 import com.starbooks.domain.book.BookRepository;
 import com.starbooks.domain.user.UserRepository;
@@ -20,6 +21,7 @@ public class ReadingRecordController {
     private final UserRepository userRepo;
     private final BookRepository bookRepo;
     private final ReadingRecordService readingRecordService;
+    private final ReadingCalendarService readingCalendarService;
 
     @PostMapping
     public ResponseEntity<ReadingRecordResponseDto> create(@RequestBody ReadingRecordRequestDto dto) {
@@ -78,5 +80,23 @@ public class ReadingRecordController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // ⭐ 오늘 읽은 페이지 + 목표 달성 체크 + 캘린더 저장
+    @PatchMapping("/{id}/today-pages")
+    public ResponseEntity<Void> updateTodayPages(
+            @PathVariable Long id,
+            @RequestParam Integer pagesRead
+    ) {
+        ReadingRecord record = service.find(id);
+
+        // 캘린더 갱신
+        readingCalendarService.updateDailyProgress(
+                record.getUser().getUserId(),
+                java.time.LocalDate.now(),
+                pagesRead
+        );
+
+        return ResponseEntity.ok().build();
     }
 }
