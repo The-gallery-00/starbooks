@@ -1,4 +1,3 @@
-// com/starbooks/domain/notification/Notification.java
 package com.starbooks.domain.notification;
 
 import com.starbooks.domain.friend.Friendship;
@@ -27,11 +26,11 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;   // 알림 받는 사람
+    private User user;
 
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "ref_friendship_id")
-    private Friendship refFriendship;  // 친구 요청 알림일 경우
+    private Friendship refFriendship;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -40,9 +39,11 @@ public class Notification {
     @Column(nullable = false, length = 255)
     private String message;
 
+    @Builder.Default
     @Column(name = "is_read", columnDefinition = "TINYINT(1)")
-    private Boolean isRead;
+    private Boolean isRead = false;
 
+    @Builder.Default
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
