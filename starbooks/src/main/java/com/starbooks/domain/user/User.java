@@ -47,6 +47,10 @@ public class User {
     @Column(name = "is_active", columnDefinition = "TINYINT(1)")
     private Boolean isActive;
 
+    @Column(name = "daily_page_goal")
+    private Integer dailyPageGoal;
+
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

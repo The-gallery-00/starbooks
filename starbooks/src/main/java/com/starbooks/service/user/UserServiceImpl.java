@@ -39,6 +39,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateDailyPageGoal(Long userId, Integer goalPages) {
+        User user = findById(userId); // 이미 있는 메서드 재사용
+        user.setDailyPageGoal(goalPages);
+        return userRepository.save(user);
+    }
+
+    @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
