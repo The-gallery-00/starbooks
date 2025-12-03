@@ -26,4 +26,6 @@ public class ReadingRecordResponseDto {
     private LocalDate endDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Integer currentPage;
+
 }

@@ -19,6 +19,7 @@ public class ReadingRecordController {
     private final ReadingRecordService service;
     private final UserRepository userRepo;
     private final BookRepository bookRepo;
+    private final ReadingRecordService readingRecordService;
 
     @PostMapping
     public ResponseEntity<ReadingRecordResponseDto> create(@RequestBody ReadingRecordRequestDto dto) {
