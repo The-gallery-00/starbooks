@@ -22,4 +22,6 @@ public class ReadingRecordRequestDto {
     private Integer progressPercent;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Integer currentPage;
+
 }

@@ -6,6 +6,8 @@ import com.starbooks.domain.reading.ReadingRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReadingRecordServiceImpl implements ReadingRecordService {
@@ -26,4 +28,10 @@ public class ReadingRecordServiceImpl implements ReadingRecordService {
     public void delete(Long id) {
         repo.deleteById(id);
     }
+
+    @Override
+    public List<ReadingRecord> findByUserId(Long userId) {
+        return repo.findByUser_UserId(userId);
+    }
+
 }

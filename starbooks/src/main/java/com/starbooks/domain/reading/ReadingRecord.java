@@ -65,4 +65,8 @@ public class ReadingRecord {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "current_page")
+    private Integer currentPage;
+
 }
