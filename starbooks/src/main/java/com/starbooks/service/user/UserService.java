@@ -15,5 +15,6 @@ public interface UserService {
     boolean isUsernameDuplicate(String username);
     boolean isEmailDuplicate(String email);
     boolean isNicknameDuplicate(String nickname);
+    User updateDailyPageGoal(Long userId, Integer goalPages);
 }
 
