@@ -22,6 +22,12 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
+    private Long jwtUtilExpiration() {
+        // JWT 만료시간(ms) – 지금은 1시간 예시
+        return 3600000L;
+    }
+
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
         if (userRepository.existsByUsername(req.getUsername())) {
@@ -46,22 +52,47 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest req) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.getUsernameOrEmail(), req.getPassword())
+                new UsernamePasswordAuthenticationToken(
+                        req.getUsernameOrEmail(),
+                        req.getPassword()
+                )
         );
 
-        // authenticated -> build token
+        // Spring Security의 UserDetails
         org.springframework.security.core.userdetails.User principal =
                 (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
 
-        String role = principal.getAuthorities().stream().findFirst().map(Object::toString).orElse("ROLE_USER");
+        String loginId = principal.getUsername(); // username 또는 email
+
+        // 🔥 우리 DB의 User 엔티티 조회
+        // usernameOrEmail 로 로그인하니까 둘 다 케이스 처리
+        User user = userRepository.findByUsername(loginId)
+                .orElseGet(() -> userRepository.findByEmail(loginId)
+                        .orElseThrow(() -> new BadRequestException("User not found")));
+
+        String role = principal.getAuthorities().stream()
+                .findFirst()
+                .map(Object::toString)
+                .orElse("ROLE_USER");
+
         String token = jwtUtil.generateToken(principal.getUsername(), role);
 
-        return ResponseEntity.ok(new JwtResponse(token, "Bearer", jwtUtilExpiration()));
+        JwtResponse.UserInfo userInfo = new JwtResponse.UserInfo(
+                user.getUserId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getNickname()
+        );
+
+        JwtResponse response = new JwtResponse(
+                token,
+                "Bearer",
+                jwtUtilExpiration(),
+                userInfo
+        );
+
+        return ResponseEntity.ok(response);
+
     }
 
-    private Long jwtUtilExpiration() {
-        // read expiration from JwtUtil not accessible here; return same property.
-        // better to expose method or use @Value to return jwt expiry ms
-        return 3600000L;
-    }
 }

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
     profile_image   VARCHAR(255),
     intro           VARCHAR(255),
     is_active       TINYINT(1) DEFAULT 1,
+    daily_page_goal INT NULL,
     created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
