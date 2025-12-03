@@ -14,6 +14,21 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/check-username")
+    public ResponseEntity<Boolean> checkUsername(@RequestParam String username) {
+        return ResponseEntity.ok(userService.isUsernameDuplicate(username));
+    }
+
+    @GetMapping("/check-email")
+    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+        return ResponseEntity.ok(userService.isEmailDuplicate(email));
+    }
+
+    @GetMapping("/check-nickname")
+    public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
+        return ResponseEntity.ok(userService.isNicknameDuplicate(nickname));
+    }
+
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDto dto) {
         User user = User.builder()

@@ -11,5 +11,9 @@ public interface UserService {
     List<User> findAll();
     User update(Long id, User user);
     void delete(Long id);
+
+    boolean isUsernameDuplicate(String username);
+    boolean isEmailDuplicate(String email);
+    boolean isNicknameDuplicate(String nickname);
 }
 
