@@ -1,0 +1,116 @@
+/* 모달 오버레이 */
+.add-challenge-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* 모달 컨테이너 */
+.add-challenge-container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.add-challenge-container h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* 폼 영역 (스크롤 가능) */
+.challenge-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.challenge-form label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.challenge-form input,
+.challenge-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+  margin-top: 5px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.challenge-form textarea {
+  min-height: 80px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.ac-goal-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 16px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.ac-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.ac-modal-buttons button {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.ac-modal-buttons button:first-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.ac-modal-buttons button:first-child:hover {
+  background-color: #bbb;
+}
+
+.ac-modal-buttons button:last-child {
+  background-color: #57433D;
+  color: white;
+}
+
+.ac-modal-buttons button:last-child:hover {
+  opacity: 0.9;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+  .add-challenge-container {
+    width: 95%;
+  }
+}

@@ -1,0 +1,48 @@
+/* PageLocation.css */
+
+/* Hero처럼 Breadcrumb wrapper */
+.breadcrumb-wrapper {
+  position: relative;
+  height: 70px;
+  background-image: url('./BookShelfImage.png'); /* 배경 이미지 */
+  background-size: cover;
+  background-position: center;
+  
+  display: flex;
+  align-items: center; /* 수직 중앙 */
+  justify-content: center; /* [추가] 내부 콘텐츠(breadcrumb)를 가로 중앙에 배치 */
+}
+
+.breadcrumb-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+  z-index: 1;
+}
+
+.breadcrumb {
+  position: relative;
+  z-index: 2;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+
+  /* [수정] 메인 콘텐츠 너비에 맞춰 텍스트 시작 위치 조정 */
+  width: 100%;
+  max-width: 1200px; /* 다른 페이지들의 컨텐츠 폭과 동일하게 설정 (예: 1000px ~ 1200px) */
+  padding: 0 20px;   /* 모바일 등 좁은 화면에서의 여백 */
+  box-sizing: border-box;
+}
+
+.breadcrumb a {
+  color: white;
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  color: #ffd700; /* 마지막 항목 강조 색 */
+}

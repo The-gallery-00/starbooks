@@ -1,0 +1,126 @@
+/* 전체 섹션 */
+.hcm-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e8ddd0;
+}
+
+/* 헤더 */
+.hcm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.hcm-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hcm-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3e2723;
+}
+
+/* 더보기 버튼 */
+.hcm-more-btn {
+  background: #f5f1eb;
+  border: 1px solid #d4a574;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #8d6e63;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hcm-more-btn:hover {
+  background: #d4a574;
+  color: #fff;
+}
+
+/* 게시물 리스트 */
+.hcm-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 게시물 카드 */
+.hcm-post {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e8ddd0;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.hcm-post:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* 게시물 헤더 */
+.hcm-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.hcm-author-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hcm-author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f5f1eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.hcm-author-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.hcm-author-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #3e2723;
+}
+
+.hcm-post-time {
+  font-size: 0.75rem;
+  color: #6d4c41;
+}
+
+/* 카테고리 */
+.hcm-post-category {
+  font-size: 0.75rem;
+  color: #8d6e63;
+  background: #f5f1eb;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+}
+
+/* 게시물 제목 */
+.hcm-post-title {
+  font-size: 0.875rem;
+  color: #3e2723;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

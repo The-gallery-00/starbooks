@@ -1,0 +1,111 @@
+/* 모달 오버레이 */
+.aerm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* 모달 컨테이너 */
+.aerm-modal-box {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.aerm-modal-box h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* 폼 영역 (스크롤 가능) */
+.aerm-modal-box label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-top: 10px;
+}
+
+.aerm-modal-box input,
+.aerm-modal-box textarea,
+.aerm-modal-box select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.aerm-modal-box textarea {
+  min-height: 80px;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.aerm-char-counter {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+  margin-top: 2px;
+}
+
+
+.aerm-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.aerm-cancel-btn,
+.aerm-submit-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.aerm-cancel-btn {
+  background-color: #ccc;
+  color: #333;
+}
+
+.aerm-cancel-btn:hover {
+  background-color: #bbb;
+}
+
+.aerm-submit-btn {
+  background-color: #57433D;
+  color: white;
+}
+
+.aerm-submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+  .aerm-modal-box {
+    width: 95%;
+  }
+}
