@@ -6,6 +6,7 @@ import com.starbooks.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,6 +17,16 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Notification save(Notification n) {
+
+        if (n.getCreatedAt() == null) {
+            n.setCreatedAt(LocalDateTime.now());
+        }
+
+        // 새 알림이면 기본값 false
+        if (n.getIsRead() == null) {
+            n.setIsRead(false);
+        }
+
         return repo.save(n);
     }
 
