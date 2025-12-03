@@ -1,0 +1,46 @@
+.challenge-ranking-container {
+    max-width: 1200px;
+    margin: 10px auto;
+    padding: 20px;
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+}
+
+.cr-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #eee;
+
+}
+
+.cr-tab-item {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s;
+    position: relative;
+    outline: none;
+}
+
+.cr-tab-item.active {
+    color: #57433D;
+    font-weight: bold;
+}
+
+.cr-tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #57433D;
+}
+
+.cr-tab-content {
+    padding: 20px 0;
+}

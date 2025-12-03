@@ -1,0 +1,226 @@
+.myrecords-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+/* 헤더 */
+.myrecords-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.myrecords-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.myrecords-header button {
+  background-color: #57433D;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.myrecords-header button:hover {
+  opacity: 0.8;
+}
+
+/* 기록 없을 때 */
+.mr-record-empty {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+}
+
+/* 카드 그리드 */
+.mr-records-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 카드 스타일 통일 */
+.mr-record-card {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 제목 + 액션 버튼 */
+.mr-record-title-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mr-record-book-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 수정/삭제 버튼 */
+.mr-record-actions {
+  display: flex;
+  gap: 8px; /* 버튼 사이 간격 */
+}
+
+.mr-record-actions button {
+  padding: 5px 12px; /* 클릭 영역 확보 */
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* 수정 버튼 */
+.mr-edit-btn {
+  color: #57433D; /* 진한 브라운 텍스트 */
+  background-color: #D1B79A; /* 밝은 브라운 배경 */
+}
+.mr-edit-btn:hover {
+  opacity: 0.8;
+}
+
+/* 삭제 버튼 */
+.mr-delete-btn {
+  color: #fff; /* 텍스트는 흰색 */
+  background-color: #A98A6A; /* 중간 브라운 배경 */
+}
+.mr-delete-btn:hover {
+  opacity: 0.8;
+}
+
+.mr-record-empty {
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  color: #57433D; /* 진한 브라운 계열 */
+  background-color: #F5F1EB; /* 연한 배경으로 구분 */
+  border: 1px dashed #D1B79A; /* 테두리로 영역 강조 */
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+
+/* 섹션별 내용 */
+.record-section-title { font-weight: 500; margin-top: 8px; margin-bottom: 2px; }
+.mr-record-review, .mr-record-rating, .mr-record-passage { color: #444; line-height: 1.5; }
+
+/* 추천 별점 */
+.mr-record-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: #f5a623;
+}
+
+/* 구절 */
+.mr-record-passage { font-style: italic; }
+
+/* 날짜 */
+.mr-record-timestamp {
+  font-size: 12px;
+  color: #777;
+  text-align: right;
+  margin-top: 6px;
+}
+
+.mr-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.mr-modal {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh; /* 화면 넘어가지 않도록 */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto; /* 내부 스크롤 */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.mr-modal h4 {
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mr-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mr-modal input,
+.mr-modal textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+.mr-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mr-modal-footer button {
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.mr-btn-cancel {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.mr-btn-cancel:hover {
+  background-color: #d5d5d5;
+}
+
+.mr-btn-submit {
+  background-color: #8FABD4;
+  color: white;
+}
+
+.mr-btn-submit:hover {
+  opacity: 0.8;
+}

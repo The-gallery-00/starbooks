@@ -1,0 +1,99 @@
+.rr-recent-records {
+  padding: 20px 20px 0 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.rr-record-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 500px;
+}
+
+.rr-record-card {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #eaeaea;
+  background: #F4F4F4;
+  height: 150px;
+  transition: all 0.3s ease;
+}
+
+.rr-record-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #8FABD4; 
+  cursor: pointer;
+}
+
+
+.rr-record-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rr-record-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.rr-record-rating {
+  font-size: 14px;
+  color: #ffa500;
+}
+
+.rr-record-summary {
+  margin-top: 8px;
+  font-size: 15px;
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rr-record-date {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #999;
+}
+
+.rr-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 70px 0;
+
+}
+
+.rr-page-number,
+.rr-page-arrow {
+    padding: 8px 12px;
+    border: 1px solid #A98A6A;
+    background: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.rr-page-number.active {
+    background: #57433D;
+    color: white;
+    border-color: #57433D;
+}
+
+.rr-page-arrow:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.rr-page-arrow:hover,
+.rr-page-number:hover {
+    background: #A98A6A;
+}
+
+

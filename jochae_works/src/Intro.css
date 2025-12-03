@@ -1,0 +1,376 @@
+/* src/Intro.css */
+
+/* --- 1. 배경 및 책 전체 레이아웃 --- */
+.intro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #997C70;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    rgba(0, 0, 0, 0.3) 20px,
+    rgba(0, 0, 0, 0.3) 22px
+  );
+  perspective: 2500px;
+  overflow: hidden;
+}
+
+.book-open {
+  position: relative;
+  width: 900px;
+  height: 600px;
+  display: flex;
+  box-shadow: 0 50px 80px rgba(0,0,0,0.6);
+}
+
+/* --- 2. 페이지 기본 설정 --- */
+.static-page {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.static-page.left {
+  left: 0;
+  background-color: #F5EEDC;
+  border-radius: 5px 0 0 5px;
+  border-right: 1px solid #e0dbce;
+}
+
+.static-page.right {
+  right: 0;
+  background-color: #fdfbf0;
+  border-radius: 0 5px 5px 0;
+}
+
+/* --- 3. 넘겨지는 페이지 (애니메이션) --- */
+.flipping-page {
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: left;
+  transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+  z-index: 10;
+}
+
+.flipping-page.flipped {
+  transform: rotateY(-180deg);
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.face.front {
+  background-color: #fdfbf0;
+  border-radius: 0 5px 5px 0;
+  border-left: 1px solid #e0dbce;
+  z-index: 2;
+}
+
+.face.back {
+  background-color: #F5EEDC;
+  transform: rotateY(180deg);
+  border-radius: 5px 0 0 5px;
+  box-shadow: inset -10px 0 20px rgba(0,0,0,0.1);
+}
+
+/* --- 4. 책 내부 콘텐츠 (로고, 텍스트) --- */
+.face-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.cover-logo {
+  max-width: 80%;
+  max-height: 250px;
+  margin-left: 30px;
+  object-fit: contain;
+}
+
+.page-content {
+  text-align: center;
+  padding: 40px;
+}
+
+.small-logo {
+  width: 60px;
+  margin-bottom: 20px;
+  animation: pulseFade 3s ease-in-out infinite;
+}
+
+.page-content h3 {
+  color: #006241;
+  font-size: 28px;
+  font-family: serif;
+  margin-bottom: 20px;
+}
+
+.page-content p {
+  color: #5d5545;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* --- 5. 로그인 & 회원가입 폼 공통 스타일 --- */
+/* 책 페이지 안에서 폼을 감싸는 래퍼 */
+.login-wrapper.scroll-enabled {
+  width: 80%; /* 책 페이지 너비의 80% 사용 */
+  max-width: 320px;
+  height: auto;
+  max-height: 100%; /* 페이지 넘치지 않게 */
+  overflow-y: auto; /* 내용 많으면 스크롤 */
+  padding: 20px;
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+  
+  /* 스크롤바 디자인 */
+  scrollbar-width: thin;
+  scrollbar-color: #d1c7b7 transparent;
+}
+
+/* 스크롤바 (크롬/사파리) */
+.login-wrapper.scroll-enabled::-webkit-scrollbar { width: 6px; }
+.login-wrapper.scroll-enabled::-webkit-scrollbar-thumb {
+  background-color: #d1c7b7;
+  border-radius: 3px;
+}
+
+.login-content h2, .signup-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: serif;
+  font-size: 24px;
+}
+
+/* 입력창 스타일 */
+.input-group {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%; /* 부모 너비에 맞춤 */
+}
+
+.book-input {
+  width: 100%; /* 가득 차게 */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box; /* 테두리 포함 크기 */
+  outline: none;
+  min-height: 40px;
+}
+
+.book-input:focus {
+  border-color: #2c3e50;
+  border-width: 1.5px;
+}
+
+/* 버튼 스타일 */
+.btn-book-login {
+  width: 100%;
+  padding: 12px;
+  background-color: #57433D;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s;
+}
+
+.btn-book-login:hover {
+  background-color: #A98A6A;
+}
+
+/* 중복확인 버튼 그룹 */
+.id-check-wrapper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-check {
+  padding: 0 12px;
+  background-color: #8D7B68;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: 70px; /* 버튼 최소 너비 확보 */
+}
+
+/* 메시지 텍스트 */
+/* 메시지 텍스트 (입력창 바로 아래 정렬) */
+.msg-success,
+.msg-error {
+  color: #006241; /* msg-error는 별도로 덮어쓰기 가능 */
+  font-size: 11px;
+  font-weight: bold;
+  margin: 4px 0 0 0; /* 위쪽 margin만 살려 바로 아래 배치 */
+  padding-left: 4px; /* 입력창 안쪽 여백과 맞춤 */
+  text-align: left;
+  line-height: 1.2;
+}
+
+.msg-error {
+  color: #d63031;
+}
+
+/* 링크들 */
+.links { text-align: center; margin-top: 15px; }
+.toggle-link { color: #666; font-size: 13px; cursor: pointer; text-decoration: underline; }
+/* ... 기존 코드 ... */
+
+/* [수정] 아이디/비밀번호 찾기 링크 영역 */
+.find-links {
+  display: flex;             /* 가로 배치를 위해 Flex 사용 */
+  align-items: center;       /* 세로 기준 중앙 정렬 (매우 중요) */
+  justify-content: center;   /* 가로 기준 중앙 정렬 */
+  gap: 15px;                 /* 글자와 구분선 사이 간격 */
+  margin-top: 20px;
+  width: 100%;               /* 부모 너비 가득 채우기 */
+  flex-wrap: nowrap;         /* 줄바꿈 강제 금지 */
+}
+
+.find-links span {
+  font-size: 13px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s;
+  white-space: nowrap;       /* 글자 줄바꿈 방지 */
+}
+
+.find-links span:hover {
+  color: #006241;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* [수정] 구분선 스타일 */
+.find-links .divider {
+  color: #ccc;
+  cursor: default;           /* 구분선은 클릭 커서 안 뜨게 */
+  text-decoration: none !important; /* 밑줄 강제 제거 */
+  font-size: 15px;           /* 구분선 크기 살짝 작게 */
+}
+
+.find-links .divider:hover {
+  color: #ccc;               /* 구분선은 마우스 올려도 색 안 변하게 */
+  font-weight: normal;
+  text-decoration: none;
+}
+
+/* 책 두께 효과 */
+.pages-depth { position: absolute; background-color: #fff; z-index: 0; }
+.pages-depth.right-side { top: 2px; right: 0; width: 20px; height: 99%; transform: rotateY(90deg); transform-origin: right; border-radius: 0 5px 5px 0; background-image: repeating-linear-gradient(to right, #fdfbf0, #e0dbce 3px); }
+.pages-depth.bottom-side { bottom: 0; left: 2px; width: 99%; height: 20px; transform: rotateX(90deg); transform-origin: bottom; border-radius: 0 0 5px 5px; background-image: repeating-linear-gradient(to bottom, #fdfbf0, #e0dbce 3px); }
+
+@keyframes pulseFade {
+  0% { opacity: 0.6; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.6; transform: scale(0.98); }
+}
+
+/* --- 팝업(모달) 스타일 (오른쪽 페이지 내부에 가두기) --- */
+
+/* 1. 배경 설정 */
+.modal-overlay {
+  position: absolute;   /* 부모(오른쪽 페이지) 기준으로 배치 */
+  top: 0;
+  left: 0;
+  width: 100%;          /* ★중요: 부모 너비에 딱 맞춤 (100vw 아님!) */
+  height: 100%;         /* ★중요: 부모 높이에 딱 맞춤 (100vh 아님!) */
+  background-color: rgba(0, 0, 0, 0.6); /* 배경 어둡게 */
+  
+  /* 내용물 정중앙 배치 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  z-index: 5000;        /* 페이지 내 다른 요소보다 위에 */
+  border-radius: 0 5px 5px 0; /* 페이지 둥근 모서리에 맞춰 잘림 */
+}
+
+/* 2. 하얀색 알림 박스 */
+.modal-box {
+  background-color: #fdfbf0;
+  width: 260px;         /* 박스 너비 고정 */
+  padding: 25px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  border: 1px solid #e0dbce;
+  
+  /* 팝업 등장 효과 */
+  animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-box h3 {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-family: serif;
+  font-size: 18px;
+}
+
+.modal-box p {
+  color: #555;
+  margin-bottom: 15px;
+  font-size: 13px;
+  line-height: 1.4;
+  word-break: keep-all; /* 한글 단어 잘림 방지 */
+}
+
+/* 찾은 아이디/비밀번호 강조 텍스트 */
+.found-id-text {
+  font-size: 18px;
+  color: #006241;
+  font-weight: bold;
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 15px 0;
+  display: block;
+}
+
+/* 닫기 버튼(텍스트 링크) */
+.toggle-link {
+  font-size: 12px;
+  color: #666;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@keyframes popUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
