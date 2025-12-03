@@ -125,5 +125,12 @@ public class UserController {
                         .build()
         );
     }
+    // 유저의 일일 목표 조회
+    @GetMapping("/{id}/daily-goal")
+    public ResponseEntity<Integer> getDailyGoal(@PathVariable Long id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok(user.getDailyPageGoal());
+    }
+
 
 }
