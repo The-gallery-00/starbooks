@@ -270,6 +270,18 @@ CREATE TABLE favorites (
     FOREIGN KEY (book_id) REFERENCES books(book_id)
 );
 
+-- 12.챌린지 관련 생성 삭제 현황
+CREATE TABLE IF NOT EXISTS challenge_participants (
+    participant_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    challenge_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    joined_at DATETIME NOT NULL,
+    CONSTRAINT fk_cp_challenge FOREIGN KEY (challenge_id) REFERENCES challenges(challenge_id) ON DELETE CASCADE,
+    CONSTRAINT fk_cp_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    UNIQUE KEY uk_challenge_user (challenge_id, user_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 
 -- Indexes
 CREATE INDEX idx_books_title        ON books (title);
