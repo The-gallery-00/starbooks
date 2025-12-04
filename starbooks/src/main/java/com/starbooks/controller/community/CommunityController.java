@@ -1,15 +1,15 @@
 package com.starbooks.controller.community;
 
 import com.starbooks.domain.community.*;
-import com.starbooks.domain.book.Book;
 import com.starbooks.domain.user.User;
 import com.starbooks.dto.community.*;
 import com.starbooks.service.community.CommunityPostService;
-import com.starbooks.domain.book.BookRepository;
 import com.starbooks.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/community/posts")
@@ -18,60 +18,80 @@ public class CommunityController {
 
     private final CommunityPostService service;
     private final UserRepository userRepo;
-    private final BookRepository bookRepo;
 
-    @PostMapping
-    public ResponseEntity<CommunityPostResponseDto> create(@RequestBody CommunityPostRequestDto dto) {
+    /** 📌 일반 게시글 (DISCUSSION) 작성 */
+    @PostMapping("/discussion")
+    public ResponseEntity<CommunityPostResponseDto> createDiscussion(@RequestBody CommunityPostRequestDto dto) {
 
-        User user = userRepo.findById(dto.getUserId()).orElseThrow();
-        Book book = dto.getBookId() != null ? bookRepo.findById(dto.getBookId()).orElse(null) : null;
+        User user = userRepo.findById(dto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
         CommunityPost post = CommunityPost.builder()
                 .user(user)
-                .book(book)
-                .postType(dto.getPostType())
+                .bookTitle(dto.getBookTitle()) // 수정됨!
+                .postType(PostType.DISCUSSION)
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .build();
 
         CommunityPost saved = service.save(post);
 
-        return ResponseEntity.ok(CommunityPostResponseDto.builder()
-                .postId(saved.getPostId())
-                .userId(saved.getUser().getUserId())
-                .bookId(saved.getBook() != null ? saved.getBook().getBookId() : null)
-                .postType(saved.getPostType())
-                .title(saved.getTitle())
-                .content(saved.getContent())
-                .isPublished(saved.getIsPublished())
-                .createdAt(saved.getCreatedAt())
-                .updatedAt(saved.getUpdatedAt())
-                .build());
+        return ResponseEntity.ok(CommunityPostResponseDto.from(saved));
     }
 
-    @GetMapping("/{postId}")
-    public ResponseEntity<CommunityPostResponseDto> get(@PathVariable Long postId) {
-        CommunityPost p = service.find(postId);
+    /** 📌 퀴즈 & 투표 (선택지 포함) 생성 */
+    @PostMapping("/poll-or-quiz")
+    public ResponseEntity<CommunityPostResponseDto> createQuizOrPoll(@RequestBody QuizPollRequestDto dto) {
 
+        CommunityPostRequestDto postDto = dto.getPost();
+
+        User user = userRepo.findById(postDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
+
+        CommunityPost post = CommunityPost.builder()
+                .user(user)
+                .bookTitle(postDto.getBookTitle())
+                .postType(postDto.getPostType()) // QUIZ or POLL 둘 중 하나
+                .title(postDto.getTitle())
+                .content(postDto.getContent()) // 질문 내용
+                .build();
+
+        List<PostOption> options = dto.getOptions().stream()
+                .map(o -> PostOption.builder()
+                        .post(post)
+                        .optionText(o.getOptionText())
+                        .isCorrect(o.getIsCorrect())
+                        .optionOrder(o.getOptionOrder())
+                        .build())
+                .toList();
+
+        CommunityPost saved = service.saveWithOptions(post, options);
+
+        return ResponseEntity.ok(CommunityPostResponseDto.from(saved));
+    }
+
+    /** 📌 전체 게시글 조회 */
+    @GetMapping
+    public ResponseEntity<List<CommunityPostResponseDto>> listAll() {
         return ResponseEntity.ok(
-                CommunityPostResponseDto.builder()
-                        .postId(p.getPostId())
-                        .userId(p.getUser().getUserId())
-                        .bookId(p.getBook() != null ? p.getBook().getBookId() : null)
-                        .postType(p.getPostType())
-                        .title(p.getTitle())
-                        .content(p.getContent())
-                        .isPublished(p.getIsPublished())
-                        .createdAt(p.getCreatedAt())
-                        .updatedAt(p.getUpdatedAt())
-                        .build()
+                service.findAll().stream()
+                        .map(CommunityPostResponseDto::from)
+                        .toList()
         );
     }
 
-    // community 삭제
+    /** 📌 개별 게시글 조회 */
+    @GetMapping("/{postId}")
+    public ResponseEntity<CommunityPostResponseDto> get(@PathVariable Long postId) {
+        return ResponseEntity.ok(
+                CommunityPostResponseDto.from(service.find(postId))
+        );
+    }
+
+    /** 📌 게시글 삭제 */
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long postId) {
+        service.delete(postId);
         return ResponseEntity.ok().build();
     }
 
