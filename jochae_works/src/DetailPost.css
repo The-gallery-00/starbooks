@@ -4,6 +4,11 @@
   /* padding: 20px; */
   font-family: 'Noto Sans KR', sans-serif;
 }
+.dp-post-header-row {
+  display: flex;
+  align-items: center; /* 수직 가운데 정렬 */
+  justify-content: space-between; /* 양 끝으로 배치 */
+}
 
 .dp-detail-header {
   display: flex;
@@ -219,6 +224,11 @@
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.dp-post-menu-container {
+  position: relative;
+  display: inline-block;
 }
 
 .dp-dropdown-icon {
