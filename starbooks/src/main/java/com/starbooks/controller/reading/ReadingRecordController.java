@@ -61,9 +61,9 @@ public class ReadingRecordController {
                 .build());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ReadingRecordResponseDto> get(@PathVariable Long id) {
-        ReadingRecord r = service.find(id);
+    @GetMapping("/{recordId}")
+    public ResponseEntity<ReadingRecordResponseDto> get(@PathVariable Long recordId) {
+        ReadingRecord r = service.find(recordId);
 
         return ResponseEntity.ok(ReadingRecordResponseDto.builder()
                 .recordId(r.getRecordId())
@@ -78,9 +78,9 @@ public class ReadingRecordController {
                 .build());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
+    @DeleteMapping("/{recordId}")
+    public ResponseEntity<Void> delete(@PathVariable Long recordId) {
+        service.delete(recordId);
         return ResponseEntity.noContent().build();
     }
 
