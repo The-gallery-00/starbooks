@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/reading-records")
 @RequiredArgsConstructor
@@ -98,5 +100,19 @@ public class ReadingRecordController {
         );
 
         return ResponseEntity.ok().build();
+    }
+
+    // 오늘 읽은 페이지 조회 (GET)
+    @GetMapping("/{id}/today-pages")
+    public ResponseEntity<Integer> getTodayPages(@PathVariable Long id) {
+        ReadingRecord record = service.find(id);
+        Long userId = record.getUser().getUserId();
+
+        int pagesReadToday = readingCalendarService
+                .findByUserAndDate(userId, LocalDate.now())
+                .map(c -> c.getPagesRead() == null ? 0 : c.getPagesRead())
+                .orElse(0);
+
+        return ResponseEntity.ok(pagesReadToday);
     }
 }
