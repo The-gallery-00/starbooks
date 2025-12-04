@@ -131,10 +131,19 @@ public class UserController {
         User user = userService.findById(id);
         return ResponseEntity.ok(user.getDailyPageGoal());
     }
+    // 아이디 + 이메일로 비밀번호 재설정
     @PatchMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequestDto dto) {
-        userService.resetPasswordByUsername(dto.getUsername(), dto.getNewPassword());
+
+        boolean success = userService.resetPassword(dto.getUsername(), dto.getEmail(), dto.getNewPassword());
+
+        if (!success) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("아이디 또는 이메일이 일치하지 않습니다.");
+        }
+
         return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
     }
+
 
 }
