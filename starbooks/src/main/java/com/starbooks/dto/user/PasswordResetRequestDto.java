@@ -1,22 +1,13 @@
 package com.starbooks.dto.user;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class PasswordResetRequestDto {
     private String username;
+    private String email;
     private String newPassword;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
 }
