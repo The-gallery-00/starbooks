@@ -1,22 +1,28 @@
 package com.starbooks.controller.challenge;
 
-import com.starbooks.domain.challenge.*;
+import com.starbooks.domain.challenge.Challenge;
+import com.starbooks.domain.challenge.ChallengeParticipant;
 import com.starbooks.domain.user.User;
+import com.starbooks.domain.user.UserRepository;
+import com.starbooks.domain.challenge.ChallengeParticipantRepository;
 import com.starbooks.dto.challenge.*;
 import com.starbooks.service.challenge.ChallengeService;
-import com.starbooks.domain.user.UserRepository;
+import com.starbooks.service.challenge.ChallengeParticipationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/challenges")
 @RequiredArgsConstructor
 public class ChallengeController {
 
-    private final ChallengeService service;
+    private final ChallengeService challengeService;
+    private final ChallengeParticipationService participationService;
+    private final ChallengeParticipantRepository participantRepository;
     private final UserRepository userRepo;
 
     // ⭐ 챌린지 생성
@@ -34,7 +40,7 @@ public class ChallengeController {
                 .creator(creator)
                 .build();
 
-        Challenge saved = service.create(c);
+        Challenge saved = challengeService.create(c);
 
         return ResponseEntity.ok(
                 ChallengeResponseDto.builder()
@@ -52,9 +58,10 @@ public class ChallengeController {
     }
 
     // ⭐ 단일 챌린지 조회
-    @GetMapping("/{id}")
-    public ResponseEntity<ChallengeResponseDto> get(@PathVariable Long id) {
-        Challenge c = service.find(id);
+    @GetMapping("/{challengeId}")
+    public ResponseEntity<ChallengeResponseDto> get(@PathVariable Long challengeId) {
+
+        Challenge c = challengeService.find(challengeId);
 
         return ResponseEntity.ok(
                 ChallengeResponseDto.builder()
@@ -71,68 +78,82 @@ public class ChallengeController {
         );
     }
 
-    // ⭐ 전체 챌린지 조회
+    // ⭐ 전체 챌린지 조회 (요약 + 참여자 수 포함)
     @GetMapping
-    public ResponseEntity<List<ChallengeResponseDto>> getAll() {
-        List<Challenge> challenges = service.findAll();
+    public ResponseEntity<List<ChallengeSummaryDto>> list() {
 
-        List<ChallengeResponseDto> result = challenges.stream()
-                .map(c -> ChallengeResponseDto.builder()
+        List<Challenge> list = challengeService.findAll();
+
+        List<ChallengeSummaryDto> dto = list.stream()
+                .map(c -> ChallengeSummaryDto.builder()
                         .challengeId(c.getChallengeId())
                         .title(c.getTitle())
-                        .description(c.getDescription())
-                        .targetBooks(c.getTargetBooks())
+                        .status(c.getStatus())
                         .startDate(c.getStartDate())
                         .endDate(c.getEndDate())
-                        .creatorId(c.getCreator().getUserId())
-                        .status(c.getStatus())
-                        .createdAt(c.getCreatedAt())
+                        .targetBooks(c.getTargetBooks())
+                        .participantCount(participantRepository.countByChallenge(c))
                         .build()
-                )
-                .toList();
+                ).collect(Collectors.toList());
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(dto);
     }
-    @PostMapping("/{id}/join")
-    public ResponseEntity<Void> join(
-            @PathVariable Long id,
-            @RequestParam Long userId
-    ) {
-        service.joinChallenge(id, userId);
-        return ResponseEntity.ok().build();
+
+    // ⭐ 상세 조회 (참여자 수 포함)
+    @GetMapping("/{challengeId}/detail")
+    public ResponseEntity<ChallengeDetailDto> detail(@PathVariable Long challengeId) {
+
+        Challenge c = challengeService.find(challengeId);
+        long participants = participantRepository.countByChallenge(c);
+
+        ChallengeDetailDto dto = ChallengeDetailDto.builder()
+                .challengeId(c.getChallengeId())
+                .title(c.getTitle())
+                .description(c.getDescription())
+                .targetBooks(c.getTargetBooks())
+                .startDate(c.getStartDate())
+                .endDate(c.getEndDate())
+                .creatorId(c.getCreator() != null ? c.getCreator().getUserId() : null)
+                .status(c.getStatus())
+                .createdAt(c.getCreatedAt())
+                .participantCount(participants)
+                .build();
+
+        return ResponseEntity.ok(dto);
     }
-    @DeleteMapping("/{id}/join")
-    public ResponseEntity<Void> cancelJoin(
-            @PathVariable Long id,
-            @RequestParam Long userId
-    ) {
-        service.cancelJoin(id, userId);
-        return ResponseEntity.noContent().build();
+
+    // ⭐ 참여하기
+    @PostMapping("/{challengeId}/join")
+    public ResponseEntity<String> join(@PathVariable Long challengeId, @RequestParam Long userId) {
+        participationService.join(challengeId, userId);
+        return ResponseEntity.ok("참여 완료");
     }
+
+    // ⭐ 참여 취소
+    @DeleteMapping("/{challengeId}/join")
+    public ResponseEntity<String> cancelJoin(@PathVariable Long challengeId, @RequestParam Long userId) {
+        participationService.cancel(challengeId, userId);
+        return ResponseEntity.ok("참여 취소 완료");
+    }
+
+    // ⭐ 내가 참여 중인 챌린지 조회
     @GetMapping("/my")
-    public ResponseEntity<List<ChallengeResponseDto>> getMyChallenges(
-            @RequestParam Long userId
-    ) {
-        List<Challenge> list = service.getChallengesByUser(userId);
+    public ResponseEntity<List<ChallengeSummaryDto>> getMyChallenges(@RequestParam Long userId) {
 
-        List<ChallengeResponseDto> result = list.stream()
-                .map(c -> ChallengeResponseDto.builder()
+        List<Challenge> list = participationService.getMyChallenges(userId);
+
+        List<ChallengeSummaryDto> dto = list.stream()
+                .map(c -> ChallengeSummaryDto.builder()
                         .challengeId(c.getChallengeId())
                         .title(c.getTitle())
-                        .description(c.getDescription())
-                        .targetBooks(c.getTargetBooks())
+                        .status(c.getStatus())
                         .startDate(c.getStartDate())
                         .endDate(c.getEndDate())
-                        .creatorId(c.getCreator().getUserId())
-                        .status(c.getStatus())
-                        .createdAt(c.getCreatedAt())
+                        .targetBooks(c.getTargetBooks())
+                        .participantCount(participantRepository.countByChallenge(c))
                         .build()
-                )
-                .toList();
+                ).collect(Collectors.toList());
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(dto);
     }
-
-
 }
-
