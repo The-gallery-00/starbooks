@@ -6,4 +6,5 @@ import lombok.Data;
 public class FavoriteRequestDto {
     private Long userId;
     private Long bookId;
+    private String isbn;
 }
