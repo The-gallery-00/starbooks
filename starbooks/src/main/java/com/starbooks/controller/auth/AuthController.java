@@ -66,7 +66,7 @@ public class AuthController {
 
         // 🔥 우리 DB의 User 엔티티 조회
         // usernameOrEmail 로 로그인하니까 둘 다 케이스 처리
-        User user = userRepository.findByUsername(loginId)
+        User user = (User) userRepository.findByUsername(loginId)
                 .orElseGet(() -> userRepository.findByEmail(loginId)
                         .orElseThrow(() -> new BadRequestException("User not found")));
 
