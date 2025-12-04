@@ -4,6 +4,7 @@ import com.starbooks.dto.user.*;
 import com.starbooks.domain.user.User;
 import com.starbooks.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
