@@ -1,4 +1,4 @@
-// com.starbooks.service.challenge.ChallengeServiceImpl.java
+// com/starbooks/service/challenge/ChallengeServiceImpl.java
 package com.starbooks.service.challenge;
 
 import com.starbooks.domain.challenge.Challenge;
@@ -8,20 +8,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ChallengeServiceImpl implements ChallengeService {
 
     private final ChallengeRepository repository;
-    private final ApplicationEventPublisher eventPublisher; // ⭐ 추가
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public Challenge create(Challenge c) {
         Challenge saved = repository.save(c);
 
-        // ⭐ 챌린지 생성 이벤트 발행 (알림 트리거)
+        // ChallengeCreatedEvent: creator의 PK getter는 project User 엔티티에 맞춰 조정
+        Long creatorId = saved.getCreator() != null ? saved.getCreator().getUserId() : null;
+
         eventPublisher.publishEvent(
-                new ChallengeCreatedEvent(saved.getChallengeId(), saved.getCreator().getId())
+                new ChallengeCreatedEvent(saved.getChallengeId(), creatorId)
         );
 
         return saved;
@@ -30,5 +34,10 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     public Challenge find(Long id) {
         return repository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<Challenge> findAll() {
+        return repository.findAll();
     }
 }
