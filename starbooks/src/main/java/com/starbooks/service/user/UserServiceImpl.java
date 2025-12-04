@@ -63,6 +63,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int getTodayPages(Long userId) {
+        return 0;
+    }
+
+    @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
     }

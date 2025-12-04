@@ -2,6 +2,7 @@
 package com.starbooks.service.user;
 
 import com.starbooks.domain.user.User;
+import com.starbooks.dto.reading.DailyGoalStatusDto;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface UserService {
     boolean resetPassword(String username, String email, String newPassword);
 
     int getTodayPages(Long userId);
+
+    DailyGoalStatusDto getDailyGoalStatus(Long userId);
 }
