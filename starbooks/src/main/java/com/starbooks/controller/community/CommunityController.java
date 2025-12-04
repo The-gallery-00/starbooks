@@ -49,9 +49,9 @@ public class CommunityController {
                 .build());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CommunityPostResponseDto> get(@PathVariable Long id) {
-        CommunityPost p = service.find(id);
+    @GetMapping("/{postId}")
+    public ResponseEntity<CommunityPostResponseDto> get(@PathVariable Long postId) {
+        CommunityPost p = service.find(postId);
 
         return ResponseEntity.ok(
                 CommunityPostResponseDto.builder()
@@ -69,7 +69,7 @@ public class CommunityController {
     }
 
     // community 삭제
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{postId}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok().build();
