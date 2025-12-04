@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 public class CommunityPostRequestDto {
     private Long userId;
+    private String username;
     private String bookTitle; // 문자열 기반 저장
 
     private PostType postType;
