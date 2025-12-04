@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/challenges")
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class ChallengeController {
     private final ChallengeService service;
     private final UserRepository userRepo;
 
+    // ⭐ 챌린지 생성
     @PostMapping
     public ResponseEntity<ChallengeResponseDto> create(@RequestBody ChallengeRequestDto dto) {
 
@@ -48,6 +51,7 @@ public class ChallengeController {
         );
     }
 
+    // ⭐ 단일 챌린지 조회
     @GetMapping("/{id}")
     public ResponseEntity<ChallengeResponseDto> get(@PathVariable Long id) {
         Challenge c = service.find(id);
@@ -56,10 +60,79 @@ public class ChallengeController {
                 ChallengeResponseDto.builder()
                         .challengeId(c.getChallengeId())
                         .title(c.getTitle())
-                        .creatorId(c.getCreator().getUserId())
+                        .description(c.getDescription())
                         .targetBooks(c.getTargetBooks())
+                        .startDate(c.getStartDate())
+                        .endDate(c.getEndDate())
+                        .creatorId(c.getCreator().getUserId())
                         .status(c.getStatus())
+                        .createdAt(c.getCreatedAt())
                         .build()
         );
     }
+
+    // ⭐ 전체 챌린지 조회
+    @GetMapping
+    public ResponseEntity<List<ChallengeResponseDto>> getAll() {
+        List<Challenge> challenges = service.findAll();
+
+        List<ChallengeResponseDto> result = challenges.stream()
+                .map(c -> ChallengeResponseDto.builder()
+                        .challengeId(c.getChallengeId())
+                        .title(c.getTitle())
+                        .description(c.getDescription())
+                        .targetBooks(c.getTargetBooks())
+                        .startDate(c.getStartDate())
+                        .endDate(c.getEndDate())
+                        .creatorId(c.getCreator().getUserId())
+                        .status(c.getStatus())
+                        .createdAt(c.getCreatedAt())
+                        .build()
+                )
+                .toList();
+
+        return ResponseEntity.ok(result);
+    }
+    @PostMapping("/{id}/join")
+    public ResponseEntity<Void> join(
+            @PathVariable Long id,
+            @RequestParam Long userId
+    ) {
+        service.joinChallenge(id, userId);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("/{id}/join")
+    public ResponseEntity<Void> cancelJoin(
+            @PathVariable Long id,
+            @RequestParam Long userId
+    ) {
+        service.cancelJoin(id, userId);
+        return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/my")
+    public ResponseEntity<List<ChallengeResponseDto>> getMyChallenges(
+            @RequestParam Long userId
+    ) {
+        List<Challenge> list = service.getChallengesByUser(userId);
+
+        List<ChallengeResponseDto> result = list.stream()
+                .map(c -> ChallengeResponseDto.builder()
+                        .challengeId(c.getChallengeId())
+                        .title(c.getTitle())
+                        .description(c.getDescription())
+                        .targetBooks(c.getTargetBooks())
+                        .startDate(c.getStartDate())
+                        .endDate(c.getEndDate())
+                        .creatorId(c.getCreator().getUserId())
+                        .status(c.getStatus())
+                        .createdAt(c.getCreatedAt())
+                        .build()
+                )
+                .toList();
+
+        return ResponseEntity.ok(result);
+    }
+
+
 }
+
