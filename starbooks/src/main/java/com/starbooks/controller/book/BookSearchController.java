@@ -3,6 +3,7 @@ package com.starbooks.controller.book;
 
 import com.starbooks.dto.book.BookDetailDto;
 import com.starbooks.dto.book.BookSearchDto;
+import com.starbooks.dto.book.PopularBookDto;
 import com.starbooks.service.book.ExternalBookApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,24 @@ import java.util.List;
 public class BookSearchController {
 
     private final ExternalBookApiService externalBookApiService;
+
+    @GetMapping("/popular-books")
+    public ResponseEntity<List<PopularBookDto>> getPopularBooks(
+            @RequestParam String startDt,          // 예: 2022-01-01
+            @RequestParam String endDt,            // 예: 2022-03-31
+            @RequestParam(required = false) String gender,   // "1" or "2"
+            @RequestParam(required = false) String age,      // "20"
+            @RequestParam(required = false) String region,   // "11;31"
+            @RequestParam(required = false) String addCode,  // "0"
+            @RequestParam(required = false) String kdc,      // "6"
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize
+    ) {
+        List<PopularBookDto> list = externalBookApiService.getPopularBooks(
+                startDt, endDt, gender, age, region, addCode, kdc, pageNo, pageSize
+        );
+        return ResponseEntity.ok(list);
+    }
 
     // 1) 키워드로 검색
     @GetMapping("/books")

@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.starbooks.dto.book.BookDetailDto;
 import com.starbooks.dto.book.BookSearchDto;
+import com.starbooks.dto.book.PopularBookDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -17,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ExternalBookApiServiceImpl implements ExternalBookApiService {
 
@@ -96,6 +100,78 @@ public class ExternalBookApiServiceImpl implements ExternalBookApiService {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    @Override
+    public List<PopularBookDto> getPopularBooks(
+            String startDt,
+            String endDt,
+            String gender,
+            String age,
+            String region,
+            String addCode,
+            String kdc,
+            Integer pageNo,
+            Integer pageSize
+    ) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl("http://data4library.kr/api" + "/loanItemSrch")
+                .queryParam("authKey", apiKey)
+                .queryParam("format", "json")
+                .queryParam("startDt", startDt)
+                .queryParam("endDt", endDt)
+                .queryParam("pageNo", pageNo != null ? pageNo : 1)
+                .queryParam("pageSize", pageSize != null ? pageSize : 10);
+
+        if (gender != null && !gender.isBlank()) {
+            builder.queryParam("gender", gender);
+        }
+        if (age != null && !age.isBlank()) {
+            builder.queryParam("age", age);
+        }
+        if (region != null && !region.isBlank()) {
+            builder.queryParam("region", region);
+        }
+        if (addCode != null && !addCode.isBlank()) {
+            builder.queryParam("addCode", addCode);
+        }
+        if (kdc != null && !kdc.isBlank()) {
+            builder.queryParam("kdc", kdc);
+        }
+
+        String url = builder.toUriString();
+        log.info("인기도서 요청 URL = {}", url);
+
+        try {
+            String body = restTemplate.getForObject(url, String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(body);
+
+            // response.docs[*].doc 안에 실제 책 정보가 들어있음
+            JsonNode docs = root.path("response").path("docs");
+
+            List<PopularBookDto> result = new ArrayList<>();
+            for (JsonNode wrapper : docs) {
+                JsonNode doc = wrapper.path("doc");
+
+                PopularBookDto dto = PopularBookDto.builder()
+                        .isbn13(doc.path("isbn13").asText(null))
+                        .title(doc.path("bookname").asText(null))
+                        .authors(doc.path("authors").asText(null))
+                        .publisher(doc.path("publisher").asText(null))
+                        .pubYear(doc.path("publication_year").asText(null))
+                        .loanCnt(doc.path("loanCnt").asInt(0))
+                        .bookImageUrl(doc.path("bookImageURL").asText(null))
+                        .build();
+
+                result.add(dto);
+            }
+            return result;
+
+        } catch (Exception e) {
+            log.error("인기 도서 조회 실패", e);
+            throw new RuntimeException("인기 도서 조회 중 오류가 발생했습니다.");
         }
     }
 }
