@@ -16,25 +16,22 @@ export default function AddRecordModal({ defaultBookTitle, onClose, onAdd }) {
   }, [defaultBookTitle]);
 
   const handleSubmit = () => {
-    // 필수 입력 체크
     if (!bookTitle.trim() || !review.trim() || !rating || !passage.trim()) {
       alert("모든 항목을 입력해야 합니다.");
       return;
     }
 
     const newData = {
-      id: record?.id || Date.now(),
+      id: Date.now(),
       bookTitle,
       review,
       rating,
       passage,
-      timestamp: record?.timestamp || new Date().toLocaleString(),
-      userId: user.id, // 로그인 사용자 ID 포함
+      timestamp: new Date().toLocaleString(),
+      userId: user?.id,
     };
 
-    if (mode === "add") onAdd(newData);
-    else onEdit(newData);
-
+    onAdd(newData);
     onClose();
   };
 
@@ -47,7 +44,6 @@ export default function AddRecordModal({ defaultBookTitle, onClose, onAdd }) {
     const text = e.target.value.slice(0, 1000);
     setPassage(text);
   };
-
 
   return (
     <div className="aerm-modal-overlay">
