@@ -93,5 +93,46 @@ public class ChallengeController {
 
         return ResponseEntity.ok(result);
     }
+    @PostMapping("/{id}/join")
+    public ResponseEntity<Void> join(
+            @PathVariable Long id,
+            @RequestParam Long userId
+    ) {
+        service.joinChallenge(id, userId);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("/{id}/join")
+    public ResponseEntity<Void> cancelJoin(
+            @PathVariable Long id,
+            @RequestParam Long userId
+    ) {
+        service.cancelJoin(id, userId);
+        return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/my")
+    public ResponseEntity<List<ChallengeResponseDto>> getMyChallenges(
+            @RequestParam Long userId
+    ) {
+        List<Challenge> list = service.getChallengesByUser(userId);
+
+        List<ChallengeResponseDto> result = list.stream()
+                .map(c -> ChallengeResponseDto.builder()
+                        .challengeId(c.getChallengeId())
+                        .title(c.getTitle())
+                        .description(c.getDescription())
+                        .targetBooks(c.getTargetBooks())
+                        .startDate(c.getStartDate())
+                        .endDate(c.getEndDate())
+                        .creatorId(c.getCreator().getUserId())
+                        .status(c.getStatus())
+                        .createdAt(c.getCreatedAt())
+                        .build()
+                )
+                .toList();
+
+        return ResponseEntity.ok(result);
+    }
+
+
 }
 
