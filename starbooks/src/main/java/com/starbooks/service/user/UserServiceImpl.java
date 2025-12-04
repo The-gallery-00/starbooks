@@ -3,6 +3,8 @@ package com.starbooks.service.user;
 
 import com.starbooks.domain.user.User;
 import com.starbooks.domain.user.UserRepository;
+import com.starbooks.dto.reading.DailyGoalStatusDto;
+import com.starbooks.service.reading.ReadingCalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ReadingCalendarService readingCalendarService;
 
     @Override
     public User create(User user) {
@@ -78,4 +81,25 @@ public class UserServiceImpl implements UserService {
     public boolean isNicknameDuplicate(String nickname) {
         return userRepository.existsByNickname(nickname);
     }
+
+    @Override
+    public DailyGoalStatusDto getDailyGoalStatus(Long userId) {
+        User user = findById(userId);
+
+        Integer target = user.getDailyPageGoal(); // 저장된 목표값
+        if (target == null) target = 0;
+
+        // ⭐ 오늘 읽은 페이지는 ReadingCalendarService에서 가져오기
+        int achieved = readingCalendarService.getTodayPages(userId);
+
+        boolean achievedGoal = target > 0 && achieved >= target;
+
+        return DailyGoalStatusDto.builder()
+                .targetPages(target)
+                .achievedPages(achieved)
+                .goalAchieved(achievedGoal)
+                .build();
+    }
+
+
 }
