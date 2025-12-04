@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import './HomePopularBooks.css';
 import dummy from './dummy.png';
 
 export function HomePopularBooks() {
+  const navigate = useNavigate();
+
   const popularBooks = [
     { id: 1, rank: 1, title: '달러구트 꿈 백화점', author: '이미예', rating: 4.8, reviews: 1234, cover: dummy },
     { id: 2, rank: 2, title: '불편한 편의점', author: '김호연', rating: 4.7, reviews: 987, cover: dummy },
@@ -14,7 +17,7 @@ export function HomePopularBooks() {
     <section className="hpb-section">
       <div className="hpb-header">
         <h2 className="hpb-title">인기 도서</h2>
-        <button className="hpb-more-btn">더보기</button>
+        <button className="hpb-more-btn" onClick={() => navigate('/bookinfo')}>더보기</button>
       </div>
 
       <div className="hpb-list">
