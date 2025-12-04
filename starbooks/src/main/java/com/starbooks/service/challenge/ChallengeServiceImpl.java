@@ -40,4 +40,20 @@ public class ChallengeServiceImpl implements ChallengeService {
     public List<Challenge> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public void joinChallenge(Long id, Long userId) {
+
+    }
+
+    @Override
+    public void cancelJoin(Long id, Long userId) {
+
+    }
+
+    @Override
+    public List<Challenge> getChallengesByUser(Long userId) {
+        return List.of();
+    }
+
 }
