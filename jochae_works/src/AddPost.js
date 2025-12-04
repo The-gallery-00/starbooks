@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AddPost.css";
+import { UserContext } from "./UserContext";
+import axios from "./api/axiosInstance";
+
 
 export default function AddPost() {
+  const { user } = useContext(UserContext);
+
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("퀴즈");
 
   const [quizData, setQuizData] = useState({
     title: "",
+    relatedBook: "",
     choices: ["", ""],
     answer: ""
   });
 
-  const [voteData, setVoteData] = useState({ title: "", choices: ["", ""] }); // 기본 2개 선택지
+  const [voteData, setVoteData] = useState({ title: "", choices: ["", ""] });
   const [discussionData, setDiscussionData] = useState({ title: "", content: "" });
 
   const handleCancel = () => navigate(-1);
@@ -41,72 +47,108 @@ export default function AddPost() {
     }
   };
 
-  const handleSubmit = () => {
-    // 유효성 검사
-    if (activeTab === "퀴즈") {
-      // 제목과 내용 체크
-      if (!quizData.title) {
-        alert("제목을 입력해주세요.");
-        return;
-      }
-
-      // 선택지 최소 2개 이상 입력 여부 체크
-      const filledChoices = quizData.choices.filter(c => c.trim() !== "");
-      if (filledChoices.length < 2) {
-        alert("선택지는 최소 2개 이상 입력해주세요.");
-        return;
-      }
-
-      // 정답 체크
-      if (!quizData.answer || isNaN(quizData.answer) || +quizData.answer < 1 || +quizData.answer > filledChoices.length) {
-        alert("퀴즈 정답을 선택해주세요.");
-        return;
-      }
+  const handleSubmit = async () => {
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      return;
     }
 
+    try {
+      // === 유효성 검사 ===
+      if (activeTab === "퀴즈") {
+        if (!quizData.title.trim()) {
+          alert("제목을 입력해주세요.");
+          return;
+        }
 
-    if (activeTab === "투표") {
-      if (!voteData.title) {
-        alert("제목을 입력해주세요.");
-        return;
+        const filledChoices = quizData.choices
+          .map(c => c.trim())
+          .filter(c => c !== "");
+        if (filledChoices.length < 2) {
+          alert("선택지는 최소 2개 이상 입력해주세요.");
+          return;
+        }
+
+        if (!quizData.answer || isNaN(quizData.answer) || +quizData.answer < 1 || +quizData.answer > filledChoices.length) {
+          alert("퀴즈 정답을 선택해주세요.");
+          return;
+        }
       }
 
-      // 최소 2개의 선택지가 입력되어야 함
-      const filledChoices = voteData.choices.filter(c => c.trim() !== "");
-      if (filledChoices.length < 2) {
-        alert("선택지는 최소 2개 이상 입력해주세요.");
-        return;
+      if (activeTab === "투표") {
+        if (!voteData.title.trim()) {
+          alert("제목을 입력해주세요.");
+          return;
+        }
+
+        const filledChoices = voteData.choices
+          .map(c => c.trim())
+          .filter(c => c !== "");
+        if (filledChoices.length < 2) {
+          alert("선택지는 최소 2개 이상 입력해주세요.");
+          return;
+        }
       }
+
+      if (activeTab === "토론") {
+        if (!discussionData.title.trim()) {
+          alert("제목을 입력해주세요.");
+          return;
+        }
+        if (!discussionData.content.trim()) {
+          alert("토론 내용을 입력해주세요.");
+          return;
+        }
+      }
+
+      // === 서버 전송 payload 생성 ===
+      if (activeTab === "퀴즈" || activeTab === "투표") {
+        const choicesArray = (activeTab === "퀴즈" ? quizData.choices : voteData.choices)
+          .map(c => c.trim())
+          .filter(c => c !== "");
+
+        const options = choicesArray.map((text, idx) => ({
+          optionText: text,
+          isCorrect: activeTab === "퀴즈" ? +quizData.answer === idx + 1 : false,
+          optionOrder: idx
+        }));
+
+        const payload = {
+          post: {
+            userId: user.userId,
+            bookTitle: quizData.relatedBook?.trim() || "",
+            postType: activeTab === "퀴즈" ? "QUIZ" : "POLL",
+            title: activeTab === "퀴즈" ? quizData.title.trim() : voteData.title.trim(),
+            content: "" // 퀴즈/투표는 content 비워도 서버 허용
+          },
+          options
+        };
+
+        console.log("퀴즈/투표 payload:", payload); // 서버 전송 전 확인
+        await axios.post("/api/community/posts/poll-or-quiz", payload);
+
+      } else if (activeTab === "토론") {
+        const payload = {
+          userId: user.userId,
+          bookTitle: quizData.relatedBook?.trim() || "",
+          postType: "DISCUSSION",
+          title: discussionData.title.trim(),
+          content: discussionData.content.trim()
+        };
+
+        console.log("토론 payload:", payload);
+        await axios.post("/api/community/posts/discussion", payload);
+      }
+
+      alert("커뮤니티에 글이 성공적으로 등록되었습니다.");
+      navigate(-1);
+
+    } catch (err) {
+      console.error("글 작성 오류:", err);
+      alert("글 작성에 실패했습니다. 서버 에러가 발생했을 수 있습니다.");
     }
-
-    if (activeTab === "토론") {
-      if (!discussionData.title) {
-        alert("제목을 입력해주세요.");
-        return;
-      }
-
-      if (!discussionData.content) {
-        alert("토론 내용을 입력해주세요.");
-        return;
-      }
-    }
-
-    // 전송 데이터
-    const postPayload = {
-        type: activeTab,
-        quizData,
-        voteData: {
-        title: voteData.title,
-        choices: voteData.choices.filter(c => c.trim() !== "") // 입력된 선택지만 전송
-        },
-        discussionData
-    };
-
-    console.log("전송 데이터:", postPayload);
-
-    alert("커뮤니티에 글이 성공적으로 등록되었습니다.")
-    navigate(-1); 
   };
+
 
   return (
     <div className="add-post-container">
