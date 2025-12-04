@@ -85,12 +85,12 @@ public class ReadingRecordController {
     }
 
     // ⭐ 오늘 읽은 페이지 + 목표 달성 체크 + 캘린더 저장
-    @PatchMapping("/{id}/today-pages")
+    @PatchMapping("/{userId}/today-pages")
     public ResponseEntity<Void> updateTodayPages(
-            @PathVariable Long id,
+            @PathVariable Long userId,
             @RequestParam Integer pagesRead
     ) {
-        ReadingRecord record = service.find(id);
+        ReadingRecord record = service.find(userId);
 
         // 캘린더 갱신
         readingCalendarService.updateDailyProgress(
@@ -103,10 +103,8 @@ public class ReadingRecordController {
     }
 
     // 오늘 읽은 페이지 조회 (GET)
-    @GetMapping("/{id}/today-pages")
-    public ResponseEntity<Integer> getTodayPages(@PathVariable Long id) {
-        ReadingRecord record = service.find(id);
-        Long userId = record.getUser().getUserId();
+    @GetMapping("/{userId}/today-pages")
+    public ResponseEntity<Integer> getTodayPages(@PathVariable Long userId) {
 
         int pagesReadToday = readingCalendarService
                 .findByUserAndDate(userId, LocalDate.now())
