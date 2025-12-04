@@ -46,6 +46,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void resetPasswordByUsername(String username, String newPassword) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("해당 아이디의 사용자를 찾을 수 없습니다."));
+
+        user.setPasswordHash(newPassword); // 실무에서는 BCrypt 필수
+        userRepository.save(user);
+    }
+    @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
     }

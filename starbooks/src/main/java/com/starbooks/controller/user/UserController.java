@@ -131,6 +131,10 @@ public class UserController {
         User user = userService.findById(id);
         return ResponseEntity.ok(user.getDailyPageGoal());
     }
-
+    @PatchMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequestDto dto) {
+        userService.resetPasswordByUsername(dto.getUsername(), dto.getNewPassword());
+        return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+    }
 
 }

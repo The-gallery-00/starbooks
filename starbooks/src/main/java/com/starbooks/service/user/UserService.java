@@ -16,5 +16,7 @@ public interface UserService {
     boolean isEmailDuplicate(String email);
     boolean isNicknameDuplicate(String nickname);
     User updateDailyPageGoal(Long userId, Integer goalPages);
+
+    void resetPasswordByUsername(String username, String newPassword);
 }
 
