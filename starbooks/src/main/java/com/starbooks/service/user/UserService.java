@@ -18,5 +18,7 @@ public interface UserService {
     User updateDailyPageGoal(Long userId, Integer goalPages);
 
     void resetPasswordByUsername(String username, String newPassword);
-}
 
+    // 아이디 + 이메일로 비밀번호 재설정 (우리가 사용할 핵심 기능)
+    boolean resetPassword(String username, String email, String newPassword);
+}
