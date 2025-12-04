@@ -164,44 +164,43 @@ CREATE TABLE IF NOT EXISTS challenge_participants (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 7. 커뮤니티
+-- 7. 커뮤니티 (수정됨)
 CREATE TABLE IF NOT EXISTS community_posts (
     post_id      BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id      BIGINT NOT NULL,
-    book_id      BIGINT,
+    book_title   VARCHAR(200), -- 책 제목 직접 저장!!
     post_type    ENUM('QUIZ','POLL','DISCUSSION') NOT NULL,
     title        VARCHAR(150) NOT NULL,
-    content      TEXT NOT NULL,
-    is_published TINYINT(1) DEFAULT 1,
+    content      TEXT, -- QUIZ/POLL은 문제 질문만 저장
     created_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at   DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 7-1. 퀴즈 / 투표 객관식 선택지
+-- 7-1. 퀴즈 / 투표 선택지 (수정됨)
 CREATE TABLE IF NOT EXISTS post_options (
     option_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
     post_id      BIGINT NOT NULL,
-    option_text  VARCHAR(255) NOT NULL,
-    is_correct   TINYINT(1) DEFAULT 0,   -- QUIZ 정답 여부 (POLL은 사용 안 해도 됨)
-    option_order INT DEFAULT 0,
+    option_text  VARCHAR(255) NOT NULL, -- 선택지 내용
+    is_correct   TINYINT(1) DEFAULT 0, -- QUIZ 정답 여부
+    option_order INT DEFAULT 0, -- 선택지 순서
     FOREIGN KEY (post_id) REFERENCES community_posts(post_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 7-2. 퀴즈 / 투표 응답
+-- 7-2. 사용자가 선택한 정답 저장 (수정됨)
 CREATE TABLE IF NOT EXISTS post_answers (
     answer_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
     post_id     BIGINT NOT NULL,
     user_id     BIGINT NOT NULL,
     option_id   BIGINT NOT NULL,
     answered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY uq_post_user (post_id, user_id), -- 한 게시글당 한 번만 응답 (단일 선택 기준)
-    FOREIGN KEY (post_id)   REFERENCES community_posts(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id)   REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (option_id) REFERENCES post_options(option_id) ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES community_posts(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (option_id) REFERENCES post_options(option_id) ON DELETE CASCADE,
+    UNIQUE KEY uq_post_user (post_id, user_id) -- 한 게시글당 1번만 응답
 ) ENGINE=InnoDB;
 
+-- 7-3. 댓글 테이블 (변경 없음)
 CREATE TABLE IF NOT EXISTS comments (
     comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     post_id    BIGINT NOT NULL,
