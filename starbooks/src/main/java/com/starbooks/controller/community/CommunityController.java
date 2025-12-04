@@ -25,8 +25,8 @@ public class CommunityController {
     @PostMapping("/discussion")
     public ResponseEntity<CommunityPostResponseDto> createDiscussion(@RequestBody CommunityPostRequestDto dto) {
 
-        User user = userRepo.findByUsername(dto.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
+        User user = userRepo.findById(dto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
         CommunityPost post = CommunityPost.builder()
                 .user(user)
@@ -47,8 +47,8 @@ public class CommunityController {
 
         CommunityPostRequestDto postDto = dto.getPost();
 
-        User user = userRepo.findByUsername(postDto.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
+        User user = userRepo.findById(postDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
         CommunityPost post = CommunityPost.builder()
                 .user(user)
