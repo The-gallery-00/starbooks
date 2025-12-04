@@ -16,7 +16,7 @@ public class JwtResponse {
     @Getter
     @AllArgsConstructor
     public static class UserInfo {
-        private Long id;
+        private Long userId;
         private String username;
         private String email;
         private String nickname;
