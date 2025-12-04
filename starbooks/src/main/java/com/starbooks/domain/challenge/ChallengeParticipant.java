@@ -21,8 +21,8 @@ public class ChallengeParticipant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "participant_id")
-    private Long participantId;
+    @Column(name = "participation_id")
+    private Long participationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "challenge_id", nullable = false)
