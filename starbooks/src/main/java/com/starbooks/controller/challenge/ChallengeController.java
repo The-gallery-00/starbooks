@@ -11,7 +11,9 @@ import com.starbooks.service.challenge.ChallengeParticipationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Map;
+import java.util.Collections;
+import org.springframework.http.HttpStatus;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,37 +28,26 @@ public class ChallengeController {
     private final UserRepository userRepo;
 
     // ⭐ 챌린지 생성
-    @PostMapping
-    public ResponseEntity<ChallengeResponseDto> create(@RequestBody ChallengeRequestDto dto) {
+    @PostMapping("/{challengeId}/join")
+    public ResponseEntity<Map<String, String>> join(
+            @PathVariable Long challengeId,
+            @RequestBody Map<String, Long> requestBody // JSON Body { "userId": 5 } 처리
+    ) {
+        Long userId = requestBody.get("userId");
 
-        User creator = userRepo.findById(dto.getCreatorId()).orElseThrow();
+        try {
+            participationService.join(challengeId, userId);
 
-        Challenge c = Challenge.builder()
-                .title(dto.getTitle())
-                .description(dto.getDescription())
-                .targetBooks(dto.getTargetBooks())
-                .startDate(dto.getStartDate())
-                .endDate(dto.getEndDate())
-                .creator(creator)
-                .build();
+            // ✔ 성공 시 JSON 응답: { "message": "챌린지에 참여했습니다." }
+            return ResponseEntity.ok(Collections.singletonMap("message", "챌린지에 참여했습니다."));
 
-        Challenge saved = challengeService.create(c);
-
-        return ResponseEntity.ok(
-                ChallengeResponseDto.builder()
-                        .challengeId(saved.getChallengeId())
-                        .title(saved.getTitle())
-                        .description(saved.getDescription())
-                        .targetBooks(saved.getTargetBooks())
-                        .startDate(saved.getStartDate())
-                        .endDate(saved.getEndDate())
-                        .creatorId(saved.getCreator().getUserId())
-                        .status(saved.getStatus())
-                        .createdAt(saved.getCreatedAt())
-                        .build()
-        );
+        } catch (IllegalStateException e) {
+            // ❌ 실패(이미 참여) 시 JSON 응답: { "message": "이미 참여한 챌린지입니다." }
+            // 상태 코드는 409 Conflict 또는 400 Bad Request가 적절합니다.
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Collections.singletonMap("message", "이미 참여한 챌린지입니다."));
+        }
     }
-
     // ⭐ 단일 챌린지 조회
     @GetMapping("/{challengeId}")
     public ResponseEntity<ChallengeResponseDto> get(@PathVariable Long challengeId) {
