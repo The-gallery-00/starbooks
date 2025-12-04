@@ -1,5 +1,6 @@
 package com.starbooks.controller.user;
 
+import com.starbooks.dto.reading.DailyGoalStatusDto;
 import com.starbooks.dto.user.*;
 import com.starbooks.domain.user.User;
 import com.starbooks.service.user.UserService;
@@ -126,12 +127,21 @@ public class UserController {
                         .build()
         );
     }
-    // 유저의 일일 목표 조회
-    @GetMapping("/{id}/daily-goal")
-    public ResponseEntity<Integer> getDailyGoal(@PathVariable Long id) {
-        User user = userService.findById(id);
-        return ResponseEntity.ok(user.getDailyPageGoal());
+
+    @GetMapping("/{userId}/daily-goal")
+    public ResponseEntity<DailyGoalStatusDto> getDailyGoal(@PathVariable Long userId) {
+        int targetPages = userService.findById(userId).getDailyPageGoal();
+        int achievedPages = userService.getTodayPages(userId);
+
+        DailyGoalStatusDto dto = DailyGoalStatusDto.builder()
+                .targetPages(targetPages)
+                .achievedPages(achievedPages)
+                .goalAchieved(targetPages > 0 && achievedPages >= targetPages)
+                .build();
+
+        return ResponseEntity.ok(dto);
     }
+
     // 아이디 + 이메일로 비밀번호 재설정
     @PatchMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequestDto dto) {

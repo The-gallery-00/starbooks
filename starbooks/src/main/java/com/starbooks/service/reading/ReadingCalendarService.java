@@ -10,4 +10,6 @@ public interface ReadingCalendarService {
 
     // 특정 유저의 특정 날짜 기록 조회 (오늘 읽은 페이지 조회할 때 사용)
     Optional<ReadingCalendar> findByUserAndDate(Long userId, LocalDate date);
+
+    int getTodayPages(Long userId);
 }

@@ -58,4 +58,11 @@ public class ReadingCalendarServiceImpl implements ReadingCalendarService {
 
         return calendarRepo.findByUserAndReadingDate(user, date);
     }
+    @Override
+    public int getTodayPages(Long userId) {
+        return findByUserAndDate(userId, LocalDate.now())
+                .map(c -> c.getPagesRead() == null ? 0 : c.getPagesRead())
+                .orElse(0);
+    }
+
 }
