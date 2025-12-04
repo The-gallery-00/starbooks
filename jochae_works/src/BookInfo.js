@@ -281,17 +281,57 @@ export default function BookInfo() {
         <button className="bi-reset-btn" onClick={handleReset}>초기화</button>
       </div>
 
-      {/* 검색 결과 문구 */}
-      {isSearched && (
-        <p className="bi-result-text">"{query}"에 대한 검색 결과</p>
-      )}
+      {/* 검색 결과 혹은 인기 도서 */}
+      {isSearched ? (
+        <>
+          {/* 검색 결과 문구 */}
+          <p className="bi-result-text">"{query}"에 대한 검색 결과</p>
 
-      {/* 검색 결과 없음 */}
-      {isSearched && results.length === 0 && (
-        <p className="bi-no-result-text">
-          "{query}"에 대한 검색 결과가 없습니다.
-        </p>
-      )}
+          {/* 검색 결과 없음 */}
+          {results.length === 0 ? (
+            <p className="bi-no-result-text">
+              "{query}"에 대한 검색 결과가 없습니다.
+            </p>
+          ) : (
+            <div className="bi-book-grid">
+              {selectedBooks.map((book) => (
+                <div
+                  key={book.id}
+                  className="bi-book-card"
+                  onClick={() => goToDetail(book)}
+                >
+                  <img src={book.image} alt={book.title} className="bi-book-image" />
+                  <div className="bi-book-info">
+                    <h4 className="bi-book-title">{book.title}</h4>
+                    <p className="bi-book-author">{book.author}</p>
+                    <p className="bi-book-publisher">{book.publisher}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <p className="bi-result-text">인기 도서 목록</p>
+          <div className="bi-book-grid">
+            {dummyBooks.slice(0, 6).map((book) => (
+              <div
+                key={book.id}
+                className="bi-book-card"
+                onClick={() => goToDetail(book)}
+              >
+                <img src={book.image} alt={book.title} className="bi-book-image" />
+                <div className="bi-book-info">
+                  <h4 className="bi-book-title">{book.title}</h4>
+                  <p className="bi-book-author">{book.author}</p>
+                  <p className="bi-book-publisher">{book.publisher}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+)}
 
       {/* 결과 카드 */}
       <div className="bi-book-grid">
