@@ -1,3 +1,4 @@
+// com/starbooks/domain/challenge/ChallengeParticipant.java
 package com.starbooks.domain.challenge;
 
 import com.starbooks.domain.user.User;
@@ -9,8 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "challenge_participants",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uq_challenge_user",
-                        columnNames = {"challenge_id", "user_id"})
+                @UniqueConstraint(name = "uk_challenge_user", columnNames = {"challenge_id", "user_id"})
         })
 @Getter
 @Setter
@@ -21,22 +21,17 @@ public class ChallengeParticipant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "participation_id")
-    private Long participationId;
+    @Column(name = "participant_id")
+    private Long participantId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "challenge_id", nullable = false)
     private Challenge challenge;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private Integer progress;
-
-    @Column(name = "is_completed", columnDefinition = "TINYINT(1)")
-    private Boolean isCompleted;
-
-    @Column(name = "joined_at")
+    @Column(name = "joined_at", nullable = false)
     private LocalDateTime joinedAt;
 }
