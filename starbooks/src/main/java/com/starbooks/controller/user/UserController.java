@@ -30,8 +30,9 @@ public class UserController {
                 .map(c -> ChallengeSummaryDto.builder()
                         .challengeId(c.getChallengeId())
                         .title(c.getTitle())
-                        .status(c.getStatus()) // 요청하신 응답 필드 (status, title, id) 포함됨
+                        .status(c.getStatus())// 요청하신 응답 필드 (status, title, id) 포함됨
                         // 아래는 선택사항이지만 프론트엔드 재사용을 위해 다 채워주는 것이 좋습니다.
+                        .description(c.getDescription())
                         .startDate(c.getStartDate())
                         .endDate(c.getEndDate())
                         .targetBooks(c.getTargetBooks())

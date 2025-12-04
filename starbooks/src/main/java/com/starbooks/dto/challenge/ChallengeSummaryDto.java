@@ -16,6 +16,7 @@ import java.time.LocalDate;
 public class ChallengeSummaryDto {
     private Long challengeId;
     private String title;
+    private String description;
     private ChallengeStatus status;
     private LocalDate startDate;
     private LocalDate endDate;
