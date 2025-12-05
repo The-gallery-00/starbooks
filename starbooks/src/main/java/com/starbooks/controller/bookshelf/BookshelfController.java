@@ -1,11 +1,9 @@
+// com.starbooks.controller.bookshelf.BookshelfController.java
 package com.starbooks.controller.bookshelf;
 
-import com.starbooks.dto.bookshelf.*;
-import com.starbooks.domain.bookshelf.*;
-import com.starbooks.domain.book.Book;
-import com.starbooks.domain.book.BookRepository;
-import com.starbooks.domain.user.User;
-import com.starbooks.domain.user.UserRepository;
+import com.starbooks.domain.bookshelf.BookshelfBook;
+import com.starbooks.dto.bookshelf.BookshelfRequestDto;
+import com.starbooks.dto.bookshelf.BookshelfResponseDto;
 import com.starbooks.service.bookshelf.BookshelfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,61 +15,17 @@ import org.springframework.web.bind.annotation.*;
 public class BookshelfController {
 
     private final BookshelfService service;
-    private final UserRepository userRepo;
-    private final BookRepository bookRepo;
 
-    @PostMapping
-    public ResponseEntity<BookshelfResponseDto> create(@RequestBody BookshelfRequestDto dto) {
-
-        User user = userRepo.findById(dto.getUserId()).orElseThrow();
-
-        Bookshelf shelf = Bookshelf.builder()
-                .user(user)
-                .shelfType(dto.getShelfType())
-                .build();
-
-        Bookshelf saved = service.create(shelf);
-
-        return ResponseEntity.ok(BookshelfResponseDto.builder()
-                .shelfId(saved.getShelfId())
-                .userId(saved.getUser().getUserId())
-                .shelfType(saved.getShelfType())
-                .createdAt(saved.getCreatedAt())
-                .build());
+    /**
+     * 📌 책을 내 서재에 추가 (READING / FINISHED / WISHLIST + 진척도)
+     */
+    @PostMapping("/add")
+    public ResponseEntity<BookshelfResponseDto> addBookToShelf(
+            @RequestBody BookshelfRequestDto dto
+    ) {
+        BookshelfBook saved = service.addBookToShelf(dto);
+        return ResponseEntity.ok(BookshelfResponseDto.from(saved));
     }
 
-    @PostMapping("/add-book")
-    public ResponseEntity<BookshelfBookResponseDto> addBook(@RequestBody BookshelfBookRequestDto dto) {
-
-        BookshelfBook saved = service.addBook(dto.getShelfId(), dto.getBookId());
-
-        return ResponseEntity.ok(
-                BookshelfBookResponseDto.builder()
-                        .shelfId(saved.getBookshelf().getShelfId())
-                        .bookId(saved.getBook().getBookId())
-                        .addedAt(saved.getAddedAt())
-                        .build()
-        );
-    }
-
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<BookshelfResponseDto> get(@PathVariable Long id) {
-        Bookshelf shelf = service.findById(id);
-        return ResponseEntity.ok(
-                BookshelfResponseDto.builder()
-                        .shelfId(shelf.getShelfId())
-                        .userId(shelf.getUser().getUserId())
-                        .shelfType(shelf.getShelfType())
-                        .createdAt(shelf.getCreatedAt())
-                        .build()
-        );
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+    // 필요하면 나중에 shelf 자체를 조회/삭제하는 API 따로 다시 정리
 }
