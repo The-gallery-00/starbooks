@@ -1,0 +1,143 @@
+/* 전체 섹션 */
+.hmrl-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e8ddd0;
+}
+
+/* 헤더 */
+.hmrl-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.hmrl-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3e2723;
+}
+
+/* 더보기 버튼 */
+.hmrl-more-btn {
+  background: #f5f1eb;
+  border: 1px solid #d4a574;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #8d6e63;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hmrl-more-btn:hover {
+  background: #d4a574;
+  color: #fff;
+}
+
+/* Grid */
+.hmrl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  justify-content: start;
+}
+
+/* 카드 */
+/* 카드 */
+.hmrl-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start; /* 왼쪽 정렬 */
+  width: 140px;       /* 표지 기준으로 고정 */
+  flex-shrink: 0;
+}
+
+/* 책 표지 */
+.hmrl-cover-wrapper {
+  width: 100%; /* 카드 너비 전체 사용 */
+  aspect-ratio: 2 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.08);
+  max-width: 140px;
+  flex-shrink: 0;
+}
+
+.hmrl-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 책 정보 영역 */
+.hmrl-info {
+  width: 100%; /* 표지 너비에 맞춤 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left; /* 왼쪽 정렬 */
+  flex-shrink: 0;
+}
+
+/* 제목 */
+.hmrl-title {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #3e2723;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 저자 */
+.hmrl-author {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6d4c41;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 진행률 */
+.hmrl-progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%; /* 표지와 같은 너비 */
+}
+
+.hmrl-progress-bar {
+  flex: 1;
+  height: 5px;
+  background-color: #f5f1eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.hmrl-progress-fill {
+  height: 100%;
+  background-color: #d4a574;
+  transition: width 0.3s;
+}
+
+.hmrl-progress-text {
+  font-size: 0.7rem;
+  color: #6d4c41;
+  min-width: 28px;
+  text-align: right;
+}
+
+.hmrl-empty-message {
+  text-align: center;
+  color: #6d4c41;
+  font-size: 1rem;
+  padding: 2rem 0;
+}

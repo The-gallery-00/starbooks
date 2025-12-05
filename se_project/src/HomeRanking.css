@@ -1,0 +1,109 @@
+/* 전체 섹션 */
+.hrg-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e8ddd0;
+}
+
+/* 헤더 */
+.hrg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.hrg-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3e2723;
+}
+
+/* .hrg-more-btn {
+  background: #f5f1eb;
+  border: 1px solid #d4a574;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #8d6e63;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hrg-more-btn:hover {
+  background: #d4a574;
+  color: #fff;
+} */
+
+/* 독자 리스트 */
+.hrg-readers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* 개별 카드 */
+.hrg-reader-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background-color: #faf5f0;
+  border-radius: 8px;
+  border: 1px solid #e8ddd0;
+  width: 100%;           /* 카드 전체 너비 고정 */
+  max-width: 370px;      /* 최대 넓이 제한 */
+  box-sizing: border-box; 
+}
+
+.hrg-reader-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* 순위 */
+.hrg-reader-rank {
+  font-weight: 700;
+  font-size: 1rem;
+  width: 40px;
+  text-align: center;
+  color: #a67c52;
+  flex-shrink: 0; /* 순위가 줄어들지 않도록 고정 */
+}
+
+/* 아바타 */
+.hrg-reader-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0; /* 아바타가 줄어들지 않도록 고정 */
+}
+
+/* 독자 정보 */
+.hrg-reader-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;               /* 남은 공간 채우기 */
+  min-width: 0;          /* 텍스트 overflow 적용 위해 필요 */
+}
+
+/* 이름 */
+.hrg-reader-name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #3e2723;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 읽은 책 수 */
+.hrg-books-read {
+  font-size: 0.75rem;
+  color: #6d4c41;
+}

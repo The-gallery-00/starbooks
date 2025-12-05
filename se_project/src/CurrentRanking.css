@@ -1,0 +1,45 @@
+.ranking-section {
+  background: #fff;
+  padding: 20px 22px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-top: 20px;
+}
+
+.ranking-section h3 {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-bottom: 23px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* 리스트 전체 */
+
+.ranking-list p {
+  font-size: 16px;
+  color: #333;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.ranking-list p:last-child {
+  border-bottom: none;
+}
+
+.ranking-list span {
+  font-weight: 600;
+  color: #57433D;
+}
+
+
+/* 부드러운 활성화 효과 */
+.ranking-list p:hover {
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding-left: 6px;
+  transition: 0.2s;
+}
