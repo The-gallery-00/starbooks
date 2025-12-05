@@ -1,160 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AddChallenge from "./AddChallenge";
 import "./Challenge.css";
-
-const DUMMY_CHALLENGES = [
-  {
-    id: 1,
-    title: "10월 독서 마라톤",
-    description: "한 달 동안 5권의 책을 완독하는 챌린지",
-    maxBooks: 5,
-    startDate: "2025-11-01",
-    endDate: "2025-12-05",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 2,
-    title: "고전 문학 정복하기",
-    description: "세계 문학의 고전 작품 10권을 읽어내는 장기 챌린지",
-    maxBooks: 10,
-    startDate: "2025-11-01",
-    endDate: "2025-11-30",
-    joined: true,
-    participants: 120, // 참여자 수 추가
-  },
-  {
-    id: 3,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 4,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 5,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 6,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 7,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 158, // 참여자 수 추가
-  },
-  {
-    id: 8,
-    title: "과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여과학 분야 도서 3권 읽고 토론 참여고 토론 참여과학 분야 도서 3권 읽고 토론 참여도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 9,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 10,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 11,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 12,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 13,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2025-12-02",
-    joined: false,
-    participants: 12, // 참여자 수 추가
-  },
-  {
-    id: 14,
-    title: "과학 도서로 세상 이해하기",
-    description: "과학 분야 도서 3권 읽고 토론 참여",
-    maxBooks: 3,
-    startDate: "2025-11-01",
-    endDate: "2026-12-02",
-    joined: false,
-    participants: 8, // 참여자 수 추가
-  },
-];
+import api from "./api/axiosInstance";
+import { UserContext } from "./UserContext";
 
 // D-Day 계산
 const calculateDDay = (endDate) => {
+  if (!endDate) return "";
   const today = new Date();
   const end = new Date(endDate);
   const diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
-  return diff === 0 ? "D-day" : `D-${diff}`;
+  return diff === 0 ? "D-day" : diff > 0 ? `D-${diff}` : "종료";
 };
 
 // 진행률 계산
 const calculateProgress = (startDate, endDate) => {
+  if (!startDate || !endDate) return 0;
   const start = new Date(startDate);
   const end = new Date(endDate);
   const today = new Date();
@@ -165,19 +26,20 @@ const calculateProgress = (startDate, endDate) => {
   return Math.floor((done / total) * 100);
 };
 
+// 챌린지 카드
 const ChallengeCard = ({ challenge, openDetail, toggleJoin }) => {
   const dDay = calculateDDay(challenge.endDate);
   const progress = calculateProgress(challenge.startDate, challenge.endDate);
 
   const handleButtonClick = (e) => {
     e.stopPropagation();
-    toggleJoin(challenge.id);
+    toggleJoin(challenge.id, challenge.joined);
   };
 
   return (
     <div className="challenge-card" onClick={() => openDetail(challenge)}>
       <div className="card-header">
-        <span className="d-day">{dDay}</span>
+        <span className={`d-day ${dDay === "종료" ? "ended" : ""}`}>{dDay}</span>
         <button
           className={`card-action-btn ${challenge.joined ? "joined" : ""}`}
           onClick={handleButtonClick}
@@ -185,15 +47,16 @@ const ChallengeCard = ({ challenge, openDetail, toggleJoin }) => {
           {challenge.joined ? "참여 취소" : "참여하기"}
         </button>
       </div>
-
       <div className="card-content">
         <h3 className="challenge-title c-ellipsis-title">{challenge.title}</h3>
-        <p className="challenge-description c-ellipsis-desc">{challenge.description}</p>
+        <p className="challenge-description c-ellipsis-desc">
+          {challenge.description && challenge.description.trim() !== "" 
+            ? challenge.description 
+            : "설명이 없습니다."}
+        </p>
+
         <div className="dday-progress-container">
-          <div
-            className="dday-progress-bar"
-            style={{ width: `${progress}%` }}
-          ></div>
+          <div className="dday-progress-bar" style={{ width: `${progress}%` }}></div>
         </div>
         <p className="c-participants-count">참여자: {challenge.participants}명</p>
       </div>
@@ -202,32 +65,12 @@ const ChallengeCard = ({ challenge, openDetail, toggleJoin }) => {
 };
 
 export default function Challenge() {
-  const [challenges, setChallenges] = useState(DUMMY_CHALLENGES);
+  const { user } = useContext(UserContext);
+  const [challenges, setChallenges] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  const today = new Date();
-  const validChallenges = challenges.filter((c) => {
-    const end = new Date(c.endDate);
-    end.setHours(23, 59, 59);
-    return end >= today;
-  });
-
-  // 참여중 / 전체 챌린지 필터
-  const joinedChallenges = validChallenges
-    .filter(c => c.joined)
-    .sort((a, b) => new Date(a.endDate) - new Date(b.endDate)); // endDate 오름차순
-  const allChallenges = validChallenges
-    .filter(c => !c.joined)
-    .sort((a, b) => {
-      // 최신순: 생성일 최신순 (startDate 내림차순)
-      // return new Date(b.startDate) - new Date(a.startDate);
-
-      // 마감일 임박순: endDate 오름차순
-      return new Date(a.endDate) - new Date(b.endDate);
-    });
-
-  // 페이지네이션 설정
+  // 페이지네이션
   const pageGroupSize = 3;
   const joinedPerPage = 4;
   const allPerPage = 10;
@@ -235,7 +78,66 @@ export default function Challenge() {
   const [allPage, setAllPage] = useState(1);
   const [joinedGroup, setJoinedGroup] = useState(1);
   const [allGroup, setAllGroup] = useState(1);
-  
+
+  // 챌린지 목록 로딩
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const response = await api.get("/api/challenges");
+        let data = response.data.data || response.data || [];
+
+        // 내 참여 정보 가져오기
+        let myChallengeIds = new Set();
+        if (user && (user.userId || user.id || user.memberId)) {
+          const uid = user.userId || user.id || user.memberId;
+          try {
+            const myRes = await api.get(`/api/challenges/my`, {
+              params: { userId: uid }
+            });
+            const myData = myRes.data || [];
+            myChallengeIds = new Set(myData.map(c => c.challengeId));
+          } catch (err) {
+            console.warn("내 참여 목록 로딩 실패:", err);
+          }
+        }
+
+        const mapped = data.map((item) => ({
+          id: item.challengeId,
+          title: item.title,
+          description: item.description,
+          maxBooks: item.targetBooks,
+          startDate: item.startDate,
+          endDate: item.endDate,
+          participants: item.participantCount || 0,
+          joined: myChallengeIds.has(item.challengeId),
+          status: item.status,
+        }));
+
+        setChallenges(mapped);
+      } catch (err) {
+        console.error("챌린지 목록 로딩 실패:", err);
+      }
+    };
+
+    fetchChallenges();
+  }, [user]);
+
+  // 유효한 챌린지 필터링
+  const today = new Date();
+  const validChallenges = challenges.filter(c => {
+    if (!c.endDate || c.status === "CANCELLED") return false;
+    const end = new Date(c.endDate);
+    end.setHours(23, 59, 59);
+    return end >= today;
+  });
+
+  const joinedChallenges = validChallenges
+    .filter(c => c.joined)
+    .sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+  const allChallenges = validChallenges
+    .filter(c => !c.joined)
+    .sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+
   const totalJoinedPages = Math.ceil(joinedChallenges.length / joinedPerPage);
   const totalAllPages = Math.ceil(allChallenges.length / allPerPage);
 
@@ -253,25 +155,56 @@ export default function Challenge() {
     return pages;
   };
 
-  const toggleJoin = (id) => {
-    setChallenges((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, joined: !c.joined } : c))
-    );
-    setSelected((prev) =>
-      prev ? { ...prev, joined: !prev.joined } : null
-    );
+  // 참여/취소 처리
+  const toggleJoin = async (id, currentlyJoined) => {
+    if (!user) return alert("로그인이 필요합니다.");
+    const userId = user.userId || user.id || user.memberId;
+    if (!userId) return alert("유저 정보 오류. 재로그인 해주세요.");
+
+    console.log("==== [ 챌린지 참여/취소 요청 시작 ] ====");
+    console.log("▶ 챌린지 ID:", id);
+    console.log("▶ 현재 joined 상태:", currentlyJoined);
+    console.log("▶ 사용자 ID:", userId);
+
+    try {
+      if (!currentlyJoined) {
+        await api.post(`/api/challenges/${id}/join`, { userId });
+        alert("챌린지에 참여했습니다!");
+      } else {
+        await api.delete(`/api/challenges/${id}/join`, { params: { userId } });
+        alert("참여를 취소했습니다!");
+      }
+
+      setChallenges(prev =>
+        prev.map(c => 
+          c.id === id 
+            ? { 
+                ...c, 
+                joined: !c.joined, 
+                participants: currentlyJoined ? c.participants - 1 : c.participants + 1 
+              } 
+            : c
+        )
+      );
+
+      if (selected?.id === id) {
+        setSelected(prev => ({
+          ...prev,
+          joined: !prev.joined,
+          participants: currentlyJoined ? prev.participants - 1 : prev.participants + 1
+        }));
+      }
+    } catch (err) {
+      console.error("참여 처리 실패:", err);
+      alert("참여/취소 처리 중 오류가 발생했습니다.");
+    }
   };
 
   const addChallenge = (newChallenge) => {
-    const newId = challenges.length ? challenges[0].id + 1 : 1;
-    setChallenges((prev) => [
-      {
-        ...newChallenge,
-        id: newId,
-        joined: false,
-        startDate: new Date().toISOString().slice(0, 10),
-      },
-      ...prev,
+    const newId = challenges.length ? Math.max(...challenges.map(c => c.id)) + 1 : 1;
+    setChallenges(prev => [
+      { ...newChallenge, id: newId, joined: false, participants: 0 },
+      ...prev
     ]);
     setShowAdd(false);
   };
@@ -282,135 +215,86 @@ export default function Challenge() {
         새 챌린지 생성
       </button>
 
-      {/* 참여중 영역 */}
+      {/* 참여중 챌린지 */}
       <div className="joined-challenges-container">
         <h3>참여중인 챌린지</h3>
         {joinedChallenges.length === 0 ? (
-          <p>아직 참여중인 챌린지가 없습니다. 챌린지에 참여해보세요!</p>
+          <p>아직 참여중인 챌린지가 없습니다. 참여해보세요!</p>
         ) : (
           <>
             <div className="challenge-grid">
-              {joinedList.map(challenge => (
-                <ChallengeCard key={challenge.id} challenge={challenge} openDetail={setSelected} toggleJoin={toggleJoin}/>
+              {joinedList.map(ch => (
+                <ChallengeCard key={ch.id} challenge={ch} openDetail={setSelected} toggleJoin={toggleJoin} />
               ))}
             </div>
             <div className="c-pagination">
               <button
                 className="c-page-arrow"
-                onClick={() => {
-                  const prevGroup = joinedGroup - 1;
-                  if (prevGroup >= 1) {
-                    setJoinedGroup(prevGroup);
-                    setJoinedPage((prevGroup - 1) * pageGroupSize + 1);
-                  }
-                }}
+                onClick={() => { if (joinedGroup > 1) { setJoinedGroup(joinedGroup-1); setJoinedPage((joinedGroup-2)*pageGroupSize+1); } }}
                 disabled={joinedGroup === 1}
-              >
-                &lt;
-              </button>
-
-              {getPageNumbers(joinedGroup, totalJoinedPages).map((pageNum) => (
+              >&lt;</button>
+              {getPageNumbers(joinedGroup, totalJoinedPages).map(num => (
                 <button
-                  key={pageNum}
-                  className={`c-page-btn ${joinedPage === pageNum ? "active" : ""}`}
-                  onClick={() => setJoinedPage(pageNum)}
-                >
-                  {pageNum}
-                </button>
+                  key={num}
+                  className={`c-page-btn ${joinedPage===num?"active":""}`}
+                  onClick={()=>setJoinedPage(num)}
+                >{num}</button>
               ))}
-
               <button
                 className="c-page-arrow"
-                onClick={() => {
-                  const nextGroup = joinedGroup + 1;
-                  if (nextGroup <= totalJoinedGroups) {
-                    setJoinedGroup(nextGroup);
-                    setJoinedPage((nextGroup - 1) * pageGroupSize + 1);
-                  }
-                }}
-                disabled={joinedGroup === totalJoinedGroups}
-              >
-                &gt;
-              </button>
+                onClick={() => { if (joinedGroup < totalJoinedGroups) { setJoinedGroup(joinedGroup+1); setJoinedPage(joinedGroup*pageGroupSize+1); } }}
+                disabled={joinedGroup===totalJoinedGroups}
+              >&gt;</button>
             </div>
           </>
         )}
       </div>
-      
 
-      {/* 전체 챌린지 영역 */}
+      {/* 전체 챌린지 */}
       <h3>전체 챌린지</h3>
       <div className="challenge-grid">
-        {allList.map(challenge => (
-          <ChallengeCard key={challenge.id} challenge={challenge} openDetail={setSelected} toggleJoin={toggleJoin}/>
+        {allList.map(ch => (
+          <ChallengeCard key={ch.id} challenge={ch} openDetail={setSelected} toggleJoin={toggleJoin} />
         ))}
       </div>
       <div className="c-pagination">
         <button
           className="c-page-arrow"
-          onClick={() => {
-            const prevGroup = allGroup - 1;
-            if (prevGroup >= 1) {
-              setAllGroup(prevGroup);
-              setAllPage((prevGroup - 1) * pageGroupSize + 1);
-            }
-          }}
-          disabled={allGroup === 1}
-        >
-          &lt;
-        </button>
-
-        {getPageNumbers(allGroup, totalAllPages).map((pageNum) => (
+          onClick={() => { if (allGroup>1){ setAllGroup(allGroup-1); setAllPage((allGroup-2)*pageGroupSize+1); } }}
+          disabled={allGroup===1}
+        >&lt;</button>
+        {getPageNumbers(allGroup, totalAllPages).map(num => (
           <button
-            key={pageNum}
-            className={`c-page-btn ${allPage === pageNum ? "active" : ""}`}
-            onClick={() => setAllPage(pageNum)}
-          >
-            {pageNum}
-          </button>
+            key={num}
+            className={`c-page-btn ${allPage===num?"active":""}`}
+            onClick={()=>setAllPage(num)}
+          >{num}</button>
         ))}
-
         <button
           className="c-page-arrow"
-          onClick={() => {
-            const nextGroup = allGroup + 1;
-            if (nextGroup <= totalAllGroups) {
-              setAllGroup(nextGroup);
-              setAllPage((nextGroup - 1) * pageGroupSize + 1);
-            }
-          }}
-          disabled={allGroup === totalAllGroups}
-        >
-          &gt;
-        </button>
+          onClick={() => { if (allGroup<totalAllGroups){ setAllGroup(allGroup+1); setAllPage(allGroup*pageGroupSize+1); } }}
+          disabled={allGroup===totalAllGroups}
+        >&gt;</button>
       </div>
 
+      {showAdd && <AddChallenge onClose={()=>setShowAdd(false)} onCreate={addChallenge}/>}
 
-      {showAdd && (
-        <AddChallenge onClose={() => setShowAdd(false)} onCreate={addChallenge} />
-      )}
-
+      {/* 모달 */}
       {selected && (
         <div className="c-modal-overlay">
           <div className="challenge-modal">
             <div className="c-modal-content">
               <h2>{selected.title}</h2>
-              <p>{selected.description}</p>
+              <p>{selected.description && selected.description.trim() !== "" ? selected.description : "설명이 없습니다."}</p>
               <p>📆시작일: {selected.startDate} / 📅마감일: {selected.endDate}</p>
               <p>✔︎ 목표: {selected.maxBooks}권</p>
             </div>
-
             <div className="c-modal-actions">
-              <button className="c-modal-join-btn" onClick={() => toggleJoin(selected.id)}>
+              <button className="c-modal-join-btn" onClick={()=>toggleJoin(selected.id, selected.joined)}>
                 {selected.joined ? "참여 취소" : "참여하기"}
               </button>
-
-              <button className="c-modal-close-btn" onClick={() => setSelected(null)}>
-                닫기
-              </button>
+              <button className="c-modal-close-btn" onClick={()=>setSelected(null)}>닫기</button>
             </div>
-
-            
           </div>
         </div>
       )}
