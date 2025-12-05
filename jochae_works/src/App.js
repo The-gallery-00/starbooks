@@ -107,7 +107,7 @@ function AppContent() {
             } 
           />
           <Route 
-            path="/detail-post/:postId/:postType" 
+            path="/detail-post/:postId" 
             element={
               <ProtectedRoute>
                 <DetailPost />
