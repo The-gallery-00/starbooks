@@ -41,5 +41,6 @@ public class PostAnswer {
     private PostOption option;
 
     @Column(name = "answered_at")
+    @org.hibernate.annotations.CreationTimestamp
     private LocalDateTime answeredAt;
 }

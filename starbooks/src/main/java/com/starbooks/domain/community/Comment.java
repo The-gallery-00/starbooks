@@ -4,6 +4,7 @@ package com.starbooks.domain.community;
 import com.starbooks.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -33,7 +34,9 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
+
     @Column(name = "created_at")
+    @org.hibernate.annotations.CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
