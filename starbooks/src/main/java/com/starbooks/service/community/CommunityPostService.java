@@ -12,4 +12,5 @@ public interface CommunityPostService {
     List<CommunityPost> findAll();
     void delete(Long id);
     CommunityPost saveWithOptions(CommunityPost post, List<PostOption> options);
+    List<PostOption> getOptions(Long postId);
 }

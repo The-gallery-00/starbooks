@@ -54,5 +54,13 @@ public class CommunityPostServiceImpl implements CommunityPostService {
         }
         return savedPost;
     }
+
+    public List<PostOption> getOptions(Long postId) {
+        // repository 가 아니라 postRepo 사용
+        CommunityPost post = postRepo.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
+
+        return optionRepo.findByPost(post);
+    }
 }
 

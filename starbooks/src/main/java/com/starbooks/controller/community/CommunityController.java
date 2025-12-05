@@ -90,6 +90,16 @@ public class CommunityController {
         );
     }
 
+    @GetMapping("/{postId}/options")
+    public ResponseEntity<List<PostOptionResponseDto>> getOptions(@PathVariable Long postId) {
+        return ResponseEntity.ok(
+                service.getOptions(postId)
+                        .stream()
+                        .map(PostOptionResponseDto::from)
+                        .toList()
+        );
+    }
+
     /** 📌 게시글 삭제 */
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> delete(@PathVariable Long postId) {
