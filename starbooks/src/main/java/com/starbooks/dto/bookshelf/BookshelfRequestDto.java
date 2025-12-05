@@ -12,5 +12,8 @@ import lombok.*;
 public class BookshelfRequestDto {
 
     private Long userId;
-    private ShelfType shelfType;
+    private Long bookId;
+    private ShelfType shelfType;  // READING, FINISHED, WISHLIST
+    private Integer currentPage;  // READING일 때만 사용
+    private Integer totalPages;
 }
