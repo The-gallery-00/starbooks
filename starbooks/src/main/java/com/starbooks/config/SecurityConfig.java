@@ -43,7 +43,9 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 안함
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // 로그인/회원가입 허용
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/users/check-email").permitAll()      // 추가
+                        .requestMatchers("/api/users/check-nickname").permitAll()// 로그인/회원가입 허용
                         .requestMatchers(
                                 "/", "/error",
                                 "/swagger-ui/**", "/v3/api-docs/**",
@@ -51,6 +53,8 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
+
+
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
