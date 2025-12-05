@@ -1,0 +1,127 @@
+.library-section {
+  margin-bottom: 30px;
+  border-radius: 8px;
+}
+
+.fb-tabs {
+  margin-bottom: -1px;
+}
+
+.fb-tabs button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: 1px solid #e8ddd0;
+  border-bottom: none;
+  background-color: #f5f1eb;
+  color: #8d6e63;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+  transition: background-color 0.3s;
+}
+
+.fb-tabs button.active {
+  background-color: white;
+  color: #3e2723;
+  font-weight: 600;
+  border-color: #e8ddd0;
+  border-bottom: 1px solid white;
+}
+
+.tab-content {
+  border: 1px solid #e8ddd0;
+  padding: 20px;
+  min-height: 200px;
+  border-radius: 0 8px 8px 8px;
+  background-color: white;
+}
+
+.fbl-book-list-container-tab {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: 15px;
+  row-gap: 35px;
+  padding: 10px;
+  max-height: 580px;
+  height: auto;
+  min-height: 250px;
+  overflow-y: auto;
+}
+
+.fbl-book-card-link {
+  flex: 0 0 150px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.fbl-book-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid #e8ddd0;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: box-shadow 0.2s;
+  height: 100%;
+}
+
+.fbl-book-card:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.fbl-book-cover {
+  width: 100px;
+  height: 140px;
+  object-fit: cover;
+  margin-bottom: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.fbl-book-info {
+  width: 100%;
+  text-align: center;
+}
+
+.fbl-book-title {
+  font-weight: bold;
+  font-size: 0.9em;
+  margin: 2px 0;
+  white-space: normal;
+  color: #3e2723;
+}
+
+.fbl-book-author {
+  font-size: 0.8em;
+  color: #6d4c41;
+  margin: 0 0 5px 0;
+}
+
+.fbl-progress-bar-container {
+  width: 100%;
+  background-color: #f5f1eb;
+  border-radius: 2px;
+  height: 5px;
+  margin-bottom: 5px;
+}
+
+.fbl-progress-bar {
+  height: 100%;
+  background-color: #57433D;
+  border-radius: 2px;
+}
+
+.fbl-progress-text {
+  font-size: 0.8em;
+  color: #6d4c41;
+  font-weight: bold;
+  margin: 0;
+}
+
+.no-books {
+  color: #8d6e63;
+  text-align: center;
+  margin-top: 50px;
+  white-space: nowrap;
+}
