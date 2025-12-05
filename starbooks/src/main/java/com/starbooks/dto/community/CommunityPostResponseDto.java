@@ -16,6 +16,7 @@ public class CommunityPostResponseDto {
 
     private Long postId;
     private Long userId;
+    private String username;
     private String bookTitle; // 수정됨!
     private PostType postType;
     private String title;

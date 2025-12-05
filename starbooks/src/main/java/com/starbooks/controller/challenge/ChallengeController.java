@@ -107,6 +107,7 @@ public class ChallengeController {
                 .map(c -> ChallengeSummaryDto.builder()
                         .challengeId(c.getChallengeId())
                         .title(c.getTitle())
+                        .description(c.getDescription())
                         .status(c.getStatus())
                         .startDate(c.getStartDate())
                         .endDate(c.getEndDate())

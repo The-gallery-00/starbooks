@@ -172,8 +172,8 @@ CREATE TABLE IF NOT EXISTS community_posts (
     post_type    ENUM('QUIZ','POLL','DISCUSSION') NOT NULL,
     title        VARCHAR(150) NOT NULL,
     content      TEXT, -- QUIZ/POLL은 문제 질문만 저장
-    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at   DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at   DATETIME, 
+    updated_at   DATETIME,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS post_answers (
     post_id     BIGINT NOT NULL,
     user_id     BIGINT NOT NULL,
     option_id   BIGINT NOT NULL,
-    answered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    answered_at DATETIME,
     FOREIGN KEY (post_id) REFERENCES community_posts(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (option_id) REFERENCES post_options(option_id) ON DELETE CASCADE,
@@ -206,8 +206,8 @@ CREATE TABLE IF NOT EXISTS comments (
     post_id    BIGINT NOT NULL,
     user_id    BIGINT NOT NULL,
     content    TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at DATETIME,
+    updated_at DATETIME,
     FOREIGN KEY (post_id) REFERENCES community_posts(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;

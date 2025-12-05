@@ -22,9 +22,11 @@ public class CommunityPost {
     @Column(name = "post_id")
     private Long postId;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
 
     @Column(name = "book_title", length = 200)
     private String bookTitle;
@@ -40,6 +42,7 @@ public class CommunityPost {
     private String content; // DISCUSSION 본문 혹은 QUIZ/POLL 질문문
 
     @Column(name = "created_at")
+    @org.hibernate.annotations.CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
