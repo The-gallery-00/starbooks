@@ -83,44 +83,4 @@ public class ReadingRecordController {
         service.delete(recordId);
         return ResponseEntity.noContent().build();
     }
-
-    // ⭐ 오늘 읽은 페이지 + 목표 달성 체크 + 캘린더 저장 + JSON 반환
-    @PatchMapping("/{userId}/today-pages")
-    public ResponseEntity<ReadingProgressResponseDto> updateTodayPages(
-            @PathVariable Long userId,
-            @RequestParam Integer pagesRead
-    ) {
-        // ⭐ 오늘 기록 갱신 (오늘 누적 페이지 리턴)
-        ReadingCalendar updated = readingCalendarService
-                .updateDailyProgress(userId, LocalDate.now(), pagesRead);
-
-        int updatedTodayPages = updated.getPagesRead() == null ? 0 : updated.getPagesRead();
-
-        // ⭐ 목표 페이지 가져오기 (숫자로 반환한다고 했으므로)
-        int dailyGoal = userRepo.findById(userId)
-                .map(User::getDailyPageGoal)
-                .orElse(0);
-
-        // ⭐ 목표 달성 여부 체크 (원하면 추가 동작 가능)
-        boolean goalReached = (dailyGoal > 0 && updatedTodayPages >= dailyGoal);
-
-        // 👇 프론트가 그대로 setGoalData(res.data) 사용 가능
-        ReadingProgressResponseDto response =
-                new ReadingProgressResponseDto(dailyGoal, updatedTodayPages);
-
-        return ResponseEntity.ok(response);
-    }
-
-
-    // 오늘 읽은 페이지 조회 (GET)
-    @GetMapping("/{userId}/today-pages")
-    public ResponseEntity<Integer> getTodayPages(@PathVariable Long userId) {
-
-        int pagesReadToday = readingCalendarService
-                .findByUserAndDate(userId, LocalDate.now())
-                .map(c -> c.getPagesRead() == null ? 0 : c.getPagesRead())
-                .orElse(0);
-
-        return ResponseEntity.ok(pagesReadToday);
-    }
 }

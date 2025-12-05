@@ -1,13 +1,19 @@
 package com.starbooks.controller.user;
 
+import com.starbooks.domain.reading.ReadingCalendar;
+import com.starbooks.domain.user.UserRepository;
 import com.starbooks.dto.reading.DailyGoalStatusDto;
+import com.starbooks.dto.reading.ReadingProgressResponseDto;
 import com.starbooks.dto.user.*;
 import com.starbooks.domain.user.User;
+import com.starbooks.service.reading.ReadingCalendarService;
 import com.starbooks.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/users")
@@ -15,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepo;  // 🔥 추가
+    private final ReadingCalendarService readingCalendarService; // 🔥 추가
 
     @GetMapping("/check-username")
     public ResponseEntity<Boolean> checkUsername(@RequestParam String username) {
@@ -140,6 +148,46 @@ public class UserController {
                 .build();
 
         return ResponseEntity.ok(dto);
+    }
+
+    // ⭐ 오늘 읽은 페이지 + 목표 달성 체크 + 캘린더 저장 + JSON 반환
+    @PatchMapping("/{userId}/today-pages")
+    public ResponseEntity<ReadingProgressResponseDto> updateTodayPages(
+            @PathVariable Long userId,
+            @RequestParam Integer pagesRead
+    ) {
+        // ⭐ 오늘 기록 갱신 (오늘 누적 페이지 리턴)
+        ReadingCalendar updated = readingCalendarService
+                .updateDailyProgress(userId, LocalDate.now(), pagesRead);
+
+        int updatedTodayPages = updated.getPagesRead() == null ? 0 : updated.getPagesRead();
+
+        // ⭐ 목표 페이지 가져오기 (숫자로 반환한다고 했으므로)
+        int dailyGoal = userRepo.findById(userId)
+                .map(User::getDailyPageGoal)
+                .orElse(0);
+
+        // ⭐ 목표 달성 여부 체크 (원하면 추가 동작 가능)
+        boolean goalReached = (dailyGoal > 0 && updatedTodayPages >= dailyGoal);
+
+        // 👇 프론트가 그대로 setGoalData(res.data) 사용 가능
+        ReadingProgressResponseDto response =
+                new ReadingProgressResponseDto(dailyGoal, updatedTodayPages);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    // 오늘 읽은 페이지 조회 (GET)
+    @GetMapping("/{userId}/today-pages")
+    public ResponseEntity<Integer> getTodayPages(@PathVariable Long userId) {
+
+        int pagesReadToday = readingCalendarService
+                .findByUserAndDate(userId, LocalDate.now())
+                .map(c -> c.getPagesRead() == null ? 0 : c.getPagesRead())
+                .orElse(0);
+
+        return ResponseEntity.ok(pagesReadToday);
     }
 
     // 아이디 + 이메일로 비밀번호 재설정
