@@ -38,10 +38,14 @@ public class BookSearchController {
 
     // 1) 키워드로 검색
     @GetMapping("/books")
-    public ResponseEntity<List<BookSearchDto>> searchBooks(@RequestParam String keyword, int page, int size) {
-        List<BookSearchDto> result = externalBookApiService.searchBooks(keyword, page, size);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<List<BookSearchDto>> searchBooks(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size
+    ) {
+        return ResponseEntity.ok(externalBookApiService.searchBooks(keyword, page, size));
     }
+
 
     // 2) ISBN으로 상세 정보 조회
     @GetMapping("/book/detail")

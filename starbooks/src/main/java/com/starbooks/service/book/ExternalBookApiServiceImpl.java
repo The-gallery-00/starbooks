@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,44 +34,46 @@ public class ExternalBookApiServiceImpl implements ExternalBookApiService {
 
     @Override
     public List<BookSearchDto> searchBooks(String keyword, int page, int size) {
+        try {
+            String url = "http://data4library.kr/api/srchBooks"
+                    + "?authKey=" + apiKey
+                    + "&keyword=" + UriUtils.encode(keyword, StandardCharsets.UTF_8)
+                    + "&pageNo=" + page
+                    + "&pageSize=" + size
+                    + "&format=json";
 
-        String url = "http://data4library.kr/api/srchBooks"
-                + "?authKey=" + apiKey
-                + "&keyword=" + keyword
-                + "&pageNo=" + page
-                + "&pageSize=" + size
-                + "&format=json";
+            log.info("📡 도서 검색 요청 URL: {}", url);
 
-        System.out.println("📡 도서관 정보나루 검색 요청: " + url);
+            Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+            if (response == null || !response.containsKey("response")) return List.of();
 
-        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+            Map<String, Object> res = (Map<String, Object>) response.get("response");
+            if (!res.containsKey("docs")) return List.of();
 
-        if (response == null || !response.containsKey("response")) {
+            List<Map<String, Object>> docs = (List<Map<String, Object>>) res.get("docs");
+            if (docs == null) return List.of();
+
+            List<BookSearchDto> results = new ArrayList<>();
+            for (Map<String, Object> doc : docs) {
+                BookSearchDto dto = BookSearchDto.builder()
+                        .title((String) doc.get("bookname"))
+                        .author((String) doc.get("authors"))
+                        .publisher((String) doc.get("publisher"))
+                        .isbn((String) doc.get("isbn13"))
+                        .publicationYear((String) doc.get("publication_year"))
+                        .bookImageUrl((String) doc.get("bookImageURL"))
+                        .build();
+                results.add(dto);
+            }
+            return results;
+
+        } catch (Exception e) {
+            log.error("도서 검색 실패", e);
             return List.of();
         }
-
-        Map<String, Object> res = (Map<String, Object>) response.get("response");
-        List<Map<String, Object>> docs = (List<Map<String, Object>>) res.get("docs");
-
-        List<BookSearchDto> results = new ArrayList<>();
-
-        for (Map<String, Object> docWrap : docs) {
-            Map<String, Object> doc = (Map<String, Object>) docWrap.get("doc");
-
-            BookSearchDto dto = BookSearchDto.builder()
-                    .title((String) doc.get("bookname"))
-                    .author((String) doc.get("authors"))
-                    .publisher((String) doc.get("publisher"))
-                    .isbn((String) doc.get("isbn13"))
-                    .publicationYear((String) doc.get("publication_year"))
-                    .bookImageUrl((String) doc.get("bookImageURL"))
-                    .build();
-
-            results.add(dto);
-        }
-
-        return results;
     }
+
+
 
     @Override
     public BookDetailDto getBookDetail(String isbn13) {
@@ -127,7 +130,7 @@ public class ExternalBookApiServiceImpl implements ExternalBookApiService {
             builder.queryParam("gender", gender);
         }
         if (age != null && !age.isBlank()) {
-            builder.queryParam("age", age);
+            builder.queryParam("age", 30);
         }
         if (region != null && !region.isBlank()) {
             builder.queryParam("region", region);
