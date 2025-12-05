@@ -3,6 +3,7 @@ package com.starbooks.controller.community;
 import com.starbooks.domain.community.*;
 import com.starbooks.domain.user.User;
 import com.starbooks.dto.community.*;
+import com.starbooks.service.community.CommentService;
 import com.starbooks.service.community.CommunityPostService;
 import com.starbooks.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class CommunityController {
 
     private final CommunityPostService service;
     private final UserRepository userRepo;
+    private final CommentService commentService;
 
     /** 📌 일반 게시글 (DISCUSSION) 작성 */
     @PostMapping("/discussion")
@@ -94,5 +96,21 @@ public class CommunityController {
         service.delete(postId);
         return ResponseEntity.ok().build();
     }
+
+    /** 댓글 */
+    @PostMapping("/{postId}/comments")
+    public ResponseEntity<CommentResponseDto> addComment(
+            @PathVariable Long postId,
+            @RequestBody CommentRequestDto dto
+    ) {
+        dto.setPostId(postId);
+        return ResponseEntity.ok(commentService.addComment(dto));
+    }
+
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity<List<CommentResponseDto>> getComments(@PathVariable Long postId) {
+        return ResponseEntity.ok(commentService.getComments(postId));
+    }
+
 
 }

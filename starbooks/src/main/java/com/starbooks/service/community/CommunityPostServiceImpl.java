@@ -40,17 +40,18 @@ public class CommunityPostServiceImpl implements CommunityPostService {
     @Override
     public CommunityPost saveWithOptions(CommunityPost post, List<PostOption> options) {
 
-        // 1️⃣ 게시글 먼저 저장
+        if(post.getUser() == null) {
+            throw new IllegalArgumentException("작성자 정보가 없습니다(User must be set)");
+        }
+
         CommunityPost savedPost = postRepo.save(post);
 
-        // 2️⃣ 옵션 저장하며 post_id 관계 매핑
-        if(options != null && !options.isEmpty()) {
-            for(PostOption opt : options) {
+        if (options != null && !options.isEmpty()) {
+            for (PostOption opt : options) {
                 opt.setPost(savedPost);
             }
             optionRepo.saveAll(options);
         }
-
         return savedPost;
     }
 }
