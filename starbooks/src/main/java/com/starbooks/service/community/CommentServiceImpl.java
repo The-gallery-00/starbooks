@@ -8,6 +8,7 @@ import com.starbooks.dto.community.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
                 .post(post)
                 .user(user)
                 .content(dto.getContent())
-                .createdAt(LocalDateTime.now())
+                .createdAt(ZonedDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
 

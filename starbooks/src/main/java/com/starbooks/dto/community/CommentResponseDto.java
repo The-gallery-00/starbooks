@@ -4,6 +4,7 @@ package com.starbooks.dto.community;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -17,6 +18,6 @@ public class CommentResponseDto {
     private Long userId;
     private String username;
     private String content;
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
     private LocalDateTime updatedAt;
 }
