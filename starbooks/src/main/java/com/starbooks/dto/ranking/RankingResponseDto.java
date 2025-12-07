@@ -15,6 +15,7 @@ public class RankingResponseDto {
 
     private Long rankingId;
     private Long userId;
+    private String nickname;
     private RankingType rankingType;
     private Integer rankPosition;
     private Integer value;
