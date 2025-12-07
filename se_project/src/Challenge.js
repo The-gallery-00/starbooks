@@ -111,6 +111,7 @@ export default function Challenge() {
           participants: item.participantCount || 0,
           joined: myChallengeIds.has(item.challengeId),
           status: item.status,
+          createdAt: item.createdAt,
         }));
 
         setChallenges(mapped);
@@ -133,10 +134,10 @@ export default function Challenge() {
 
   const joinedChallenges = validChallenges
     .filter(c => c.joined)
-    .sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   const allChallenges = validChallenges
     .filter(c => !c.joined)
-    .sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const totalJoinedPages = Math.ceil(joinedChallenges.length / joinedPerPage);
   const totalAllPages = Math.ceil(allChallenges.length / allPerPage);
