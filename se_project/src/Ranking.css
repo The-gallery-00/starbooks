@@ -1,0 +1,169 @@
+.ranking-page-container {
+  max-width: 1200px; 
+  margin: 0 auto;
+  padding: 60px 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #A98A6A;
+}
+
+.ranking-columns {
+  display: flex;
+  justify-content: space-between; 
+  gap: 40px; 
+  align-items: flex-start;
+}
+
+.ranking-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ranking-header-section {
+  text-align: center;
+  margin-bottom: 25px; 
+  min-height: 80px; 
+}
+
+.ranking-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #57433D;
+  margin-bottom: 8px;
+}
+
+.ranking-desc {
+  font-size: 14px;
+  color: #999;
+  font-weight: normal;
+  word-break: keep-all; 
+}
+
+/* 랭킹 리스트 영역 */
+.ranking-list-wrapper {
+  background-color: #fff;
+  border-top: 2px solid #57433D; 
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ranking-row {
+  display: flex;
+  align-items: center;
+  padding: 15px 10px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.ranking-row:last-child {
+  border-bottom: none;
+}
+
+.ranking-row:hover {
+  background-color: #fcf8f2; 
+}
+
+.rank-num {
+  width: 50px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #A98A6A;
+}
+
+.rank-num.top-tier {
+  color: #57433D;
+  font-size: 20px;
+}
+
+.rank-profile {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 10px;
+}
+
+.medal-icon {
+  font-size: 18px;
+}
+
+.user-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rank-score {
+  width: 80px;
+  text-align: right;
+  font-size: 15px;
+  font-weight: bold;
+  color: #555;
+  margin-right: 15px;
+}
+
+.score-unit {
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+  margin-left: 2px;
+}
+
+.my-ranking-card {
+  margin-top: 20px;
+  padding: 15px 20px;
+  background-color: #f8f6f2;
+  border-radius: 8px;
+  border: 1px solid #eaddcf;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.my-ranking-info {
+  font-size: 14px;
+  color: #555;
+}
+
+.my-ranking-highlight {
+  font-weight: bold;
+  color: #57433D;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.my-ranking-score {
+  font-size: 14px;
+  color: #333;
+}
+
+.ranking-footer-msg {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 12px;
+  color: #aaa;
+}
+
+@media (max-width: 900px) {
+  .ranking-columns {
+    flex-direction: column;
+    gap: 60px;
+  }
+  
+  .ranking-column {
+    width: 100%;
+  }
+  
+  .ranking-list-wrapper {
+    box-shadow: none;
+    border: 1px solid #eee;
+    border-top: 2px solid #57433D;
+  }
+}

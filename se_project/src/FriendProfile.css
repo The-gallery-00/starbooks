@@ -1,0 +1,62 @@
+.friend-profile-container {
+  display: flex;
+  align-items: flex-start; /* 왼쪽 이미지 높이에 맞추기 */
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  gap: 20px; /* 이미지와 텍스트 사이 간격 */
+}
+
+.friend-profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friend-profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.friend-name-id {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.friend-nickname {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.friend-request-btn {
+  padding: 6px 12px;
+  background-color: #57433D;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.friend-request-btn:hover {
+  opacity: 0.8;
+}
+
+.friend-bio {
+  margin: 10px 0;
+  color: #555;
+}
+
+.friend-favorites p {
+  margin: 5px 0;
+  color: #555;
+}

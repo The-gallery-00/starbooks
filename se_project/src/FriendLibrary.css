@@ -1,0 +1,40 @@
+.dashboard-container {
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 20px;
+}
+
+.stats-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  gap: 20px;
+  align-items: stretch;
+  margin-bottom: 40px;
+}
+
+.friend-library-container {
+  max-width: 1200px;        /* 전체 최대 너비 */
+  margin: 0 auto;           /* 화면 중앙 정렬 */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;   /* 세로로 쌓기 */
+  align-items: center;      /* 자식 요소들을 가로 중앙 정렬 */
+  gap: 30px;                /* 각 컴포넌트 사이 간격 */
+}
+
+.friend-library-wrapper {
+  max-width: 1200px; /* 공통 최대 너비 */
+  margin: 0 auto;    /* 화면 중앙 */
+  display: flex;
+  flex-direction: column; /* 세로로 쌓기 */
+  gap: 30px;             /* 컴포넌트 간 간격 */
+  width: 100%;
+}
+
+/* 각 컴포넌트가 wrapper width 전체 사용 */
+.profile-container,
+.library-section,
+.rr-recent-records {
+  width: 100%;
+  box-sizing: border-box; /* padding 포함 전체 너비 계산 */
+}

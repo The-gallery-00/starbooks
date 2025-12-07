@@ -1,0 +1,263 @@
+/* GlobalSearch.css */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #faf8f5; /* 전체 배경 약간 회색 */
+  margin: 0;
+  font-family: 'Noto Sans KR', Arial, sans-serif; /* 한글 폰트 권장 */
+}
+
+/* 전체 레이아웃 컨테이너 */
+.gs-search-page-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* ===== [왼쪽] 사이드바 (LNB) ===== */
+.gs-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.gs-sidebar-header {
+  background-color: #57433D; /* 짙은 네이비 */
+  color: #fff;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gs-sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gs-sidebar-item {
+  display: block;
+  padding: 15px 20px;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.gs-sidebar-item:hover {
+  background-color: #f4f8ff;
+  color: #A98A6A
+;
+  font-weight: 500;
+}
+
+.gs-sidebar-item.active {
+  color: #57433D;
+  font-weight: bold;
+  background-color: #fff;
+}
+
+
+/* ===== [오른쪽] 메인 콘텐츠 ===== */
+.gs-main-content {
+  flex: 1;
+  min-width: 0; /* flex 자식 넘침 방지 */
+}
+
+/* 상단 검색 결과 텍스트 */
+.gs-search-header-area {
+  margin-bottom: 30px;
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.gs-search-summary-text {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+/* 검색어와 건수 강조 (빨간색) */
+.gs-highlight-red {
+  color: #e60012;
+  font-weight: bold;
+}
+
+/* 상단 카테고리별 요약 대시보드 */
+.gs-summary-dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.gs-summary-title {
+  width: 100%;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-left: 4px solid #57433D;
+  padding-left: 10px;
+  color: #333;
+}
+
+.gs-summary-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  width: 100%;
+}
+
+.gs-summary-item { 
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.gs-summary-count {
+  color: #e60012;
+  font-weight: bold;
+}
+
+/* ===== 섹션 공통 스타일 ===== */
+.gs-category-section {
+  margin-bottom: 50px;
+}
+
+/* 섹션 타이틀 (파란색 바 스타일) */
+.gs-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #aaa; /* 타이틀 밑줄 */
+  padding-bottom: 10px;
+}
+
+.gs-section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  /* 이미지의 파란색 수직 바 구현 */
+  border-left: 5px solid #57433D; 
+  padding-left: 12px;
+  margin: 0;
+}
+
+.gs-section-count {
+  font-size: 14px;
+  color: #888;
+  margin-left: 10px;
+  font-weight: normal;
+}
+
+.gs-total-count-red {
+  color: #e60012;
+}
+
+.gs-no-results-message {
+  padding: 30px;
+  text-align: center;
+  color: #999;
+  background: #fff;
+  border: 1px solid #eee;
+}
+
+/* 리스트 스타일 (카드 대신 리스트 형태 권장) */
+.gs-result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 개별 아이템 스타일 - 깔끔한 리스트형 */
+.gs-result-item {
+  background: #fff;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  /* border-radius: 4px; */ /* 각진 느낌을 위해 제거하거나 작게 */
+  transition: all 0.2s;
+}
+
+.gs-result-item:hover {
+  border-color: #A98A6A;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.gs-item-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #57433D; /* 링크 색상 */
+  margin-bottom: 5px;
+  display: block;
+}
+
+.gs-item-meta {
+  font-size: 13px;
+  color: #666;
+}
+
+.gs-item-desc {
+  font-size: 14px;
+  color: #444;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+/* 더보기 버튼 */
+.gs-see-more-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.gs-see-more-btn {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 5px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.gs-see-more-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+/* 로딩/없음 */
+.loading-text, .no-query-text {
+  text-align: center;
+  margin-top: 100px;
+  color: #888;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .gs-search-page-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .gs-sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
