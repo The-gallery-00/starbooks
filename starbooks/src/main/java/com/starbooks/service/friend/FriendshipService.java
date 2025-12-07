@@ -5,6 +5,7 @@ import com.starbooks.domain.friend.FriendshipRepository;
 import com.starbooks.domain.friend.FriendshipStatus;
 import com.starbooks.domain.user.User;
 import com.starbooks.domain.user.UserRepository;
+import com.starbooks.dto.friend.FriendDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -81,16 +82,28 @@ public class FriendshipService {
     // ------------------------------------
     // 4) 친구 목록 조회
     // ------------------------------------
-    public List<Friendship> getFriends(Long userId) {
-
-        List<Friendship> sent =
-                friendshipRepository.findByRequesterUserIdAndStatus(userId, FriendshipStatus.ACCEPTED);
-
-        List<Friendship> received =
-                friendshipRepository.findByReceiverUserIdAndStatus(userId, FriendshipStatus.ACCEPTED);
+    public List<FriendDto> getFriends(Long userId) {
+        List<Friendship> sent = friendshipRepository.findByRequesterUserIdAndStatus(userId, FriendshipStatus.ACCEPTED);
+        List<Friendship> received = friendshipRepository.findByReceiverUserIdAndStatus(userId, FriendshipStatus.ACCEPTED);
 
         sent.addAll(received);
-        return sent;
+
+        return sent.stream().map(fs -> FriendDto.builder()
+                .friendshipId(fs.getFriendshipId())
+                .friendId(
+                        fs.getRequester().getUserId().equals(userId)
+                                ? fs.getReceiver().getUserId()
+                                : fs.getRequester().getUserId()
+                )
+                .friendNickname(
+                        fs.getRequester().getUserId().equals(userId)
+                                ? fs.getReceiver().getNickname()
+                                : fs.getRequester().getNickname()
+                )
+                .status(fs.getStatus())
+                .build()
+        ).toList();
+
     }
 
 
