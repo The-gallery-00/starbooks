@@ -54,7 +54,6 @@ export default function AddPost() {
     }
 
     try {
-      // === 유효성 검사 ===
       if (activeTab === "퀴즈") {
         if (!quizData.title.trim()) {
           alert("제목을 입력해주세요.");
@@ -101,7 +100,6 @@ export default function AddPost() {
         }
       }
 
-      // === 서버 전송 payload 생성 ===
       if (activeTab === "퀴즈" || activeTab === "투표") {
         const choicesArray = (activeTab === "퀴즈" ? quizData.choices : voteData.choices)
           .map(c => c.trim())
@@ -154,7 +152,6 @@ export default function AddPost() {
     <div className="add-post-container">
       <h2>커뮤니티 글 작성</h2>
 
-      {/* 탭 */}
       <div className="ap-tabs">
         {["퀴즈", "투표", "토론"].map(tab => (
           <button
@@ -277,8 +274,6 @@ export default function AddPost() {
             />
           </>
         )}
-
-        {/* 버튼 */}
         <div className="ap-form-buttons">
           <button onClick={handleCancel}>취소</button>
           <button onClick={handleSubmit}>작성하기</button>
