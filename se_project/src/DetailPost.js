@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "./api/axiosInstance"; // axiosInstance 사용
+import api from "./api/axiosInstance";
 import { UserContext } from "./UserContext";
 import "./DetailPost.css";
 
@@ -23,27 +23,23 @@ export default function DetailPost() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postRes = await axios.get(`/api/community/posts/${numericId}`);
+        const postRes = await api.get(`/api/community/posts/${numericId}`);
         const postData = postRes.data;
 
         setPost({
           ...postData,
           relatedBook: postData.bookTitle,
-          date: new Date(postData.createdAt)
-            .toLocaleString("ko-KR", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              hourCycle: "h23",
-            })
-            .replace(/\./g, "/")
+          date: new Date(postData.createdAt).toLocaleDateString("ko-KR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })
+          .replace(/\.\s?/g, "/") 
+          .replace(/\/$/,"")
         });
 
-        // ⭐ 여기에서 분기
         if (postData.postType === "POLL" || postData.postType === "QUIZ") {
-          const optionRes = await axios.get(`/api/community/posts/${numericId}/options`);
+          const optionRes = await api.get(`/api/community/posts/${numericId}/options`);
           const raw = optionRes.data || [];
 
           setOptions(
@@ -57,7 +53,7 @@ export default function DetailPost() {
           );
         }
 
-        const commentRes = await axios.get(`/api/community/posts/${numericId}/comments`);
+        const commentRes = await api.get(`/api/community/posts/${numericId}/comments`);
         setComments(commentRes.data.reverse());
 
       } catch (err) {
@@ -75,10 +71,10 @@ export default function DetailPost() {
     if (newComment.trim() === "") return;
 
     try {
-      const res = await axios.post(
+      const res = await api.post(
         `/api/community/posts/${numericId}/comments`,
         {
-          userId: user.userId,
+          username: user.username,
           content: newComment
         }
       );
@@ -236,15 +232,28 @@ export default function DetailPost() {
         )}
 
         <div className="comment-list">
-          {comments.map(c => (
-            <div key={c.id} className="comment-item">
-              <span className="comment-author">{c.userName}</span>
-              <span className="comment-date">
-                {new Date(c.createdAt).toLocaleString("ko-KR")}
-              </span>
-              <p className="comment-content">{c.content}</p>
-            </div>
-          ))}
+          {comments.map(c => {
+            // 한국 시간으로 포맷
+            const kstFormatter = new Intl.DateTimeFormat("ko-KR", {
+              timeZone: "Asia/Seoul",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              hourCycle: "h23"
+            });
+
+            return (
+              <div key={c.commentId} className="comment-item">
+                <span className="comment-author">{c.username}</span>
+                <span className="comment-date">
+                  {kstFormatter.format(new Date(c.createdAt))}
+                </span>
+                <p className="comment-content">{c.content}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
