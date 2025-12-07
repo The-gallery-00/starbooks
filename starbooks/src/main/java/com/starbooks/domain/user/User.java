@@ -60,7 +60,7 @@ public class User {
     private LocalDateTime updatedAt;
 
     public Long getId() {
-        return 0L;
+        return userId;
     }
 
 
