@@ -35,8 +35,8 @@ public class Comment {
     private String content;
 
 
-    @Column(name = "created_at")
-    @org.hibernate.annotations.CreationTimestamp
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
