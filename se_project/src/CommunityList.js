@@ -23,7 +23,6 @@ const PostCard = ({ postId, postType, title, bookTitle, content, createdAt, user
     const truncatedTitle = truncateText(title, MAX_TITLE_LENGTH);
     const truncatedContent = truncateText(content, MAX_CONTENT_LENGTH);
 
-    // 날짜 포맷 변환 (YYYY/MM/DD)
     const formattedDate = createdAt ? new Date(createdAt).toISOString().slice(0, 10).replace(/-/g, '/') : '';
 
     return (
@@ -60,7 +59,6 @@ export default function CommunityList() {
     const postsPerPage = 5;
 
     useEffect(() => {
-        // 페이지 로드 시 API 호출
         const fetchPosts = async () => {
             try {
                 const response = await axios.get('/api/community/posts');
@@ -77,7 +75,6 @@ export default function CommunityList() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
-    // 최신순 정렬
     const sortedPosts = [...posts].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
