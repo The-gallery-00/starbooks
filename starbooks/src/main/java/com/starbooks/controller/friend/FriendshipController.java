@@ -1,8 +1,8 @@
 package com.starbooks.controller.friend;
 
-import com.starbooks.domain.friend.Friendship;
 import com.starbooks.domain.user.User;
 import com.starbooks.domain.user.UserRepository;
+import com.starbooks.dto.friend.FriendDto;
 import com.starbooks.service.friend.FriendshipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +50,7 @@ import java.util.List;
 
         // 친구 목록 조회
         @GetMapping("/{userId}")
-        public ResponseEntity<List<Friendship>> getFriends(@PathVariable Long userId) {
+        public ResponseEntity<List<FriendDto>> getFriends(@PathVariable Long userId) {
             return ResponseEntity.ok(friendshipService.getFriends(userId));
         }
     }
