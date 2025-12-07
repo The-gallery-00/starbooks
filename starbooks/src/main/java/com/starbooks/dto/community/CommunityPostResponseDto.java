@@ -28,7 +28,7 @@ public class CommunityPostResponseDto {
     public static CommunityPostResponseDto from(CommunityPost post) {
         return CommunityPostResponseDto.builder()
                 .postId(post.getPostId())
-                .userId(post.getUser().getUserId())
+                .userId(post.getUser() != null ? post.getUser().getUserId() : null)
                 .bookTitle(post.getBookTitle()) // 수정됨!
                 .postType(post.getPostType())
                 .title(post.getTitle())
