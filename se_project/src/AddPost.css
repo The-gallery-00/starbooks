@@ -6,7 +6,6 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Noto Sans KR', sans-serif;
-  
 }
 
 .add-post-container h2 {
@@ -17,7 +16,6 @@
   color: #333;
 }
 
-/* 탭 스타일 */
 .ap-tabs {
   display: flex;
   justify-content: space-around;
@@ -47,7 +45,6 @@
   color: #57433D;
 }
 
-/* 폼 스타일 */
 .ap-form label {
   display: block;
   margin-bottom: 6px;
@@ -58,7 +55,7 @@
 
 .ap-form input,
 .ap-form textarea {
-  width: 95%;
+  width: 100%;
   padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -86,7 +83,6 @@
   outline: none;
 }
 
-/* 선택지 추가 버튼 */
 .ap-add-choice-btn {
   margin-top: 5px;
   padding: 6px 12px;
@@ -103,7 +99,6 @@
   background-color: #A98A6A;
 }
 
-/* 퀴즈 정답 입력 */
 .ap-quiz-answer-select {
   width: 95%;
   padding: 10px 12px;
@@ -115,7 +110,6 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-/* 버튼 스타일 */
 .ap-form-buttons {
   display: flex;
   justify-content: flex-end;
@@ -150,7 +144,6 @@
   background-color: #A98A6A;
 }
 
-/* 반응형 */
 @media (max-width: 640px) {
   .ap-add-post-container {
     margin: 20px;
