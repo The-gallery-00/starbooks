@@ -5,10 +5,11 @@ import profileImage from './profile.jpg'
 const MyProfile = () => {
   const user = {
     profileImage: profileImage,
-    nickname: 'aaaa',
-    bio: '안녕하세요! 다양한 장르의 책을 좋아합니다.',
-    favoriteAuthors: ['헤르만 헤세', '조지 오웰', '무라카미 하루키'],
-    preferredGenres: ['소설', 'SF', '철학']
+    nickname: 'Choi',
+    userId: '12345',
+    bio: '안녕하세요!',
+    favoriteAuthors: ['헤르만 헤세'],
+    preferredGenres: ['소설', 'SF']
   };
 
   return (
@@ -21,6 +22,7 @@ const MyProfile = () => {
       <div className="profile-info">
         <div className="name-id">
           <h2 className="nickname">{user.nickname}</h2>
+          {/* <span className="user-id">@{user.userId}</span> */}
         </div>
         <p className="bio">{user.bio}</p>
 
