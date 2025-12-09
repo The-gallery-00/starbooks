@@ -1,4 +1,3 @@
-// BookInfo.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "./api/axiosInstance";
@@ -8,44 +7,49 @@ export default function BookInfo() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [isSearched, setIsSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
+  const fetchPopularBooks = async () => {
+    try {
+      setLoading(true);
+
+      const today = new Date();
+      const endDt = today.toISOString().split("T")[0];
+      const startDt = new Date(today.setMonth(today.getMonth() - 3))
+        .toISOString()
+        .split("T")[0];
+
+      const response = await axios.get("/api/search/popular-books", {
+        params: {
+          startDt,
+          endDt,
+          pageNo: 1,
+          pageSize: 1000, 
+        },
+      });
+
+      const popularBooks = response.data.map((book, index) => ({
+        id: index + 1,
+        title: book.title,
+        author: book.authors,
+        publisher: book.publisher,
+        image: book.bookImageUrl,
+        isbn: book.isbn13,
+      }));
+
+      setResults(popularBooks);
+      setIsSearched(false);
+
+    } catch (error) {
+      console.error("인기 도서 불러오기 실패:", error);
+    } finally {
+      setLoading(false); 
+    }
+  };
+
   useEffect(() => {
-    const fetchPopularBooks = async () => {
-      try {
-        const today = new Date();
-        const endDt = today.toISOString().split("T")[0];
-        const startDt = new Date(today.setMonth(today.getMonth() - 3))
-          .toISOString()
-          .split("T")[0];
-
-        const response = await axios.get("/api/search/popular-books", {
-          params: {
-            startDt,
-            endDt,
-            pageNo: 1,
-            pageSize: 1000, 
-          },
-        });
-
-        const popularBooks = response.data.map((book, index) => ({
-          id: index + 1,
-          title: book.title,
-          author: book.authors,
-          publisher: book.publisher,
-          image: book.bookImageUrl,
-          isbn: book.isbn13,
-        }));
-
-        setResults(popularBooks);
-        setIsSearched(false);
-
-      } catch (error) {
-        console.error("인기 도서 불러오기 실패:", error);
-      }
-    };
-
     fetchPopularBooks();
   }, []);
 
@@ -86,7 +90,8 @@ export default function BookInfo() {
 
   const handleReset = () => {
     setQuery(""); 
-    setIsSearched(false); 
+    setIsSearched(false);
+    fetchPopularBooks();
   };
 
   const goToDetail = async (isbn) => {
@@ -146,22 +151,29 @@ export default function BookInfo() {
       ) : (
         <>
           <p className="bi-result-text">인기 도서 목록</p>
-          <div className="bi-book-grid">
-            {results.map((book) => (
-              <div
-                key={book.id}
-                className="bi-book-card"
-                onClick={() => goToDetail(book.isbn)}
-              >
-                <img src={book.image} alt={book.title} className="bi-book-image" />
-                <div className="bi-book-info">
-                  <h4 className="bi-book-title">{book.title}</h4>
-                  <p className="bi-book-author">{book.author}</p>
-                  <p className="bi-book-publisher">{book.publisher}</p>
+          
+          {loading ? (
+            <div className="bi-loading-container">
+              <p className="bi-loading-text">불러오는 중...</p>
+            </div>
+          ) : (
+            <div className="bi-book-grid">
+              {results.map((book) => (
+                <div
+                  key={book.id}
+                  className="bi-book-card"
+                  onClick={() => goToDetail(book.isbn)}
+                >
+                  <img src={book.image} alt={book.title} className="bi-book-image" />
+                  <div className="bi-book-info">
+                    <h4 className="bi-book-title">{book.title}</h4>
+                    <p className="bi-book-author">{book.author}</p>
+                    <p className="bi-book-publisher">{book.publisher}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+           )}
         </>
       )}
     </div>
