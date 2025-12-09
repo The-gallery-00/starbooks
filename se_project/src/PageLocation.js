@@ -32,6 +32,7 @@ export default function PageLocation() {
               case "add-post" : return "커뮤니티 글 작성"
               case "detail-post" : return "커뮤니티 상세"
               case "globalsearch" : return "통합검색"
+              case "friend" : return "서재 구경"
               default: return name;
             }
           })();
