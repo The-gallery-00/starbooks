@@ -1,6 +1,6 @@
 import React from 'react';
 import './FriendProfile.css';
-import defaultProfile from './profile.jpg'; // 기본 프로필 이미지
+import defaultProfile from './profile.jpg';
 
 const FriendProfile = ({ profile, onFriendRequest }) => {
   const user = profile || {};
@@ -15,14 +15,16 @@ const FriendProfile = ({ profile, onFriendRequest }) => {
       <div className="friend-profile-info">
         <div className="friend-name-id">
           <h2 className="friend-nickname">{user.nickname || "닉네임 없음"}</h2>
-          <button
-            className="friend-request-btn"
-            onClick={() => onFriendRequest && onFriendRequest(user)}
-          >
-            친구 신청
-          </button>
+          {onFriendRequest && (
+            <button
+              className="friend-request-btn"
+              onClick={() => onFriendRequest(profile)}
+            >
+              친구 신청
+            </button>
+          )}
         </div>
-        {user.bio && <p className="friend-bio">{user.bio}</p>}
+        {user.intro && <p className="friend-bio">{user.bio}</p>}
 
         <div className="friend-favorites">
           {user.favoriteAuthors && user.favoriteAuthors.length > 0 && (
@@ -31,9 +33,9 @@ const FriendProfile = ({ profile, onFriendRequest }) => {
             </p>
           )}
 
-          {user.preferredGenres && user.preferredGenres.length > 0 && (
+          {user.favoriteGenres && user.favoriteGenres.length > 0 && (
             <p>
-              <strong>선호 장르:</strong> {user.preferredGenres.join(', ')}
+              <strong>선호 장르:</strong> {user.favoriteGenres.join(', ')}
             </p>
           )}
         </div>
