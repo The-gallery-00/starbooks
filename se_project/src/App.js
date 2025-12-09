@@ -59,7 +59,7 @@ function AppContent() {
             } 
           />
           <Route 
-            path="/my-bookDetail" 
+            path="/my-bookDetail/:id" 
             element={
               <ProtectedRoute>
                 <MyBookDetail />
