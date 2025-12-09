@@ -2,25 +2,25 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './MyBookList.css';
 
-const BookCard = ({ id, title, author, progress, cover, activeTab }) => {
+const BookCard = ({ book, activeTab }) => {
   const navigate = useNavigate();
   const handleCardClick = () => {
-    navigate(`/my-bookDetail`, { state: { bookId: id, type: activeTab } });
+    navigate(`/my-bookDetail/${book.id}`, { state: { activeTab } });
   };
 
   return (
     <div className="mbl-book-card-link" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
       <div className="mbl-book-card">
-        <img src={cover} alt={title} className="mbl-book-cover" />
+        <img src={book.cover} alt={book.title} className="mbl-book-cover" />
         <div className="mbl-book-info">
-          <p className="mbl-book-title">{title}</p>
-          <p className="mbl-book-author">{author}</p>
+          <p className="mbl-book-title">{book.title}</p>
+          <p className="mbl-book-author">{book.author}</p>
           {activeTab !== 'wishlist' && (
             <>
               <div className="mbl-progress-bar-container">
-                <div className="mbl-progress-bar" style={{ width: `${progress}` }}></div>
+                <div className="mbl-progress-bar" style={{ width: book.progress }}></div>
               </div>
-              <p className="mbl-progress-text">{progress}</p>
+              <p className="mbl-progress-text">{book.progress}</p>
             </>
           )}
         </div>
@@ -36,13 +36,9 @@ const MyBookList = ({ myBooks }) => {
     const books = myBooks[activeTab];
     return (
       <div className="mbl-book-list-container-tab">
-        {books && books.length > 0 ? (
-          books.map((book, index) => (
-            <BookCard key={book.id || index} {...book} activeTab={activeTab} />
-          ))
-        ) : (
-          <p className="no-books">등록된 도서가 없습니다.</p>
-        )}
+        {books && books.length > 0
+          ? books.map(book => <BookCard key={book.id} book={book} activeTab={activeTab} />)
+          : <p className="no-books">등록된 도서가 없습니다.</p>}
       </div>
     );
   };
