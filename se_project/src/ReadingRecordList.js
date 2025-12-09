@@ -7,7 +7,7 @@ const ReadingRecordList = ({ records }) => {
 
   const recordsPerPage = 3;
   const maxPagesToShow = 3;
-  const sortedRecords = records.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const sortedRecords = records.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
   const totalPages = Math.ceil(sortedRecords.length / recordsPerPage);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,8 +30,8 @@ const ReadingRecordList = ({ records }) => {
     setCurrentPage(startPage + maxPagesToShow);
   };
 
-  const handleCardClick = (bookId) => {
-    navigate(`/my-bookDetail`); // bookId를 params로 전달
+  const handleCardClick = (record) => {
+    navigate(`/my-bookDetail/${record.id}`);
   };
 
   return (
@@ -42,7 +42,7 @@ const ReadingRecordList = ({ records }) => {
           <div
             key={record.id} 
             className="rr-record-card"
-            onClick={() => handleCardClick(record.bookId)}
+            onClick={() => handleCardClick(record)}
           >
             <div className="rr-record-header">
               <h3 className="rr-record-title">{record.bookTitle}</h3>
