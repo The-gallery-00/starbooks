@@ -16,7 +16,7 @@ const myBooksAll = [...myBooks.reading, ...myBooks.finished, ...myBooks.wishlist
 export default function MyBookDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const book = myBooksAll.find(b => b.id === parseInt(id));
+  const book = myBooksAll.find(b => b.id == id);
 
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 5;
