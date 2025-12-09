@@ -408,29 +408,30 @@
   gap: 10px;
 }
 
+/* 공통 버튼 스타일 */
 .mbd-modal-buttons button {
   padding: 10px 15px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
-.mbd-btn-cancel {
+.mbd-modal-buttons .mbd-btn-cancel {
   background-color: #ccc;
   color: #333;
 }
 
-.mbd-btn-cancel:hover {
+.mbd-modal-buttons .mbd-btn-cancel:hover {
   background-color: #bbb;
 }
 
-.mbd-btn-save {
+.mbd-modal-buttons .mbd-btn-save {
   background-color: #57433D;
-  color: white;
+  color: #fff;
 }
 
-.mbd-btn-save:hover {
-  background-color: #6C5047;
+.mbd-modal-buttons .mbd-btn-save:hover {
+  background-color: #43312A;
 }
