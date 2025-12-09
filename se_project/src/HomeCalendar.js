@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import './HomeCalendar.css';
+import api from './api/axiosInstance';
+import { UserContext } from './UserContext';
 
 export function HomeCalendar() {
+  const { user } = useContext(UserContext);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [records, setRecords] = useState([]);
 
   const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const month = currentDate.getMonth(); 
 
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -13,11 +17,30 @@ export function HomeCalendar() {
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const emptyDays = Array.from({ length: firstDayOfMonth }, (_, i) => i);
 
-  // ✅ 사용자가 목표를 달성한 날만 배열로 지정
-  const achievedDays = [3, 8, 12, 20]; // 실제 데이터로 바꿔주세요
+  useEffect(() => {
+    if (!user) return;
 
-  const prevMonth = () => setCurrentDate(new Date(year, month - 1));
-  const nextMonth = () => setCurrentDate(new Date(year, month + 1));
+    const fetchCalendar = async () => {
+      try {
+        const res = await api.get(`/api/calendar/${user.userId}`, {
+          params: { year, month: month + 1 },
+        });
+        setRecords(res.data);
+        console.log("독서 캘린더: ", res.data)
+      } catch (error) {
+        console.error('독서 캘린더 불러오기 실패:', error);
+      }
+    };
+
+    fetchCalendar();
+  }, [user, year, month]);
+
+  const achievedDays = records
+    .filter(r => r.goalAchieved)
+    .map(r => new Date(r.date).getDate());
+
+  const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
+  const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
 
   const monthNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
@@ -34,7 +57,9 @@ export function HomeCalendar() {
 
       <div className="hcl-body">
         <div className="hcl-weekdays">
-          {['일','월','화','수','목','금','토'].map(w => <div key={w} className="hcl-weekday">{w}</div>)}
+          {['일','월','화','수','목','금','토'].map(w => (
+            <div key={w} className="hcl-weekday">{w}</div>
+          ))}
         </div>
 
         <div className="hcl-grid">
@@ -42,7 +67,14 @@ export function HomeCalendar() {
           {days.map(day => (
             <div 
               key={day} 
-              className={`hcl-day ${achievedDays.includes(day) ? 'hcl-achieved' : ''} ${day === new Date().getDate() && month === new Date().getMonth() ? 'hcl-today' : ''}`}
+              className={`
+                hcl-day 
+                ${achievedDays.includes(day) ? 'hcl-achieved' : ''} 
+                ${day === new Date().getDate() &&
+                  currentDate.getMonth() === new Date().getMonth() &&
+                  currentDate.getFullYear() === new Date().getFullYear()
+                  ? 'hcl-today' : ''}
+              `}
             >
               <span className="hcl-day-number">{day}</span>
             </div>
