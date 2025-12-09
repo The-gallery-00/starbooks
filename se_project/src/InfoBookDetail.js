@@ -3,28 +3,18 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import api from "./api/axiosInstance";
 import { UserContext } from "./UserContext";
 import "./InfoBookDetail.css";
+import defaultImage from "./profile.jpg";
 
 const dummyReviews = [
-  { id: 1, username: "user1", text: "정말 재밌게 읽었습니다!", rating: 4.5, date: "2025/11/24", profile: "https://i.pravatar.cc/40?img=1" },
-  { id: 2, username: "user2", text: "조금 지루한 부분도 있었지만 몰입감 있었어요.", rating: 3.5, date: "2025/11/23", profile: "https://i.pravatar.cc/40?img=2" },
-  { id: 3, username: "user3", text: "추천합니다!", rating: 5, date: "2025/11/22", profile: "https://i.pravatar.cc/40?img=3" },
-  { id: 4, username: "user4", text: "표지가 예쁘고 내용도 알찹니다.", rating: 4, date: "2025/11/21", profile: "https://i.pravatar.cc/40?img=4" },
-  { id: 5, username: "user5", text: "좀 더 쉽게 설명되었으면 좋겠어요.", rating: 3, date: "2025/11/20", profile: "https://i.pravatar.cc/40?img=5" },
-  { id: 6, username: "user6", text: "이 책 덕분에 새로운 관점을 배웠습니다.", rating: 5, date: "2025/11/19", profile: "https://i.pravatar.cc/40?img=6" },
-  { id: 7, username: "user7", text: "내용이 조금 길지만 읽을 가치 있어요.", rating: 4, date: "2025/11/18", profile: "https://i.pravatar.cc/40?img=7" },
-  { id: 8, username: "user8", text: "재밌는 챕터와 유익한 정보가 많아요.", rating: 4.5, date: "2025/11/17", profile: "https://i.pravatar.cc/40?img=8" },
-  { id: 9, username: "user9", text: "글이 어렵지만 참고할 만한 내용입니다.", rating: 3.5, date: "2025/11/16", profile: "https://i.pravatar.cc/40?img=9" },
-  { id: 10, username: "user10", text: "정말 만족스럽습니다. 추천!", rating: 5, date: "2025/11/15", profile: "https://i.pravatar.cc/40?img=10" },
-  { id: 11, username: "user11", text: "중간에 약간 지루한 부분이 있었어요.", rating: 3.5, date: "2025/11/14", profile: "https://i.pravatar.cc/40?img=11" },
-  { id: 12, username: "user12", text: "책의 내용이 깊이 있어서 좋았습니다.", rating: 4.5, date: "2025/11/13", profile: "https://i.pravatar.cc/40?img=12" },
-  { id: 13, username: "user13", text: "간결하고 이해하기 쉬워요.", rating: 4, date: "2025/11/12", profile: "https://i.pravatar.cc/40?img=13" },
-  { id: 14, username: "user14", text: "책을 읽고 나서 많은 걸 배웠습니다.", rating: 5, date: "2025/11/11", profile: "https://i.pravatar.cc/40?img=14" },
-  { id: 15, username: "user15", text: "추천할 만한 책이에요. 다시 읽고 싶습니다.", rating: 4.5, date: "2025/11/10", profile: "https://i.pravatar.cc/40?img=15" },
-  { id: 16, username: "user16", text: "조금 아쉬운 점이 있지만 전반적으로 만족합니다.", rating: 4, date: "2025/11/09", profile: "https://i.pravatar.cc/40?img=16" },
-  { id: 17, username: "user17", text: "읽는 내내 흥미진진했어요.", rating: 5, date: "2025/11/08", profile: "https://i.pravatar.cc/40?img=17" },
-  { id: 18, username: "user18", text: "더 다양한 예시가 있었으면 좋겠어요.", rating: 3.5, date: "2025/11/07", profile: "https://i.pravatar.cc/40?img=18" },
-  { id: 19, username: "user19", text: "작가의 의도가 잘 전달되는 책입니다.", rating: 4.5, date: "2025/11/06", profile: "https://i.pravatar.cc/40?img=19" },
-  { id: 20, username: "user20", text: "짧지만 핵심을 잘 담았네요.", rating: 4, date: "2025/11/05", profile: "https://i.pravatar.cc/40?img=20" },
+  { id: 1, username: "책책책을읽읍시다", text: "정말 재밌게 읽었습니다!", rating: 4.5, date: "2025/11/24", profile: defaultImage },
+  { id: 2, username: "책헌터", text: "조금 지루한 부분도 있었지만 몰입감 있었어요.", rating: 3.5, date: "2025/11/23", profile: defaultImage },
+  { id: 3, username: "페이지터너", text: "추천합니다!", rating: 5, date: "2025/11/22", profile: defaultImage },
+  { id: 4, username: "북페이스", text: "표지가 예쁘고 내용도 알찹니다.", rating: 4, date: "2025/11/21", profile: defaultImage },
+  { id: 5, username: "독서광", text: "좀 더 쉽게 설명되었으면 좋겠어요.", rating: 3, date: "2025/11/20", profile: defaultImage },
+  { id: 6, username: "활자중독자", text: "이 책 덕분에 새로운 관점을 배웠습니다.", rating: 5, date: "2025/11/19", profile: defaultImage },
+  { id: 7, username: "책의정석", text: "내용이 조금 길지만 읽을 가치 있어요.", rating: 4, date: "2025/11/18", profile: defaultImage },
+  { id: 8, username: "종이행성", text: "재밌는 챕터와 유익한 정보가 많아요.", rating: 4.5, date: "2025/11/17", profile: defaultImage },
+  { id: 9, username: "활자마니아", text: "글이 어렵지만 참고할 만한 내용입니다.", rating: 3.5, date: "2025/11/16", profile: defaultImage },
 ];
 
 export default function InfoBookDetail() {
