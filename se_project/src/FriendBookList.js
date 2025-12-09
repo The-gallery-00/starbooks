@@ -4,12 +4,9 @@ import './FriendBookList.css';
 
 const BookCard = ({ id, title, author, progress, cover, activeTab }) => {
   const navigate = useNavigate();
-  const handleCardClick = () => {
-    navigate(`/my-bookDetail`, { state: { bookId: id, type: activeTab } });
-  };
 
   return (
-    <div className="fbl-book-card-link" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
+    <div className="fbl-book-card-link" style={{ cursor: 'pointer' }}>
       <div className="fbl-book-card">
         <img src={cover} alt={title} className="fbl-book-cover" />
         <div className="fbl-book-info">
