@@ -137,9 +137,9 @@ export default function InfoBookDetail() {
   };
 
 
-  const handleGoUser = (userId) => {
-    navigate(`/friend/${userId}`);
-  };
+  // const handleGoUser = (userId) => {
+  //   navigate(`/friend/${userId}`);
+  // };
 
   const handleAddClick = () => {
     if (readingStatus === "none") setShowModal(true);
@@ -206,11 +206,14 @@ export default function InfoBookDetail() {
               src={r.profile}
               alt={r.username}
               className="ibd-profile"
-              onClick={() => handleGoUser(r.username)}
+              // onClick={() => handleGoUser(r.username)}
             />
             <div className="ibd-review-content">
               <div className="ibd-review-header">
-                <p className="ibd-username" onClick={() => handleGoUser(r.username)}>
+                <p 
+                  className="ibd-username" 
+                  // onClick={() => handleGoUser(r.username)}
+                >
                   {r.username}
                 </p>
                 <span className="ibd-rating">⭐️{r.rating}</span>
