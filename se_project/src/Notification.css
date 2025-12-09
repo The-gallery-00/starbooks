@@ -1,9 +1,10 @@
 .notification-container {
     max-width: 1200px; 
     margin: 50px auto;
-    padding: 0px 15px;
+    padding: 1px 15px;
     font-family: Arial, sans-serif;
     background-color: #fff;
+    padding-bottom: 50px;
 }
 
 .section-title {
@@ -28,8 +29,12 @@
     transition: background-color 0.2s;
 }
 
-.notification-item:hover {
-    background-color: #fafafa;
+.notification-item.unread {
+  background-color: rgba(0, 255, 0, 0.1);
+}
+
+.notification-item.read {
+  background-color: #fff;
 }
 
 .notice-icon {
@@ -52,7 +57,6 @@
     margin-right: 15px;
     border-radius: 50%;
 }
-
 
 .notification-message {
     flex-grow: 1; 
@@ -92,7 +96,6 @@
     font-size: 16px;
 }
 
-
 .scroll-to-top {
     position: fixed;
     right: 40px;
@@ -116,7 +119,6 @@
     transform: translateY(-2px);
 }
 
-/* 모바일 반응형 */
 @media (max-width: 600px) {
     .notification-container {
         padding: 10px;
