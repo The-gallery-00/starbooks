@@ -142,6 +142,10 @@ const GlobalSearch = () => {
     window.scrollTo(0, 0); 
   };
 
+  const goToDetail = (book) => {
+    navigate(`/info-bookDetail`, { state: { book } });
+  };
+
   return (
     <div className="gs-search-page-container">
       <aside className="gs-sidebar">
@@ -213,7 +217,7 @@ const GlobalSearch = () => {
             ) : (
               <div className="gs-result-list">
                 {(activeTab === 'book' || expanded.book ? categories.book.results : categories.book.results.slice(0, 2)).map(book => (
-                  <div key={book.id} className="gs-result-item" onClick={() => navigate(`/info-bookDetail`, { state: { book } })} style={{cursor: 'pointer'}}>
+                  <div key={book.id} className="gs-result-item" onClick={() => goToDetail(book)} style={{cursor: 'pointer'}}>
                     <span className="gs-item-title">{book.title}</span>
                     <div className="gs-item-meta">{book.author} | {book.publisher}</div>
                   </div>
