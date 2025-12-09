@@ -143,7 +143,7 @@ const GlobalSearch = () => {
   };
 
   const goToDetail = (book) => {
-    navigate(`/info-bookDetail`, { state: { book } });
+    navigate(`/info-bookDetail/${book.isbn}`, { state: { book } });
   };
 
   return (
