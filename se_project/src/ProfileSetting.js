@@ -1,58 +1,117 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MyProfile from "./MyPofile";
 import "./ProfileSetting.css";
+import api from "./api/axiosInstance";
+import { UserContext } from "./UserContext";
 
 export default function ProfileSetting() {
-  const initialData = {
-    nickname: "aaaa",
-    bio: "안녕하세요! 다양한 장르의 책을 좋아합니다.",
-    favoriteAuthor: "헤르만 헤세",
-    favoriteGenre: "소설, SF, 철학"
-  };
+  const { user, setUser } = useContext(UserContext);
 
   const [nickname, setNickname] = useState("");
   const [bio, setBio] = useState("");
   const [favoriteAuthor, setFavoriteAuthor] = useState("");
   const [favoriteGenre, setFavoriteGenre] = useState("");
+  const [profileImage, setProfileImage] = useState("");
 
-  const [nicknameMessage, setNicknameMessage] = useState({ text: "", color: "" });
+  const [nicknameMessage, setNicknameMessage] = useState({
+    text: "",
+    color: "",
+  });
 
-  // 초기 데이터 로드
   useEffect(() => {
-    resetFields();
-  }, []);
+    if (!user) return;
 
-  const resetFields = () => {
-    setNickname(initialData.nickname);
-    setBio(initialData.bio);
-    setFavoriteAuthor(initialData.favoriteAuthor);
-    setFavoriteGenre(initialData.favoriteGenre);
-  };
+    api.get(`/api/users/${user.userId}`)
+      .then((res) => {
+        console.log("[GET] 유저 정보 로드 성공:", res.data);
+        const data = res.data;
+        setNickname(data.nickname || "");
+        setBio(data.intro || "");
+        setFavoriteAuthor(data.favoriteAuthor || "");
+        setFavoriteGenre(data.favoriteGenre || "");
+        setProfileImage(data.profileImage || "");
+      })
+      .catch((err) => {
+        console.log("[GET] 유저 정보 로드 실패:", err.response);
+        console.log("에러 데이터:", err.response?.data);
+      });
+  }, [user]);
+
+  const handleCheckDuplicate = () => {
+    if (!nickname.trim()) return;
+
+    api
+      .get(`/api/users/check-nickname?nickname=${nickname}`)
+      .then((res) => {
+        const isDuplicate = res.data;
+
+        if (isDuplicate) {
+          setNicknameMessage({ text: "중복된 닉네임입니다.", color: "red" });
+        } else {
+          setNicknameMessage({ text: "사용 가능한 닉네임입니다.", color: "green" });
+        }
+      })
+      .catch((err) => {
+        setNicknameMessage({ text: "중복 확인 실패", color: "red" });
+
+        console.log("[GET] 닉네임 체크 실패:", err.response);
+        console.log("에러 데이터:", err.response?.data);
+      });
+  };  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("설정 완료!");
-    console.log({ nickname, bio, favoriteAuthor, favoriteGenre });
+    if (!user) return;
+
+    const updateBody = {
+      nickname,
+      intro: bio,
+      favoriteAuthor,
+      favoriteGenre,
+      profileImage,
+    };
+
+    api
+      .put(`/api/users/${user.userId}`, updateBody)
+      .then((res) => {
+        alert("프로필이 성공적으로 업데이트되었습니다!");
+
+        console.log("업데이트 내용: ", res.data)
+        const updatedUser = { ...user, ...res.data };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      })
+      .catch((err) => {
+        console.error("[PUT] 프로필 업데이트 실패:", err.response);
+        console.error("에러 데이터:", err.response?.data);
+        alert("업데이트 실패!");
+      });
   };
 
-  const handleCheckDuplicate = () => {
-    if (nickname === "aaaa") {
-      setNicknameMessage({ text: "중복된 닉네임입니다.", color: "red" });
-      setNickname(initialData.nickname); // 이전 값 복원
-    } else {
-      setNicknameMessage({ text: "사용 가능한 닉네임입니다.", color: "green" });
-    }
+  // 취소 = 다시 API 데이터로 초기화
+  const resetFields = () => {
+    if (!user) return;
+
+    api.get(`/api/users/${user.userId}`).then((res) => {
+      const data = res.data;
+      setNickname(data.nickname || "");
+      setBio(data.intro || "");
+      setFavoriteAuthor(data.favoriteAuthor || "");
+      setFavoriteGenre(data.favoriteGenre || "");
+      setProfileImage(data.profileImage || "");
+    });
   };
 
   return (
     <div className="profile-form">
       <MyProfile />
       <h3>프로필 설정</h3>
+
       <form onSubmit={handleSubmit}>
         <div className="form-section">
           <label className="nickname-label">
             닉네임
-              <div className="input-with-button">
+            <div className="input-with-button">
               <input
                 type="text"
                 value={nickname}
@@ -62,6 +121,7 @@ export default function ProfileSetting() {
                 중복 확인
               </button>
             </div>
+
             {nicknameMessage.text && (
               <span
                 className="duplicate-check-message"
@@ -71,6 +131,7 @@ export default function ProfileSetting() {
               </span>
             )}
           </label>
+
           <label>
             자기소개
             <input
@@ -101,6 +162,7 @@ export default function ProfileSetting() {
             />
           </label>
         </div>
+
         <div className="form-buttons">
           <button type="button" onClick={resetFields}>취소</button>
           <button type="submit">설정하기</button>
