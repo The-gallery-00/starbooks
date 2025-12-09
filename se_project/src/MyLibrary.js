@@ -5,7 +5,7 @@ import { ReadingCalendar } from './ReadingCalendar';
 import MyBookList from './MyBookList';
 import ReadingRecordList from './ReadingRecordList';
 import './MyLibrary.css';
-import MyProfile from './MyProfile';
+import MyProfile from './MyPofile';
 
 export const myBooks = {
     reading: [
