@@ -73,9 +73,9 @@ export default function MyBookDetail() {
     setShowModal(false);
   };
 
-  const handleGoUser = (id) => {
-    navigate(`/friend/${id}`);
-  };
+  // const handleGoUser = (id) => {
+  //   navigate(`/friend/${id}`);
+  // };
   const handleStatusChange = (status) => setReadingStatus(status);
 
   const progressPercentage = Math.round((currentBookPage / totalBookPages) * 100);
@@ -232,11 +232,14 @@ export default function MyBookDetail() {
               src={r.profile}
               alt={r.username}
               className="mbd-profile"
-              onClick={() => handleGoUser(r.username)}
+              // onClick={() => handleGoUser(r.username)}
             />
             <div className="mbd-review-content">
               <div className="mbd-review-header">
-                <p className="mbd-username" onClick={() => handleGoUser(r.username)}>
+                <p 
+                  className="mbd-username" 
+                  // onClick={() => handleGoUser(r.username)}
+                >
                   {r.username}
                 </p>
                 <span className="mbd-rating">⭐️{r.rating}</span>
