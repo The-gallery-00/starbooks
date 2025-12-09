@@ -3,11 +3,11 @@ import './HomeRanking.css';
 
 export function HomeRanking() {
   const topReaders = [
-    { id: 1, rank: 1, name: 'AAA', booksRead: 127, avatar: profile },
-    { id: 2, rank: 2, name: 'BBB', booksRead: 98, avatar: profile },
-    { id: 3, rank: 3, name: 'CCC', booksRead: 89, avatar: profile },
-    { id: 4, rank: 4, name: 'DDD', booksRead: 76, avatar: profile },
-    { id: 5, rank: 5, name: 'TTT', booksRead: 71, avatar: profile }
+    { id: 1, rank: 1, name: '책의정석', booksRead: 320, avatar: profile },
+    { id: 2, rank: 2, name: '새벽책장', booksRead: 298, avatar: profile },
+    { id: 3, rank: 3, name: '활자마니아', booksRead: 285, avatar: profile },
+    { id: 4, rank: 4, name: '김스타', booksRead: 240, avatar: profile },
+    { id: 5, rank: 5, name: '읽는토끼', booksRead: 220, avatar: profile }
   ];
 
   const getRankSymbol = (rank) => {
@@ -15,7 +15,7 @@ export function HomeRanking() {
       case 1: return '🥇';
       case 2: return '🥈';
       case 3: return '🥉';
-      default: return '🏅';
+      default: return '⭐';
     }
   };
 
@@ -23,7 +23,6 @@ export function HomeRanking() {
     <section className="hrg-section">
       <div className="hrg-header">
         <h2>다독 순위</h2>
-        {/* <button className="hrg-more-btn">더보기 ›</button> */}
       </div>
 
       <div className="hrg-readers">
