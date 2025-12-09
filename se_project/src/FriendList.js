@@ -23,7 +23,7 @@ export default function FriendList() {
 
       try {
         // 받은 친구 요청 목록
-        const pendingRes = await api.get(`/api/friends/${userId}/pending`);
+        const pendingRes = await api.get(`/api/friends/${userId}`);
         console.log("받은 친구 요청:", pendingRes.data);
         setPendingFriends(pendingRes.data);
 
