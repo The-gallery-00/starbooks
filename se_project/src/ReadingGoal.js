@@ -10,40 +10,36 @@ const ReadingGoal = () => {
     targetPages: 0,
     achievedPages: 0,
   });
-
   const [percent, setPercent] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [inputPages, setInputPages] = useState(0);
   const [progressInput, setProgressInput] = useState(0);
 
-  // 목표 달성률 계산
   useEffect(() => {
-    let calc = 0;
-    if (goalData.targetPages > 0) {
-      calc = Math.round((goalData.achievedPages / goalData.targetPages) * 100);
-    }
+    const calc = goalData.targetPages > 0
+      ? Math.round((goalData.achievedPages / goalData.targetPages) * 100)
+      : 0;
     setPercent(calc > 100 ? 100 : calc);
   }, [goalData]);
 
-  // 목표와 오늘 읽은 페이지 한 번에 불러오기
   const fetchGoalAndToday = async () => {
-    if (!user) return;
+    if (!user) return { targetPages: 0, achievedPages: 0 };
     try {
       const goalRes = await api.get(`/api/users/${user.userId}/daily-goal`);
       const todayRes = await api.get(`/api/users/${user.userId}/today-pages`);
 
-      setGoalData({
-        targetPages: goalRes.data.targetPages, // ✅ DTO 필드에 맞춤
-        achievedPages: todayRes.data          // ✅ today-pages는 Integer
-      });
+      const targetPages = goalRes.data?.targetPages || 0;
+      const achievedPages = todayRes.data || 0;
 
-      return goalRes.data;
+      setGoalData({ targetPages, achievedPages });
+      return { targetPages, achievedPages }; 
     } catch (error) {
       console.error("목표 및 오늘 읽은 페이지 불러오기 실패:", error);
+      return { targetPages: 0, achievedPages: 0 }; 
     }
   };
 
-  // 목표 저장
+
   const saveNewGoal = async () => {
     if (!user || inputPages <= 0) return;
     try {
@@ -53,12 +49,11 @@ const ReadingGoal = () => {
         { params: { goalPages: inputPages } }
       );
 
-      // 목표 저장 후 오늘 읽은 페이지 최신화
       const todayRes = await api.get(`/api/users/${user.userId}/today-pages`);
 
       setGoalData({
-        targetPages: res.data.dailyPageGoal,
-        achievedPages: todayRes.data
+        targetPages: res.data.dailyPageGoal || 0,
+        achievedPages: todayRes.data || 0
       });
 
       setProgressInput(0);
@@ -68,20 +63,27 @@ const ReadingGoal = () => {
     }
   };
 
-  // 오늘 읽은 페이지 추가
   const addProgress = async (amount = 0) => {
     if (!user || amount <= 0) return;
+
+    const newTotal = goalData.achievedPages + amount;
+
+    if (goalData.targetPages > 0 && newTotal > goalData.targetPages) {
+      alert("이미 목표를 달성하였습니다!");
+      return;
+    }
+
     try {
       const res = await api.patch(
         `/api/users/${user.userId}/today-pages`,
         null,
-        { params: { pagesRead: amount } }
+        { params: { pagesRead: newTotal } }
       );
 
-      setGoalData({
-        targetPages: goalData.targetPages,
-        achievedPages: res.data.updatedTodayPages // ✅ DTO 필드에 맞춤
-      });
+      setGoalData(prev => ({
+        ...prev,
+        achievedPages: res.data.updatedTodayPages || newTotal
+      }));
 
       setProgressInput(0);
     } catch (error) {
@@ -93,13 +95,18 @@ const ReadingGoal = () => {
   const handleModalClose = () => { setShowModal(false); setProgressInput(0); };
 
   const handleGoalSetup = async () => {
-    const dto = await fetchGoalAndToday();
-    if (!dto) return;
+    let dto;
+    try {
+      dto = await fetchGoalAndToday();
+    } catch (e) {
+      console.error("목표 및 오늘 읽은 페이지 fetch 실패:", e);
+    }
 
-    setInputPages(dto.targetPages); // ✅ DTO 필드에 맞춤
+    setInputPages(dto?.targetPages || 0);
     setProgressInput(0);
     setShowModal(true);
   };
+
 
   const isGoalComplete = () => goalData.targetPages > 0 && goalData.achievedPages >= goalData.targetPages;
 
@@ -166,7 +173,13 @@ const ReadingGoal = () => {
                   value={progressInput}
                   onChange={e => setProgressInput(Number(e.target.value))}
                 />
-                <button className="rg-btn-add" onClick={() => addProgress(progressInput)}>추가</button>
+                <button
+                  className="rg-btn-add"
+                  onClick={() => addProgress(progressInput)}
+                  disabled={goalData.achievedPages >= goalData.targetPages}
+                >
+                  추가
+                </button>
               </div>
 
               <div className="rg-modal-buttons">
