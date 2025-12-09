@@ -148,3 +148,13 @@
 .bi-page-number:hover {
     background: #A98A6A;
 }
+
+.bi-loading-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.bi-loading-text {
+  font-size: 18px;
+  color: #666;
+}
