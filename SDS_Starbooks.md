@@ -53,7 +53,7 @@
 
 ### 2.1. Use case Diagram
 
-![usecase](https://github.com/The-gallery-00/starbooks/blob/main/state%20machine%20diagram/usecase.png)
+![usecase](untitled/src/sds/usecasediagram.png)
 
 ### 2.2. Use case Description
 
@@ -1145,7 +1145,8 @@
 ---
 
 ## 5. State Machine Diagram
-![state machine diagram](untitled/src/sds/StateMachineDiagram.png)
+
+![StateMachineDiagram](untitled/src/sds/StateMachineDiagram.png)
 
 1. 로그인 및 인증 단계
 
@@ -1301,9 +1302,10 @@ Front-end:
 | 용어 | 설명 |
 |:---|:---|
 | 독서 기록 | 사용자가 읽은 책에 대한 별점, 도서평, 구절 등의 기록 |
-| 독서 챌린지 | 정해진 기간 내에 목표량의 독서를 달성하는 활동 |
-| 내 서재 | 사용자의 개인 도서 관리 공간 |
+| 챌린지 | 사용자가 공동 목표를 설정하고 정해진 기간 동안 함께 독서하는 활동. 다른 사용자들이 자유롭게 참여할 수 있음 |
+| 내 서재 | 사용자가 개인 도서를 관리하는 공간으로, 읽은 도서, 읽고 있는 도서, 찜한 도서로 구분됨 |
 | 찜하기 | 관심 있는 도서를 개인 목록에 저장하는 기능 |
+| 커뮤니티 | 퀴즈, 토론, 투표 등의 형식을 활용해 특정 책에 대해 자유롭게 의견을 나눌 수 있는 공간 |
 
 ---
 
