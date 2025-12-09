@@ -3,6 +3,7 @@ package com.starbooks.controller.friend;
 import com.starbooks.domain.user.User;
 import com.starbooks.domain.user.UserRepository;
 import com.starbooks.dto.friend.FriendDto;
+import com.starbooks.dto.friend.FriendProfileResponseDto;
 import com.starbooks.service.friend.FriendshipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,16 @@ import java.util.List;
         public ResponseEntity<List<FriendDto>> getFriends(@PathVariable Long userId) {
             return ResponseEntity.ok(friendshipService.getFriends(userId));
         }
+
+        // 받은 친구 요청 목록 조회
+        @GetMapping("/{userId}/pending")
+        public ResponseEntity<List<FriendDto>> getPendingRequests(@PathVariable Long userId) {
+            return ResponseEntity.ok(friendshipService.getPendingRequests(userId));
+        }
+        @GetMapping("/profile/{friendId}")
+        public ResponseEntity<FriendProfileResponseDto> getFriendProfile(
+                @PathVariable Long friendId) {
+            return ResponseEntity.ok(friendshipService.getFriendProfile(friendId));
+        }
+
     }
-
-
