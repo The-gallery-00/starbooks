@@ -1,41 +1,59 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import './MyProfile.css';
-import profileImage from './profile.jpg'
+import defaultProfile from './profile.jpg';
+import api from "./api/axiosInstance";
+import { UserContext } from "./UserContext";
 
 const MyProfile = () => {
-  const user = {
-    profileImage: profileImage,
-    nickname: 'Choi',
-    userId: '12345',
-    bio: '안녕하세요!',
-    favoriteAuthors: ['헤르만 헤세'],
-    preferredGenres: ['소설', 'SF']
-  };
+  const { user } = useContext(UserContext); 
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchMyProfile = async () => {
+      try {
+        const res = await api.get(`/api/users/${user.userId}`);
+         setProfile({
+          ...res.data,
+          profileImage: res.data.profileImage || null, 
+        });
+        console.log("내 프로필: ", res.data)
+
+      } catch (error) {
+        console.error("내 프로필 불러오기 실패:", error);
+        alert("프로필을 불러오지 못했습니다.");
+      }
+    };
+
+    if (user) fetchMyProfile();
+  }, [user]);
+  
+
+  if (!profile) return <p>로딩 중...</p>;
 
   return (
     <div className="profile-container">
       <img
-        src={user.profileImage}
+        src={profile.profileImage || defaultProfile}
         alt="프로필"
         className="profile-image"
       />
       <div className="profile-info">
         <div className="name-id">
-          <h2 className="nickname">{user.nickname}</h2>
-          {/* <span className="user-id">@{user.userId}</span> */}
+          <h2 className="nickname">{profile.nickname}</h2>
         </div>
-        <p className="bio">{user.bio}</p>
+
+        {profile.intro && <p className="bio">{profile.intro}</p>}
 
         <div className="favorites">
-          {user.favoriteAuthors && user.favoriteAuthors.length > 0 && (
+          {profile.favoriteAuthors?.length > 0 && (
             <p>
-              <strong>좋아하는 작가:</strong> {user.favoriteAuthors.join(', ')}
+              <strong>좋아하는 작가:</strong> {profile.favoriteAuthors.join(", ")}
             </p>
           )}
 
-          {user.preferredGenres && user.preferredGenres.length > 0 && (
+          {profile.favoriteGenres?.length > 0 && (
             <p>
-              <strong>선호 장르:</strong> {user.preferredGenres.join(', ')}
+              <strong>선호 장르:</strong> {profile.favoriteGenres.join(", ")}
             </p>
           )}
         </div>
