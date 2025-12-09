@@ -125,22 +125,4 @@ public class FriendshipService {
 
         friendshipRepository.delete(fs);
     }
-
-    // ------------------------------------
-    // 6) 내가 받은 친구 요청(PENDING) 조회
-    // ------------------------------------
-    public List<FriendDto> getPendingRequests(Long userId) {
-    
-        // 내가 받은 친구 요청만 조회
-        List<Friendship> pending =
-                friendshipRepository.findByReceiverUserIdAndStatus(userId, FriendshipStatus.PENDING);
-    
-        return pending.stream().map(fs -> FriendDto.builder()
-                .friendshipId(fs.getFriendshipId())
-                .friendId(fs.getRequester().getUserId()) // 요청 보낸 사람
-                .friendNickname(fs.getRequester().getNickname())
-                .status(fs.getStatus())
-                .build()
-        ).toList();
-    }
 }
