@@ -20,11 +20,11 @@
 | 2025-11-05 | 1.3 | 클래스 다이어그램 추가 |
 | 2025-12-06 | 1.4 | 기능 변경사항 수정 및 문서 내용 추가(use case까지) |
 | 2025-12-10 | 1.5 | sequence, state machine, ui 내용 추가 |
-
+| 2025-12-11 | 1.6 | class diagram 내용 추가 |
 ---
 
 ## Contenents
-1. [Introduction](#1-Introduction)
+1. [Introduction](#1-introduction)
 2. [Use case analysis](#2-use-case-analysis)
 3. [Class diagram](#3-class-diagram)
    - 3.1. [DB Class diagram](#31-db-class-diagram)
@@ -715,335 +715,474 @@
 
 ### 3.1. DB Class Diagram
 
-데이터베이스의 구조를 나타내는 클래스 다이어그램으로, 주요 엔티티와 관계를 표현한다.
+#### 3.1.1. User & Books
 
-![Database](untitled/src/class/DatabaseClass.png)
+![DB Class diagram1](untitled/src/class/dbClassdiagram1.png)
 
+- users : 사용자 계정 및 기본 프로필 정보
 
-#### 주요 클래스:
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | user_id | BIGINT | private | 사용자 고유 식별자 (Primary Key) |
+|            | username | VARCHAR(50) | private | 사용자 이름 |
+|            | email | VARCHAR(120) | private | 사용자 이메일 주소 |
+|            | password_hash | VARCHAR(255) | private | 암호화된 비밀번호 |
+|            | nickname | VARCHAR(50) | private | 사용자가 활동 시 노출되는 별명 |
+|            | role | ENUM('USER','ADMIN') | private | 사용자 권한 레벨 |
+|            | profile_image | VARCHAR(255) | private | 프로필 이미지 |
+|            | intro | VARCHAR(255) | private | 사용자 자기소개 문구 |
+|            | is_active | TINYINT(1) | private | 계정 활성화 상태 |
+|            | daily_page_goal | INT | private | 사용자가 설정한 하루 목표 독서 페이지 수 |
+|            | created_at | DATETIME | private | 계정 생성 일시 |
+|            | updated_at | DATETIME | private | 마지막 정보 수정 일시 |
+| Operations | createUser() | void | public | 새 사용자 계정을 생성하고 저장 |
+|            | updateProfile(userData) | void | public | 사용자 프로필 정보 업데이트 |
 
-**User**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| password | String | 유저의 로그인에 필요한 password key를 저장하기 위한 속성이다 |
-| nickname | String | 사용자가 설정한 닉네임을 저장하기위한 속성이다 |
-| email | String | 유저 정보중 email정보를 저장하기 위한 속성이다 |
-| profileImage | String | 사용자의 프로필 사진을 저장하기 위한 속성이다 |
-| createdAt | LocalDateTime | 회원가입한 시각을 저장하기 위한 속성이다 |
-| isActive | boolean | 유저의 활동상태를 저장하기 위한 속성이다 |
-- **설명**: 시스템 사용자의 기본 정보를 저장하는 클래스
+- user_profiles : 사용자 선호 정보 및 상세 프로필
 
-**UserProfile**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| introduction | String | 유저가 자기소개란을 작성하기 위한 속성이다 |
-| favoriteAuthors | List<String> | 유저가 좋아하는 저자를 서술하기 위한 속성이다 |
-| favoriteGenres | List<String> | 유저가 좋아하는 장르를 서술하기 위한 속성이다 |
-- **설명**: 사용자 자기소개 및 선호 정보
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | user_id | BIGINT | private | 사용자 ID(PK, FK users) |
+|            | favorite_authors | TEXT | private | 선호하는 작가 목록 |
+|            | favorite_genres | TEXT | private | 선호하는 장르 목록 |
+| Operations | savePreferences() | void | public | 선호 작가/장르 정보 저장 |
 
-**Book**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| bookId | Long | 책의 고유식별을 위한 속성이다 |
-| title | String | 책의 제목을 저장하기 위한 속성이다 |
-| author | String | 책의 저자를 저장하기 위한 속성이다 |
-| publisher | String | 책의 출판사를 저장하기 위한 속성이다 |
-| isbn | String | 책의 13자리 국제 표준 도서 번호를 저장하기 위한 속성이다 |
-| publishDate | LocalDate | 책의 출판일을 표시하기 위한 속성이다 |
-| coverImage | String | 책커버의 이미지를 표시하기 위한 속성이다 |
-| description | String | 책의 세부설명을 제공하기 위한 속성이다 |
-- **설명**: 도서 정보를 저장하는 클래스
+- books : 도서 기본 정보
 
-**ReadingRecord**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| recordId | Long | 사용자의 독서기록을 식별하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| bookId | Long | 책의 고유식별을 위한 속성이다 |
-| rating | int | 책의 별점을 표시하기 위한 속성이다 |
-| review | String | 사용자의 개인적인 리뷰를 저장하기 위한 속성이다 |
-| favoriteQuote | String | 독자가 책의 좋아하는 인용구절을 다른사람과 공유하기 위한 속성이다 |
-| readingStatus | Enum | 독자가 현재 기록에 대한 책읽은 상태를 표시하기 위한 속성이다 |
-| progressPercent | int | 독자가 현재 책을 얼만큼 읽었는지를 보여주기위해 사용하는 속성이다 |
-| startDate | LocalDate | 책을 처음 읽은날을 표시하기 위한 속성이다 |
-| endDate | LocalDate | 책을 마지막으로 읽은날을 표시하기 위한 속성이다 |
-- **설명**: 사용자의 독서 기록을 저장하는 클래스
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | book_id | BIGINT | private | 도서 고유 식별자 (PK) |
+|            | title | VARCHAR(200) | private | 도서 제목 |
+|            | author | VARCHAR(120) | private | 저자 이름 |
+|            | publisher | VARCHAR(120) | private | 출판사 이름 |
+|            | isbn | VARCHAR(20) | private | 국제 표준 도서 번호 (고유) |
+|            | category | VARCHAR(80) | private | 도서 카테고리/장르 |
+|            | description | TEXT | private | 도서 설명 |
+|            | cover_image | VARCHAR(255) | private | 표지 이미지 |
+|            | publish_date | DATE | private | 출판일 |
+|            | avg_rating | DECIMAL(3, 2) | private | 평균 평점 |
+|            | review_count | INT | private | 리뷰 수 |
+|            | is_popular | TINYINT(1) | private | 인기도 여부 |
+|            | created_at | DATETIME | private | 레코드 생성 일시 |
+| Operations | updateRating(newReview) | void | public | 평점 및 리뷰 수 업데이트 |
 
-**BookReview**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| reviewId | Long | 책리뷰에 대한 기록을 식별하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 | 
-| bookId | Long | 책의 고유식별을 위한 속성이다 |
-| rating | int | 책의 별점을 표시하기 위한 속성이다 |
-| reviewContent | String | 다른사용자가 볼수있는 책의 리뷰를 저장하기 위한 속성이다 |
-| createdAt | LocalDateTime | 리뷰를 생성한 날자를 저장하기 위한 속성이다 |
-- **설명**: 리뷰 및 별점 정보 (독립 엔티티)
+- favorites : 사용자별 찜한 도서 목록
 
-**BookShelf**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| shelfId | Long | 사용자의 서재 탭을 구분하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| shelfType | Enum | 서재 탭에서 제공하는 책에 표시에 관한 속성이다 |
-| books | List<Book> | 책을 탭별 List로 사용자에게 제공하기 위한 속성이다 |
-- **설명**: 내 서재 탭별 도서 목록 (읽는 중/완독/찜 등)
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | favorite_id | BIGINT | private | 찜하기 고유 식별자 (PK) |
+|            | user_id | BIGINT | private | 사용자 ID (FK users) |
+|            | book_id | BIGINT | private | 도서 ID (FK books) |
+|            | created_at | DATETIME | private | 찜한 일시 |
+| Operations | addFavorite() | void | public | 도서 찜하기 추가 |
 
-**Challenge**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| challengeId | Long | 독서 챌린지를 식별하기 위한 속성이다 |
-| title | String | 독서 챌린지의 이름을 저장하기 위한 속성이다 |
-| description | String | 독서 챌린지의 설명을 작성하기 위한 속성이다 |
-| targetBooks | int | 독서 챌린지의 목표 책수를 표시하기 위한 속성이다 |
-| startDate | LocalDate | 독서 챌린지의 시작일을 표시하기 위한 속성이다 |
-| endDate | LocalDate | 독서 챌린지의 마감일을 표시하기 위한 속성이다 |
-| creatorId | String | 독서 챌린지를 생성한 유저의 ID를 표시하기 위한 속성이다 |
-- **설명**: 독서 챌린지 기본 정보
+#### 3.1.2. BookShelf & Reading Activity & Ranking
 
-**ChallengeParticipation**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| participationId | Long | 독서 챌린지 참여자를 식별하기위한 코드이다 |
-| challengeId | Long | 독서 챌린지를 식별하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| progress | int | 독서 챌린지의 진행도를 표시하기 위한 속성이다 |
-| isCompleted | boolean | 독서 챌린지의 성공여부를 표시하기 위한 속성이다 |
-- **설명**: 챌린지 참가자 및 진행률
+![DB Class diagram2](untitled/src/class/dbClassdiagram2.png)
 
-**Community**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| postId | Long | 커뮤니티의 글을 식별하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| bookId | Long | 책의 고유식별을 위한 속성이다 |
-| postType | Enum | 게시물의 타입을 구분하기 위한 속성이다 |
-| title | String | 게시물의 제목을 저장하기 위한 속성이다 |
-| content | String | 게시물의 내용을 저장하기 위한 속성이다 |
-| createdAt | LocalDateTime | 게시물의 생성날짜를 저장하기 위한 속성이다 |
-- **설명**: 커뮤니티 게시글 정보
+- bookshelves : 사용자별 서재 목록
 
-**Comment**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| commentId | Long | 게시물에 대한 댓글을 식별하기 위한 속성이다 |
-| postId | Long | 커뮤니티의 글을 식별하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 코드이다 |
-| content | String | 게시물의 내용을 저장하기 위한 속성이다 | 
-| createdAt | LocalDateTime | 게시물의 생성날짜를 저장하기 위한 속성이다 |
-- **설명**: 게시글 댓글
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | shelf_id | BIGINT | private | 서재 고유 식별자 (PK) |
+|            | user_id | BIGINT | private | 사용자 ID (FK users) |
+|            | shelf_type | ENUM('READING','FINISHED','WISHLIST') | private | 서재 유형 |
+|            | created_at | DATETIME | private | 서재 생성 일시 |
+| Operations | addBook(book) | void | public | 서재에 도서 추가 |
 
-**Goal**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| goalId | Long | 독서목표를 식별하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| goalType | Enum | 독서목표의 형식을 표시하기 위한 속성이다 |
-| targetBooks | int | 독서수 목표를 표시하기 위한 속성이다 |
-| achievedBooks | int | 독서수 목표를 달성한 양을 표시하기 위한 속성이다 |
-| startDate | LocalDate | 목표 시작일을 표시하기 위한 속성이다 |
-| endDate | LocalDate | 목표 마감일을 표시하기 위한 속성이다 |
-- **설명**: 독서 목표 관리
+- bookshelf_books : 서재에 속한 도서들
 
-**ReadingCalendar**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| calendarId | Long | 독서 켈린더를 식별하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| date | LocalDate | 켈린더에 날짜별 내용을 작성하기 위한 속성이다 |
-| pagesRead | int | 켈린더에 표시할 읽은 page수를 표시하기 위한 속성이다 |
-| goalAchieved | boolean | 사용자가 설정한 일간 목표의 달성여부를 표시하기 위한 속성이다 | 
-- **설명**: 독서 캘린더용 데이터
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | shelf_id | BIGINT | private | 서재 ID (PK, FK bookshelves) |
+|            | book_id | BIGINT | private | 도서 ID (PK, FK books) |
+|            | added_at | DATETIME | private | 서재에 추가된 일시 |
+|            | created_at | DATETIME | private | 서재 생성 일시 |
 
-**Friend**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| requesterId | String | 친구요청을 한 사람을 식별하기 위한 속성이다 |
-| receiverId | String | 친구요청을 받은 사람을 식별하기 위한 속성이다 |
-| status | Enum | 친구신청 상태를 표시하기 위한 속성이다 |
-- **설명**: 친구 요청/수락 관계
+- reading_records : 사용자의 독서 기록 상세
 
-**Notification**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| notificationId | Long | 알림의 고유식별을 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| type | Enum | 알림의 속성을 표시하기 위한 속성이다 |
-| message | String | 알림의 내용을 표시하기 위한 속성이다 |
-| isRead | boolean | 알림의 읽었는지의 여부를 표시하기 위한 속성이다 |
-| createdAt | LocalDateTime | 알림이 수신된 시간을 표시하기 위한 속성이다 |
-- **설명**: 사용자에게 알림을 제공하기 위한 클래스
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | record_id | BIGINT | private | 독서 기록 고유 식별자 (PK) |
+|            | user_id | BIGINT | private | 사용자 ID (FK users) |
+|            | book_id | BIGINT | private | 도서 ID (FK books) |
+|            | rating | TINYINT | private | 이 기록에서 남긴 평점 |
+|            | review | TEXT | private | 이 기록에 남긴 리뷰 |
+|            | favorite_quote | TEXT | private | 가장 인상 깊은 구절 |
+|            | reading_status | ENUM('PLANNING','READING','FINISHED','PAUSED') | private | 현재 독서 상태 |
+|            | progress_percent | TINYINT | private | 진행률 |
+|            | start_date | DATE | private | 독서 시작일 |
+|            | end_date | DATE | private | 독서 완료일 |
+|            | created_at | DATETIME | private | 기록 생성 일시 |
+|            | updated_at | DATETIME | private | 마지막 수정 일시 |
+| Operations | updateProgress(percent) | void | public | 진행률 업데이트 및 상태 변경 |
 
-**Announcement**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| announcementId | Long | 공지사항을 식별하기 위한 속성이다 |
-| title | String | 공지사항의 제목을 저장하기 위한 속성이다 |
-| content | String | 공지사항의 내용을 저장하기 위한 속성이다 |
-| createdAt | LocalDateTime | 공지사항이 생성된 날짜를 저장하기 위한 속성이다 |
-| authorId | String | 해당 공지사항을 게시한 사람의 id를 확인하기 위한 속성이다 |
-- **설명**: 시스템 공지사항
+- book_reviews : 도서에 대한 리뷰
 
-**SearchHistory**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| searchId | Long | 검색기록을 저장하기 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| keyword | String | 검색기록을 표시하기 위한 속성이다 |
-| searchedAt | LocalDateTime | 검색기록의 시간을 저장하기 위한 속성이다 |
-- **설명**: 사용자 검색 기록
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | review_id | BIGINT | private | 리뷰 고유 식별자 (PK) |
+|            | user_id | BIGINT | private | 작성자 ID (FK users) |
+|            | book_id | BIGINT | private | 도서 ID (FK books) |
+|            | rating | TINYINT | private | 평점 (1~5점) |
+|            | content | TEXT | private | 리뷰 내용 |
+|            | created_at | DATETIME | private | 리뷰 작성 일시 |
+|            | updated_at | DATETIME | private | 리뷰 수정 일시 |
+| Operations | editContent(newContent) | void | public | 리뷰 내용 수정 |
 
-**PurchaseLink**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| linkId | Long | 구매링크를 구분하기 위한 속성이다 |
-| bookId | Long | 책의 고유식별을 위한 속성이다 |
-| siteName | String | 구매링크의 사이트 명을 저장하기 위한 속성이다 |
-| url | String | 구매링크를 제공하기 위해 url을 저장하기 위한 속성이다 |
-- **설명**: 도서 외부 구매 링크
+- reading_calendar : 일일 독서량 및 목표 달성 현황
 
-**Ranking**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| rankingId | Long | 랭킹을 고유식별을 위한 속성이다 |
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| rankPosition | int | 랭크 순위를 표시하기 위한 int타입의 속성이다 |
-| rankingType | Enum | 랭킹의 타입을 지정하기 위한 속성이다 |
-| value | int | 순위를 매길때 사용되는 실제 수치값을 저장하기 위한 속성이다 |
-- **설명**: 독서 통계 기반 사용자 랭킹
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | calendar_id | BIGINT | private | 캘린더 기록 고유 식별자 (PK) |
+|            | user_id | BIGINT | private | 사용자 ID (FK users) |
+|            | reading_date | DATE | private | 독서 기록 일자 |
+|            | pages_read | INT | private | 해당 일 독서 페이지 수 |
+|            | goal_achieved | TINYINT(1) | private | 일일 목표 달성 여부 |
+|            | progress_note | VARCHAR(255) | private | 해당 일의 진행 메모 |
+| Operations | logDailyReading(pages) | void | public | 일일 독서량 기록 |
+
+- rankings : 사용자 랭킹 정보
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | ranking_id | BIGINT | private | 랭킹 고유 식별자 (PK) |
+|            | user_id | BIGINT | private | 사용자 ID (FK users) |
+|            | ranking_type | ENUM('BOOK_COUNT','GOAL_STREAK','CHALLENGE_WINS') | private | 랭킹 유형 |
+|            | rank_position | INT | private | 현재 랭킹 순위 |
+|            | value | INT | private | 랭킹 기준 값 |
+|            | calculated_at | DATETIME | private | 랭킹 계산 일시 |
+| Operations | calculateRank(type) | void | public | 랭킹 유형별 순위 계산 |
+
+#### 3.1.3. Challenge & Community & Friend & Notifications
+
+![DB Class diagram3](untitled/src/class/dbClassdiagram3.png)
+
+- challenges : 독서 챌린지 생성 정보
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | challenge_id | BIGINT | private | 챌린지 고유 식별자 (PK) |
+|            | title | VARCHAR(120) | private | 챌린지 제목 |
+|            | description | TEXT | private | 챌린지 설명 |
+|            | target_books | INT | private | 목표 권수 |
+|            | start_date | DATE | private | 챌린지 시작일 |
+|            | end_date | DATE | private | 챌린지 종료일 |
+|            | creator_id | BIGINT | private | 생성자 ID (FK users) |
+|            | status | ENUM('SCHEDULED','ACTIVE','COMPLETED','CANCELLED') | private | 챌린지 상태 |
+|            | created_at | DATETIME | private | 생성 일시 |
+| Operations | startChallenge() | void | public | 챌린지 시작 상태로 변경 |
+|            | checkProgress() | VARCHAR(255) | private | 참가자들의 진행 상황 확인 |
+
+- challenge_participants : 챌린지 참가자 목록
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | participant_id | BIGINT | private | 참가 기록 고유 식별자 (PK) |
+|            | challenge_id | BIGINT | private | 챌린지 ID (FK challenges) |
+|            | user_id | BIGINT | private | 참가 사용자 ID (FK users) |
+|            | progress | INT | private | 참가자의 현재 독서 진행률 |
+|            | is_completed | TINYINT(1) | private | 챌린지 완료 여부 |
+|            | joined_at | DATETIME | private | 챌린지 참가 일시 |
+| Operations | updateProgress(readingData) | void | public | 독서 기록을 반영하여 진행률 업데이트 |
+
+- community_posts : 커뮤니티 게시글 (퀴즈, 투표, 토론)
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | post_id | BIGINT | private | 게시글 고유 식별자 (PK) |
+|            | user_id | BIGINT | private | 작성자 ID (FK users) |
+|            | book_title | VARCHAR(200) | private | 관련 도서 제목 (직접 저장) |
+|            | post_type | ENUM('QUIZ','POLL','DISCUSSION') | private | 게시글 유형 |
+|            | title | VARCHAR(150) | private | 게시글 제목 |
+|            | content | TEXT | private | 본문 내용 (QUIZ/POLL은 문제 질문) |
+|            | created_at | DATETIME | private | 작성 일시 |
+|            | updated_at | DATETIME | private | 수정 일시 |
+| Operations | editContent(newContent) | void | public | 게시글 내용 수정 |
+
+- post_options : 퀴즈/투표 선택지
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | option_id | BIGINT | private | 선택지 고유 식별자 (PK) |
+|            | post_id | BIGINT | private | 게시글 ID (FK community_posts) |
+|            | option_text | VARCHAR(255) | private | 선택지 내용 |
+|            | is_correct | TINYINT(1) | private | 퀴즈 정답 여부 |
+|            | option_order | INT | private | 선택지 순서 |
+
+- post_answers : 사용자의 퀴즈/투표 응답
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | answer_id | BIGINT | private | 응답 고유 식별자 (PK) |
+|            | post_id | BIGINT | private | 게시글 ID (FK community_posts) |
+|            | user_id | BIGINT | private | 응답자 ID (FK users) |
+|            | option_id | BIGINT | private | 선택한 선택지 ID (FK post_options) |
+|            | answered_at | DATETIME | private | 응답 일시 |
+
+- comments : 게시글 댓글
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | comment_id | BIGINT | private | 댓글 고유 식별자 (PK) |
+|            | post_id | BIGINT | private | 게시글 ID (FK community_posts) |
+|            | user_id | BIGINT | private | 작성자 ID (FK users) |
+|            | content | TEXT | private | 댓글 내용 |
+|            | created_at | DATETIME | private | 작성 일시 |
+|            | updated_at | DATETIME | private | 수정 일시 |
+| Operations | editContent(newContent) | void | public | 댓글 내용 수정 |
+
+- friends : 친구 관계 요청 및 상태
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | friendship_id | BIGINT | private | 친구 관계 고유 식별자 (PK) |
+|            | requester_id | BIGINT | private | 친구 요청자 ID (FK users) |
+|            | receiver_id | BIGINT | private | 친구 수신자 ID (FK users) |
+|            | status | ENUM('PENDING','ACCEPTED','REJECTED','BLOCKED') | private | 관계 상태 |
+|            | created_at | DATETIME | private | 요청 생성 일시 |
+| Operations | acceptRequest() | void | public | 친구 요청 수락 |
+
+- notifications : 사용자 알림
+
+| 구분 | Name | Type | Visibility | Description |
+|:---|:---|:---|:---|:---|
+| Attributes | notification_id | BIGINT | private | 알림 고유 식별자 (PK) |
+|            | user_id | BIGINT | private | 알림 수신자 ID (FK users) |
+|            | ref_friendship_id | BIGINT | private | 참조 친구 관계 ID (FK friends, 친구 요청 알림 시) |
+|            | category | ENUM('SYSTEM','FRIEND','CHALLENGE','COMMUNITY') | private | 알림 유형 |
+|            | message | VARCHAR(255) | private | 알림 내용 |
+|            | is_read | TINYINT(1) | private | 알림 읽음 여부 |
+|            | created_at | DATETIME | private | 알림 생성 일시 |
+| Operations | markAsRead() | void | public | 알림을 읽음 상태로 변경 |
 
 
 ### 3.2. Domain Class Diagram
 
-비즈니스 도메인의 핵심 개념을 표현하는 클래스들과 그들 간의 관계를 나타낸다.
+#### 3.2.1. User & Book Shelf & Reading Activity
 
-![domain](untitled/src/class/Domain.png)
+![domain Class diagram1](untitled/src/class/domainClass1.png)
 
-**BookShelf**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| books | List<Book> | 유저의 서재에 책을 저장하기 위한 속성이다 |
-| filterType | Enum | 현재 유저가 서재에 책의 상태를 표시하기 위한 속성이다 |
-| count | int | 유저의 서재의 책의 수를 카운트하기 위한 속성이다 |
-- **설명**: 내 서재의 도서 집합을 관리하는 비즈니스 객체
+- User : 사용자 계정 및 기본 정보(인증, 식별)를 관리하는 핵심 도메인 객체
 
-**Goal**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| progressRate | double | 독서 목표 진행률을 확인하기 위한 속성이다 |
-| remainingDays | int | 독서 목표 달성의 남은날을 표시하기 위한 속성이다 |
-- **설명**: 독서 목표 달성률 계산 등 비즈니스 로직 포함
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | createUser() | public | 새 사용자 계정을 생성하고 초기 권한 및 활성화 상태를 설정하여 저장 |
+|            | updateProfile(userData)| public | 닉네임, 프로필 이미지, 자기소개 등 사용자 프로필 정보를 업데이트 |
+|            | changePassword(newHash) | public | 사용자 비밀번호를 새 해시 값으로 변경하고 보안 관련 기록을 갱신 |
+|            | activateAccount() | public | 휴면 또는 비활성화된 계정의 활성화 상태를 '활성'으로 변경 |
 
-**Ranking**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| userRank | int | 유저의 랭킹을 표시하기 위한 속성이다 |
-| booksRead | int | 유저가 읽은 책의 수를 저장하기 위한 속성이다 |
-| totalPages | int | 유저가 총읽은 페이지수를 저장하기 위한 속성이다 |
-| streakDays | int | 유저의 연속목표 달성일을 저장하기 위한 속성이다 |
-- **설명**: 통계·순위 계산용 도메인 모델
+- UserProfile : 사용자의 개인 선호도(작가, 장르 등)와 관련된 상세 정보를 관리
 
-**ReadingCalendar**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| calendarId | Long | 독서 켈린더를 식별하기 위한 속성이다 |
-| dailyStats | Map<LocalDate,Integer> | 날짜별 책을 읽은 수를 표시하기 위한 속성이다 |
-| achievedGoals | Set<LocalDate> | 달성일수를 표시하기 위한 속성이다 |
-- **설명**: 독서량/목표 달성 현황을 집계
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | savePreferences() | public | 사용자가 설정한 선호 작가 및 장르 정보를 저장 또는 갱신 |
 
-**UserProfile**
-| 속성명 | 속성타입 | 속성설명 |
-|:---|:---|:---|
-| userId | String | 유저의 고유식별을 위한 속성이다 |
-| friends | int | 유저의 친구수를 표시하기 위한 속성이다 |
-| booksRead | int | 유저가 읽은 책의 수를 저장하기 위한 속성이다
-| readingPage | int | 유저가 읽은 책의 페이지수를 저장하기 위한 속성이다 |
-| activityScore | int | 유저의 독서 챌린지 달성수를 표시하기 위한 속성이다 |
-| achievedGoals | Set<LocalDate> | 달성일수를 표시하기 위한 속성이다 |
-| streakDays | int | 유저의 연속목표 달성일을 저장하기 위한 속성이다 |
-- **설명**: 사용자의 활동, 랭킹, 선호 기반 모델링
+- Book : 도서 자체의 정보, 평점 및 리뷰 수 통계를 관리하는 핵심 도메인 객체
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | updateRating(newReview) | public | 새로운 리뷰의 평점을 받아, 기존 평균 평점을 재계산하고 리뷰 수를 1 증가 |
+
+- ReadingRecord : 사용자가 특정 책을 읽은 진행 상태, 리뷰, 평점 등 상세한 독서 활동 기록을 관리
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | updateProgress(pages) | public | 읽은 페이지 수를 바탕으로 진행률(progress_percent)을 계산하고 업데이트 |
+|            | markAsFinished()| public | 독서 상태를 '완료(FINISHED)'로 변경하고 종료 날짜를 기록 |
+
+- Bookshelf : 사용자 서재를 대표하는 객체. 서재의 유형별로 도서를 관리하는 책임을 가짐
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | addBook(book) | public | 특정 도서를 서재에 추가하며, BookshelfBook 관계 객체를 생성 |
+|            | removeBook(book) | public | 서재에서 특정 도서를 제거하고 관련 BookshelfBook 관계 객체를 삭제 |
+
+- ReadingCalendar : 사용자의 일일 독서량과 목표 달성 여부 등 시간 기반 기록을 관리
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | logDailyReading(pages) | public | 특정 날짜의 독서량을 기록하고, 사용자 목표 달성 여부(goal_achieved)를 확인 후 갱신 |
+
+- Favorite : 사용자와 도서 간의 찜하기(선호) 관계를 관리
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | addFavorite() | public | 사용자의 찜 목록에 해당 도서를 추가 |
+|            | removeFavorite() | public | 사용자의 찜 목록에서 해당 도서를 제거 |
+
+#### 3.2.2. Challenge & Ranking & Community & Friend & Notifications
+
+![domain Class diagram2](untitled/src/class/domainClass2.png)
+
+- Challenge : 독서 목표(권수) 설정 및 기간 관리를 담당
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | startChallenge() | public | 챌린지 시작 일자가 되면 상태를 'ACTIVE'로 변경 |
+|            | checkProgress() | public | 소속 참가자들의 진행 상황을 집계하여 챌린지 전체 진행도를 계산 및 요약 |
+
+- ChallengeParticipant : 챌린지에 참여한 사용자별 진행률 및 완료 상태를 관리
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | updateProgress(readingData) | public | 사용자의 독서 기록을 반영하여 목표 권수에 대한 진행률을 업데이트 |
+|            | completeChallenge() | public | 목표 권수를 달성하면 완료 상태로 변경하고, 챌린지 완료 시간 기록 |
+
+- Ranking : 시스템 내 특정 기준에 따른 사용자 순위를 기록 및 관리
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | calculateRank(type) | public | 랭킹 유형별로 사용자 데이터를 집계하여 순위를 계산하고 Ranking 객체로 저장 |
+
+- CommunityPost : 커뮤니티의 게시글(토론, 퀴즈, 투표)의 기본 정보 및 내용을 관리하는 객체
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | editContent(newContent) | public | 게시글의 제목과 본문 내용을 수정하고 수정 시간을 갱신 |
+|            | addOption(optionData) | public | 퀴즈 또는 투표 게시글에 새로운 선택지를 추가하고 순서를 재정렬 |
+
+- PostOption : 퀴즈 또는 투표 게시글의 선택지를 관리하며 정답 여부 등의 책임을 가짐
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | markAsCorrect() | public | 해당 선택지를 퀴즈의 정답 상태로 표시하고 관련 로직 처리 |
+
+- PostAnswer : 사용자가 퀴즈/투표 게시글에 제출한 응답 정보를 관리
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | submitAnswer() | public | 응답자, 게시글, 선택지 정보를 바탕으로 응답 기록을 저장 |
+
+- Comment : 게시글에 달린 댓글 내용 및 관리를 담당
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | editContent(newContent) | public | 댓글 내용을 수정하고 수정 시간을 갱신 |
+
+- Friendship : 사용자 간의 친구 요청, 수락, 차단 등 관계 상태를 관리
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | acceptRequest() | public | 요청 상태를 'ACCEPTED'로 변경하고 관련 알림을 생성 |
+|            | rejectRequest() | public | 요청 상태를 'REJECTED'로 변경 |
+|            | blockUser() | public | 요청자 또는 수신자 기준으로 상대방을 'BLOCKED' 상태로 변경 |
+
+- Notification : 사용자에게 발생하는 다양한 알림(친구 요청, 댓글, 챌린지 등)을 기록 및 관리
+
+| 구분 | Name | Visibility | Description |
+|:---|:---|:---|:---|
+| Operations | markAsRead() | public | 알림의 is_read 상태를 'True'로 변경 |
 
 ### 3.3. Service Layer Class Diagram
 
-비즈니스 로직을 처리하는 서비스 클래스들의 구조를 나타낸다.
+![service Class diagram](untitled/src/class/serviceClass.png)
 
-![Service](untitled/src/class/Service.png)
+- UserService : 사용자 계정 관리, 프로필 업데이트, 비밀번호 초기화 및 일일 목표 상태 조회 등 핵심 계정 관련 비즈니스 트랜잭션을 처리
 
-**UserService**
-| 메서드명 | 설명 |
-|:---|:---|
-| registerUser(User user) | 유저가 회원가입하기 위한 객체를 생성한다 |
-| loginUser(String id, String pw) | 유저가 회원가입하기 위해 입력할 id및 password 객체를 생성한다 |
-| updateProfile(UserProfile profile) | 유저가 프로필을 생성/수정 할때 프로필 객체를 생성한다 |
-| getUserInfo(String id) | 유저 프로필이 정상적으로 생성되면 프로필 id를 생성한다 |
-- **설명**: 회원가입·로그인·프로필 수정 처리
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | create(User user) | 새로운 사용자 계정을 등록 | N/A |
+|            | update(Long id, User updated) | 사용자 프로필 정보(닉네임, 소개, 이미지)를 업데이트 | N/A |
+|            | updateDailyPageGoal(Long userId, Integer goalPages) | 사용자의 일일 목표 페이지를 갱신 | N/A |
+|            | resetPasswordByUsername(String username, String newPassword) | 아이디로 사용자를 찾아 비밀번호를 재설정 | N/A |
+|            | getDailyGoalStatus(Long userId) | 사용자의 일일 독서 목표 대비 달성 현황을 조회 | ReadingCalendarService |
 
-**BookService**
-| 메서드명 | 설명 |
-|:---|:---|
-| searchBooks(String keyword) | 책을 검색할때 키워드를 객체로 받는다 | 
-| getBookDetails(Long bookId) | 검색한 책의 세부사항을 불러온다 |
-| addBookToShelf(Long bookId) | 검색한 책의 서재로 추가하는 기능을 제공한다 |
-| userId(String userId) | 유저의 로그인 상태 및 유저의 정보를 확인한다 | 
-| removeBookFromShelf() | 유저의 서재에서 해당 책을 제거하는 기능을 제공한다 |
-- **설명**: 도서 검색 및 상세 보기
+- ReadingCalendarService : 일일 독서량 기록 및 조회 등 시간 기반 독서 활동 기록을 관리
 
-**ReadingService**
-| 메서드명 | 설명 |
-|:---|:---|
-| createReadingRecord() | 독서기록을 생성한다 |
-| updateReadingProgress() | 독서 진행사항을 업데이트 한다 |
-| getReadingStatistics() | 독서 상태를 생성한다 (읽기전, 읽은후, 찜목록 등) | 
-| calculateReadingGoals() | 날짜별 독서목록을 기록한다 |
-- **설명**: 독서 기록 작성/수정, 통계 계산
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | updateDailyProgress(Long userId, LocalDate date, Integer pagesRead) | 특정 날짜의 독서 페이지 수를 기록/갱신하고, 일일 목표 달성 여부를 판단하여 저장 | N/A |
+|            | getTodayPages(Long userId) | 오늘 읽은 총 페이지 수를 조회 | N/A |
 
-**ChallengeService**
-| 메서드명 | 설명 |
-|:---|:---|
-| createChallenge() | 독서 챌린지를 생성한다 |
-| joinChallenge() | 독서 챌린지에 참여한다 |
-| updateProgress() | 독서 챌린지 진행사항을 업데이트한다 |
-- **설명**: 챌린지 생성 및 참여 관리
+- ReadingRecordService : 개별 도서에 대한 상세 독서 기록(진행률, 리뷰, 평점 등)의 CRUD를 처리
 
-**CommunityService**
-| 메서드명 | 설명 |
-|:---|:---|
-| createPost() | 게시글을 생성한다 |
-| editPost() | 게시글을 수정한다 | 
-| getPosts() | 게시글을 등록한다 |
-| addComment() | 게시글에 대한 댓글을 추가한다 |
-- **설명**: 게시글/댓글 작성 및 관리
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | save(ReadingRecord r) | 독서 기록을 저장 | N/A |
+|            | findByUserId(Long userId) | 특정 사용자의 모든 독서 기록 목록을 조회 | N/A |
+|            | delete(Long recordId) | 독서 기록을 삭제 | N/A |
 
-**FriendService**
-| 메서드명 | 설명 |
-|:---|:---|
-| addFriend() | 친구를 추가한다 |
-| acceptRequest() | 친구 요청을 수락한다 |
-| removeFriend() | 친구를 삭제한다 |
-| getFriendList() | 친구 목록을 불러온다 |
-- **설명**: 친구 관계 추가/삭제 관리
+- BookshelfService : 사용자의 서재(읽고 싶은 책, 읽는 중, 완독 등)에 도서를 추가하고 관리하는 비즈니스 트랜잭션을 처리
 
-**GoalService**
-| 메서드명 | 설명 |
-|:---|:---|
-| setGoal() | 독서 목표를 설정한다 |
-| updateGoalProgress() | 독서 목표 진행사항을 업데이트한다 |
-| getGoalStatus() | 독서 목표 달성률을 입력한다 |
-- **설명**: 독서 목표 설정 및 달성률 계산
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | addBookToShelf(BookshelfRequestDto dto) | 사용자의 특정 타입 서재에 책을 추가하고, 진행률 상태를 계산하여 BookshelfBook 객체로 저장 | N/A |
 
-**NotificationService**
-| 메서드명 | 설명 |
-|:---|:---|
-| sendNotification() | 유저에게 알람을 발송한다 |
-| getNotifications() | 사용자가 알람을 수신한다 | 
-| markAsRead() | 사용자는 해당 알람을 읽으면 읽음표시를 한다 |
-- **설명**: 알림 생성 및 읽음 처리
+- FavoriteService : 사용자의 도서 찜하기(Favorite) 기능을 관리. DB에 없는 책은 외부 API를 통해 정보를 가져와 저장 후 찜
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | addFavorite(FavoriteRequestDto request) | 도서를 찜 목록에 추가 | ExternalBookApiService |
+|            | removeFavorite(FavoriteRequestDto request) | 찜 목록에서 도서를 제거 | N/A |
+|            | getUserFavorites(Long userId) | 특정 사용자의 전체 찜 목록을 조회 | N/A |
+|            | isFavorite(Long userId, Long bookId) | 특정 도서를 찜했는지 여부를 확인 | N/A |
+
+- ExternalBookApiService : 외부 도서 API를 호출하여 실시간 도서 정보(검색, 상세, 인기 도서)를 가져오는 역할을 담당합니다.
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | searchBooks(keyword, page, size) | 키워드로 외부 도서 목록을 검색하여 DTO 형태로 반환 | N/A |
+|            | getBookDetail(String isbn) | ISBN 기반으로 외부 API에서 도서 상세 정보를 조회 | N/A |
+|            | getPopularBooks(...) | 기간, 연령 등 필터 기준으로 인기 도서 목록을 조회 | N/A |
+
+- SearchService : 도서 DB 및 커뮤니티 게시글 DB 등 여러 소스를 통합하여 검색을 수행
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | searchAll(String keyword) | 키워드를 이용해 로컬 DB의 도서와 커뮤니티 게시글을 통합 검색하여 반환 | N/A |
+
+- ChallengeService : 챌린지 생성, 조회 등 챌린지 자체의 메타데이터를 관리. 챌린지 생성 시 이벤트 발행
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | create(Challenge challenge) | 새로운 챌린지를 DB에 저장하고, 챌린지 생성 이벤트를 발행 | N/A |
+|            | find(Long id) | 특정 챌린지 정보를 조회 | N/A |
+|            | findAll() | 모든 챌린지 목록을 조회 | N/A |
+
+- ChallengeParticipationService : 사용자와 챌린지 간의 참여/취소 관계를 관리하고, 참여 중인 챌린지 목록을 조회
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | join(Long challengeId, Long userId) | 사용자를 특정 챌린지에 참여 | N/A |
+|            | cancel(Long challengeId, Long userId) | 사용자의 특정 챌린지 참여를 취소 | N/A |
+|            | getMyChallenges(Long userId) | 특정 사용자가 참여 중인 모든 챌린지 목록을 조회 | N/A |
+
+- CommunityPostService : 게시글의 CRUD 및 게시글 옵션(투표 항목 등)을 함께 관리하는 핵심 커뮤니티 로직을 담당
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | save(CommunityPost post) | 일반 게시글을 저장(CRUD 기본) | N/A |
+|            | find(Long id) | 특정 게시글을 ID로 조회 | N/A |
+|            | delete(Long id) | 특정 게시글을 삭제 | N/A |
+|            | saveWithOptions(CommunityPost post, List<PostOption> options) | 게시글과 함께 투표/퀴즈 옵션 목록을 트랜잭션 단위로 저장 | N/A |
+|            | getOptions(Long postId) | 특정 게시글에 연결된 옵션(투표 항목 등) 목록을 조회 | N/A |
+
+- CommentService : 게시글에 대한 댓글 생성 및 조회 로직을 처리
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | addComment(CommentRequestDto dto) | 게시글에 새로운 댓글을 작성하여 저장 | N/A |
+|            | getComments(Long postId) | 특정 게시글에 달린 모든 댓글 목록을 조회 | N/A |
+
+- FriendshipService : 사용자 간의 친구 요청, 수락, 거절, 삭제 등 모든 친구 관계 로직을 처리
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | sendFriendRequest(Long requesterId, Long receiverId) | 다른 사용자에게 친구 요청 | N/A |
+|            | acceptFriendRequest(Long friendshipId) | 친구 요청을 수락하고 관계 상태를 'ACCEPTED'로 변경 | N/A |
+|            | rejectFriendRequest(Long friendshipId) | 친구 요청을 거절하고 관계 상태를 'REJECTED'로 변경 | N/A |
+|            | getFriends(Long userId) | 특정 사용자의 수락된 친구 목록을 조회 | N/A |
+|            | removeFriend(Long userId, Long friendId) | 친구 관계를 삭제 | N/A |
+
+- NotificationService : 알림 생성, 읽음 처리, 사용자별 알림 목록 조회 등 알림 기록 관련 로직을 담당
+
+| 구분 | Name | Description | Dependency |
+|:---|:---|:---|:---|
+| Operations | save(Notification n) | 새로운 알림을 저장 | N/A |
+|            | markRead(Long id) | 특정 알림을 '읽음' 상태로 변경 | N/A |
+|            | getUserNotifications(User user) | 특정 사용자의 최신 알림 목록을 조회 | N/A |
+
 ---
 
 ## 4. Sequence Diagram
