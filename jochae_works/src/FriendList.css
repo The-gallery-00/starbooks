@@ -1,0 +1,283 @@
+/* 친구 리스트 전체 컨테이너 */
+.friend-list-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* 제목 스타일 */
+.friend-list-container h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 친구 검색 버튼 */
+.open-friend-search-btn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  background-color: #57433D;
+  color: white;
+}
+
+.open-friend-search-btn:hover {
+  background-color: #A98A6A;
+}
+
+/* 친구 항목 */
+.friend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fafafa;
+  transition: background-color 0.2s;
+}
+
+.friend-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* 프로필 영역 */
+.friend-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.friend-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friend-profile span small {
+  color: #888;
+  margin-left: 5px;
+  font-weight: normal;
+  font-size: 0.85em;
+}
+
+/* 친구 액션 버튼 영역 */
+.friend-actions {
+  display: flex;
+  gap: 10px;
+  position: relative;
+}
+
+.friend-actions .fl-action-btn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.friend-actions .fl-action-btn:hover {
+  opacity: 0.7;
+}
+
+.friend-actions .fl-accept-btn {
+  background-color: #57433D;
+  color: white;
+}
+
+.friend-actions .fl-delete-btn {
+  background-color: #D7D7D7;
+  color: black;
+}
+
+/* 드롭다운 메뉴용 버튼 */
+.friend-actions .fl-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fl-menu-btn svg {
+  color: black;
+}
+
+.fl-menu-btn:hover {
+  opacity: 0.8;
+}
+
+/* 드롭다운 메뉴 */
+.fl-dropdown-menu {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 10;
+  min-width: 80px;
+}
+
+.fl-dropdown-menu button {
+  width: 100%;
+  padding: 6px 10px;
+  background: #D7D7D7;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  border-radius: 4px;
+}
+
+.fl-dropdown-menu button:hover {
+  opacity: 0.9;
+}
+
+/* 친구 검색 모달 */
+.fl-search-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* 모달 내용 */
+.fl-search-modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 450px;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 모달 검색 입력 */
+.friend-search-input {
+  width: 93%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.friend-search-input:focus {
+  border-color: #57433D;
+}
+
+.fl-search-modal-header {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.fl-cancel-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  background-color: #D7D7D7;
+}
+
+/* 검색/닫기 버튼 */
+.fl-search-btn,
+.fl-close-modal-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.fl-search-btn {
+  background-color: #57433D;
+  color: #fff;
+}
+
+.fl-search-btn:hover {
+  opacity: 0.85;
+}
+
+.fl-close-modal-btn {
+  background-color: #D7D7D7;
+  color: black;
+}
+
+.fl-close-modal-btn:hover {
+  opacity: 0.7;
+}
+
+/* 검색 결과 리스트 */
+.fl-search-results {
+  flex-grow: 1;   
+  overflow-y: auto;  
+  display: flex;
+  flex-direction: column;
+  gap: 5px;          
+  margin-top: 10px;
+  padding-top: 5px;
+  background-color: #F4F4F4;
+}
+
+.fl-search-results p {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+.friend-search-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-left: 10px;
+}
+.friend-search-list span small {
+  color: #888;
+  margin-left: 5px;
+  font-weight: normal;
+  font-size: 0.85em;
+}
+.fl-modal-friend-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 5px;
+}

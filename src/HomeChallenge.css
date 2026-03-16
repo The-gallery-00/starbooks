@@ -1,0 +1,144 @@
+/* 전체 섹션 */
+.hc-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e8ddd0;
+}
+
+/* 헤더 */
+.hc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.hc-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3e2723;
+}
+
+/* 더보기 버튼 */
+.hc-more-btn {
+  text-decoration: none;
+  background: #f5f1eb;
+  border: 1px solid #d4a574;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #8d6e63;
+  transition: all 0.2s;
+}
+
+.hc-more-btn:hover {
+  background: #d4a574;
+  color: #fff;
+}
+
+/* Grid */
+.hc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* 카드 */
+.hc-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e8ddd0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hc-card:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+/* 카드 상단 배지 */
+.hc-card-top {
+  height: 40px;
+  background: #f5f1eb;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.hc-badge {
+  background: rgba(255,255,255,0.95);
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #3e2723;
+}
+
+/* 카드 내용 */
+.hc-card-content {
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* 제목, 설명 */
+.hc-card-title {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #3e2723;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.hc-card-desc {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #6d4c41;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 진행률 */
+.hc-progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hc-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #f5f1eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.hc-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg,#d4a574,#a67c52);
+  transition: width 0.3s;
+}
+
+.hc-progress-text {
+  font-size: 0.75rem;
+  color: #6d4c41;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* 참여자 수 */
+.hc-participants {
+  font-size: 0.75rem;
+  color: #6d4c41;
+  margin-top: 0.3rem;
+}

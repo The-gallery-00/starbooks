@@ -1,0 +1,310 @@
+.dp-detail-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  /* padding: 20px; */
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.dp-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dp-back-button {
+  padding: 6px 12px;
+  background-color: #57433D;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dp-post-card-detail {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+.dp-post-type {
+  display: inline-block;
+  padding: 4px 8px;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.dp-detail-post-title {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.dp-post-related-book {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.dp-post-meta {
+  text-align: right;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.dp-post-content {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.comments-section {
+  margin-top: 20px;
+}
+
+.comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.write-comment-btn {
+  padding: 7px 10px;
+  background-color: #57433D;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.comment-write-box {
+  margin-bottom: 15px;
+  max-width: 1200px;
+
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+
+  width: 100%;      
+  box-sizing: border-box;
+}
+
+.comment-input {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  resize: vertical;
+
+  box-sizing: border-box;
+}
+
+.comment-item {
+  border-top: 1px solid #eee;
+  padding: 10px 0;
+  position: relative;
+}
+
+.comment-author {
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.comment-content {
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+/* 본문이 카드 아래로 분리된 영역 */
+.dp-post-content-area {
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
+.dp-post-content-area .post-content {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* 투표 옵션 */
+.dp-vote-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+
+  background-color: #fafafa;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dp-vote-option:hover {
+  background-color: #f0f6fa;
+  border-color: #57433D;
+}
+
+.dp-vote-option.selected {
+  background-color: #4A70A9;
+  color: white;
+  border-color: #57433D;
+  font-weight: 500;
+}
+
+.dp-vote-option span {
+  font-size: 14px;
+}
+
+.dp-vote-empty {
+  padding: 10px 0;
+  color: #888;
+  font-size: 14px;
+}
+
+/* 댓글 작성 */
+.comment-write-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-comment-btn,
+.submit-comment-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-comment-btn {
+  background-color: #ddd;
+  color: #333;
+}
+
+.submit-comment-btn {
+  background-color: #57433D;
+  color: #fff;
+}
+
+.submit-comment-btn:hover {
+  background-color: #A98A6A;
+}
+
+.comment-main {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.comment-dropdown-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.dp-dropdown-icon {
+  cursor: pointer;
+  font-size: 18px;
+  color: #888;
+}
+
+.dp-dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 22px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 4px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+.dp-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.dp-dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.dp-quiz-option {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: #fafafa;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dp-quiz-option:hover {
+  background-color: #f0f6fa;
+}
+
+.dp-quiz-option.correct {
+  background-color: #c6f6d5; /* 연한 초록 */
+  border-color: #38a169;
+  font-weight: bold;
+}
+
+.dp-quiz-option.wrong {
+  background-color: #fed7d7; /* 연한 빨강 */
+  border-color: #e53e3e;
+}
+
+.dp-quiz-option.show-answer {
+  border-color: #1D546C;
+  background-color: #d0e7ff;
+  font-weight: bold;
+}
+
+.dp-quiz-message {
+  /* font-size: 0.95rem;
+  font-weight: bold;
+  margin-top: 6px; */
+  font-size: 0.9rem;
+  margin-top: 3px;
+}
+
+/* 정답 메시지 */
+.dp-quiz-message.dp-correct-msg {
+  font-size: 0.9rem;
+  margin-top: 3px;
+  color: #1D546C; /* 정답 메시지 파랑 */
+  font-weight: bold;
+}
+
+/* 오답 메시지 */
+.dp-quiz-message.dp-wrong-msg {
+  color: #C23B3B; /* 오답 메시지는 빨강 */
+  font-weight: bold;
+}
+
